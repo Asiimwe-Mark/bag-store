@@ -1,0 +1,29 @@
+{
+  "short_name": "LORAH",
+  "name": "LORAH Exquisite Trends",
+  "description": "Premium luxury handbags for elegant women in Uganda & East Africa",
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#D42030",
+  "background_color": "#FDF8F3",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "fashion", "lifestyle"]
+}
