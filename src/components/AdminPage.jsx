@@ -6,7 +6,7 @@ import {
 import { getSubscribers, removeSubscriber, saveSubscribers, escapeHtml, PRODUCTS } from '../data/products';
 
 // Admin emails with full privileges
-const ADMIN_EMAILS = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map(e => e.trim()).filter(Boolean);
+const ADMIN_EMAILS = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
 
 // Store admin session in localStorage
 const ADMIN_SESSION_KEY = 'lorah_admin_session';
