@@ -160,7 +160,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
 
         {/* Bottom Bar */}
         <div className="premium-divider mb-6 sm:mb-8"></div>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-white/30">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-white/30 pr-20 sm:pr-24">
           <div className="flex items-center gap-2">
             <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-champagne-300" />
             <span>&copy; 2025 LORAH Exquisite Trends. All rights reserved.</span>
