@@ -1,672 +1,1623 @@
-// Auto-import all images from assets/images using Vite
-const imageModules = import.meta.glob('../assets/images/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+export const products = [
+  // ─────────────────────────────────────────────
+  //  CHRISBELLA  –  largest in-store brand
+  // ─────────────────────────────────────────────
+  {
+    id: "CB-001",
+    name: "Chrisbella Herringbone Tote Set (5 Colours)",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 195000,
+    images: [
+      "images/IMG-20260511-WA0008.png",
+      "images/IMG-20260511-WA0016.png",
+    ],
+    colors: ["Black", "Navy", "Burgundy", "Beige", "Brown"],
+    description:
+      "Statement herringbone-weave tote by Chrisbella (ref CBO164). Comes as a set with a zip wallet and wide crossbody strap. Structured silhouette, gold-tone hardware, coordinating scarf accent. Available in five colours.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CB-002",
+    name: "Chrisbella Lime Green Chain Shoulder Bag",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 98000,
+    images: ["images/IMG-20260511-WA0015.png"],
+    colors: ["Lime Green"],
+    description:
+      "Bold lime-green textured saffiano shoulder bag by Chrisbella. Acrylic chunky-link chain handle, clean rectangular silhouette, gold lettering logo.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-003",
+    name: "Chrisbella Burgundy Tote + Mini Bag Set",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0020.png"],
+    colors: ["Burgundy / Wine"],
+    description:
+      "Elegant two-piece set: a structured Chrisbella tote and a matching mini flap crossbody. Smooth matte PU, dual top handles, gold hardware and a magnetic-snap mini bag.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CB-004",
+    name: "Chrisbella Brown & Teal Two-Piece Set",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 185000,
+    images: ["images/IMG-20260511-WA0021.png"],
+    colors: ["Chocolate Brown / Teal"],
+    description:
+      "Sophisticated bi-colour Chrisbella set: a roomy structured tote and a chain-strap flap crossbody in contrasting teal and brown. Includes coordinating silk scarf and wide shoulder strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-005",
+    name: "Chrisbella Burgundy & Blush Chain Shoulder + Wallet Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: [
+      "images/IMG-20260511-WA0025.png",
+      "images/IMG-20260511-WA0065.png",
+    ],
+    colors: ["Burgundy / Blush"],
+    description:
+      "Chic two-tone Chrisbella chain shoulder bag with a signature envelope flap in blush over a burgundy body. Comes with a matching zip-around wallet and woven twill strap.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CB-006",
+    name: "Chrisbella Mustard Top Handle Satchel",
+    brand: "Chrisbella",
+    category: "Handbag",
+    price: 135000,
+    images: [
+      "images/IMG-20260511-WA0026.png",
+      "images/IMG-20260511-WA0094.png",
+      "images/IMG-20260511-WA0097.png",
+    ],
+    colors: ["Mustard Yellow", "Brown", "Burgundy", "Black", "Cream"],
+    description:
+      "Structured Chrisbella city satchel with a signature gold C-charm clasp and oval lock detail. Tan leather-look top handles and wide adjustable strap. Available in multiple colours.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CB-007",
+    name: "Chrisbella Yellow & Dark Green Doctor Bag Set",
+    brand: "Chrisbella",
+    category: "Handbag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0028.png"],
+    colors: ["Yellow / Dark Green"],
+    description:
+      "Bold colour-block Chrisbella doctor bag with contrast gold stud tabs and a coordinating mini crossbody. Structured dome silhouette, silver-tone studs, teal lining.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-008",
+    name: "Chrisbella Camel & Beige Chain Shoulder + Wallet Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0036.png"],
+    colors: ["Camel / Beige"],
+    description:
+      "Two-tone Chrisbella chain shoulder bag with a beige envelope flap over a camel body. Gold curb-chain and twill strap, matching zip-around wallet included.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-009",
+    name: "Chrisbella Black/White Woven Shoulder Bag",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 118000,
+    images: ["images/IMG-20260511-WA0014.png"],
+    colors: ["Black / White"],
+    description:
+      "Eye-catching Chrisbella shoulder bag with a checker-woven lower panel and sleek black structured upper. Dual leather-look top handles and crossbody strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-010",
+    name: "Chrisbella Tan & Brown Woven Shoulder Bag",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0054.png"],
+    colors: ["Tan / Brown"],
+    description:
+      "Structured Chrisbella shoulder bag featuring a hand-woven rattan-style front panel and smooth brown leather-look panels. Dual top handles and adjustable crossbody strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-011",
+    name: "Chrisbella Tan Chain Shoulder + Wallet Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0055.png"],
+    colors: ["Tan / Brown"],
+    description:
+      "Elegant Chrisbella chain shoulder bag in warm tan with a caramel envelope flap. Gold chain and printed twill strap, comes with a matching zip wallet.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-012",
+    name: "Chrisbella Navy & Light Blue Chain Shoulder + Wallet Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0058.png"],
+    colors: ["Navy / Light Blue"],
+    description:
+      "Cool nautical-toned Chrisbella chain shoulder set in navy with a sky-blue envelope flap. Floral-print strap, gold chain hardware and zip-around wallet.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-013",
+    name: "Chrisbella Black Chain Shoulder + Wallet Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0053.png"],
+    colors: ["Black"],
+    description:
+      "Classic all-black Chrisbella chain shoulder bag with a smooth envelope flap and gold hardware. Includes a zip-around wallet and printed twill strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-014",
+    name: "Chrisbella Black Chain Shoulder Bag",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 98000,
+    images: ["images/IMG-20260511-WA0056.png"],
+    colors: ["Black", "Brown"],
+    description:
+      "Everyday Chrisbella shoulder bag in saffiano-textured PU with black chunky-link chain handle. Clean, minimalist silhouette with embossed logo plate.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-015",
+    name: "Chrisbella Khaki / Olive Chain Shoulder Bag",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 98000,
+    images: ["images/IMG-20260511-WA0061.png"],
+    colors: ["Khaki / Olive"],
+    description:
+      "Understated Chrisbella shoulder bag in military-inspired khaki saffiano PU. Black acrylic chain handle and embossed logo. Ideal everyday carry.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-016",
+    name: "Chrisbella Brown & Beige Structured Tote",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 145000,
+    images: ["images/IMG-20260511-WA0063.png"],
+    colors: ["Brown / Beige"],
+    description:
+      "Sophisticated Chrisbella structured tote with a contrast beige top panel, wheat-stitch trim, signature C charm pendant and adjustable crossbody strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-017",
+    name: "Chrisbella Blue & Light Blue Structured Tote + Wallet",
+    brand: "Chrisbella",
+    category: "Handbag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0074.png"],
+    colors: ["Royal Blue / Light Blue"],
+    description:
+      "Chrisbella two-piece set: a structured city tote in royal blue with a light-blue envelope flap and gold push-lock, plus a matching mini zip wallet.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CB-018",
+    name: "Chrisbella Beige / Cream Top Handle + Mini Wallet Set",
+    brand: "Chrisbella",
+    category: "Handbag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0079.png"],
+    colors: ["Beige / Cream"],
+    description:
+      "Refined Chrisbella structured top handle in warm beige with cream envelope flap and gold bar lock. Coiled leather-look handle, comes with mini semicircle zip wallet.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-019",
+    name: "Chrisbella Black Structured Tote + Mini Bag Set",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0081.png"],
+    colors: ["Black"],
+    description:
+      "Two-piece Chrisbella set: a bold structured black tote with gold stud detail tabs and a matching mini flap crossbody. Gold logo lettering and dual top handles.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-020",
+    name: "Chrisbella Dark Green Tote + Mini Bag Set",
+    brand: "Chrisbella",
+    category: "Tote Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0091.png"],
+    colors: ["Dark Forest Green"],
+    description:
+      "Rich forest-green Chrisbella two-piece set: a spacious smooth-leather tote and a matching flap mini crossbody, both in deep hunter green with gold hardware.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-021",
+    name: "Chrisbella Burgundy Top Handle Satchel",
+    brand: "Chrisbella",
+    category: "Handbag",
+    price: 135000,
+    images: [
+      "images/IMG-20260511-WA0096.png",
+      "images/IMG-20260511-WA0098.png",
+      "images/IMG-20260511-WA0101.png",
+    ],
+    colors: ["Burgundy", "Black", "Cream", "Beige"],
+    description:
+      "Elegant Chrisbella structured satchel with a signature gold C-charm and oval-lock clasp. Wide strap and top handles. Available in burgundy, black, cream and beige.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CB-022",
+    name: "Chrisbella Lavender Hobo + Mini Crossbody Set",
+    brand: "Chrisbella",
+    category: "Shoulder Bag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0102.png"],
+    colors: ["Lavender / Lilac"],
+    description:
+      "Pretty lavender Chrisbella two-piece set: a slouchy hobo shoulder bag and a compact flap crossbody, both in soft satin-finish PU with gold hardware.",
+    inStock: true,
+    featured: true,
+  },
 
-// Sort images into a consistent array (alphabetical by filename)
-const allImages = Object.entries(imageModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, url]) => url);
+  // ─────────────────────────────────────────────
+  //  EMILY LORAN
+  // ─────────────────────────────────────────────
+  {
+    id: "EL-001",
+    name: "Emily Loran Navy Stripe Kelly-Style Tote + Pouch",
+    brand: "Emily Loran",
+    category: "Handbag",
+    price: 210000,
+    images: ["images/IMG-20260511-WA0064.png"],
+    colors: ["Navy / White"],
+    description:
+      "Nautical navy-and-white stripe canvas Emily Loran tote with tan leather top frame, gold bar-turn lock and chain side strap. Comes with a matching striped card pouch.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "EL-002",
+    name: "Emily Loran Ivory Herringbone Kelly-Style Tote + Pouch",
+    brand: "Emily Loran",
+    category: "Handbag",
+    price: 210000,
+    images: ["images/IMG-20260511-WA0066.png"],
+    colors: ["Ivory / Grey"],
+    description:
+      "Sophisticated ivory herringbone-weave Emily Loran structured tote with silver leather frame, turn-lock clasp and chain side strap. Includes a matching woven pouch.",
+    inStock: true,
+    featured: true,
+  },
 
-// Find the logo specifically
-const logoImg = Object.entries(imageModules).find(([path]) => path.toLowerCase().includes('logo'));
-const logoUrl = logoImg ? logoImg[1] : allImages[0];
+  // ─────────────────────────────────────────────
+  //  COACH  (authentic / high-quality inspired)
+  // ─────────────────────────────────────────────
+  {
+    id: "CO-001",
+    name: "Coach Signature Canvas Shoulder Bag with Cherry Charm – Brown/Black",
+    brand: "Coach",
+    category: "Shoulder Bag",
+    price: 285000,
+    images: [
+      "images/IMG-20260511-WA0029.png",
+      "images/IMG-20260515-WA0006.png",
+    ],
+    colors: ["Brown / Black"],
+    description:
+      "Iconic Coach signature-print canvas baguette shoulder bag in classic brown and black. Gold 'COACH' logo, chain-and-leather strap, decorative red cherry charm keychain.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CO-002",
+    name: "Coach Signature Canvas Shoulder Bag – Khaki/Saddle",
+    brand: "Coach",
+    category: "Shoulder Bag",
+    price: 285000,
+    images: ["images/IMG-20260515-WA0001.png"],
+    colors: ["Khaki / Saddle Tan"],
+    description:
+      "Classic Coach khaki-and-saddle signature canvas shoulder bag with cognac leather trim, gold chain-and-leather handle and hang tag.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CO-003",
+    name: "Coach Signature Canvas Shoulder Bag – Chalk/Cream",
+    brand: "Coach",
+    category: "Shoulder Bag",
+    price: 285000,
+    images: ["images/IMG-20260515-WA0002.png"],
+    colors: ["Chalk / Cream"],
+    description:
+      "Elegant all-cream Coach signature canvas shoulder bag with gold logo and chain-link strap. Minimalist and versatile.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CO-004",
+    name: "Coach Tabby Quilted Chain Shoulder Bag – Black",
+    brand: "Coach",
+    category: "Shoulder Bag",
+    price: 320000,
+    images: ["images/IMG-20260515-WA0009.png"],
+    colors: ["Black"],
+    description:
+      "Iconic Coach Tabby in diamond-quilted smooth leather. Oversized gold C-clasp, gold chain strap, plush lambskin-feel interior.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "CO-005",
+    name: "Coach Tabby Quilted Chain Shoulder Bag – Dark Brown",
+    brand: "Coach",
+    category: "Shoulder Bag",
+    price: 320000,
+    images: ["images/IMG-20260515-WA0017.png"],
+    colors: ["Dark Chocolate Brown"],
+    description:
+      "Rich chocolate-brown Coach Tabby in diamond-quilted leather with oversized gold C-clasp and gold chain strap.",
+    inStock: true,
+    featured: false,
+  },
 
-// Map images to their roles
-// First 50 = products, next 4 = collections, next 3 = testimonials, next 8 = social
-// Then hero, about, luxury, affordable from remaining
-const productImages = allImages.slice(0, 50);
-const collectionImages = allImages.slice(50, 54);
-const testimonialImages = allImages.slice(54, 57);
-const socialImages = allImages.slice(57, 65);
-const heroImage = allImages[65] || allImages[0];
-const aboutImage = allImages[66] || allImages[1];
-const luxuryImage = allImages[67] || allImages[2];
-const affordableImage = allImages[68] || allImages[3];
+  // ─────────────────────────────────────────────
+  //  YSL / SAINT LAURENT  (inspired)
+  // ─────────────────────────────────────────────
+  {
+    id: "YS-001",
+    name: "YSL-Inspired Pink Ombré Quilted Chain Flap Bag",
+    brand: "YSL Style",
+    category: "Crossbody Bag",
+    price: 225000,
+    images: ["images/IMG-20260511-WA0033.png"],
+    colors: ["Pink Ombré"],
+    description:
+      "Stunning gradient pink-to-rose ombré quilted flap bag with a silver YSL monogram clasp and silver fine-link chain strap. Soft lambskin-feel leather.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "YS-002",
+    name: "YSL-Inspired Brown Quilted Chain Flap Bag",
+    brand: "YSL Style",
+    category: "Crossbody Bag",
+    price: 225000,
+    images: ["images/IMG-20260511-WA0100.png"],
+    colors: ["Cognac Brown"],
+    description:
+      "Luxe cognac-brown quilted flap crossbody bag with a large gold YSL monogram logo and gold chain strap. Geometric tile quilt pattern.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "YS-003",
+    name: "YSL-Inspired Orange Coral Quilted Chain Flap Bag",
+    brand: "YSL Style",
+    category: "Crossbody Bag",
+    price: 225000,
+    images: ["images/IMG-20260515-WA0046.png"],
+    colors: ["Orange / Coral"],
+    description:
+      "Vibrant terracotta-orange quilted flap bag with a large black YSL monogram and silver chain. Eye-catching summer colourway.",
+    inStock: true,
+    featured: false,
+  },
 
-export const IMAGES = {
-  hero: heroImage,
-  logo: logoUrl,
-  products: productImages,
-  collections: collectionImages,
-  testimonials: testimonialImages,
-  social: socialImages,
-  about: aboutImage,
-  luxury: luxuryImage,
-  affordable: affordableImage,
+  // ─────────────────────────────────────────────
+  //  VICTORIA SEVEN
+  // ─────────────────────────────────────────────
+  {
+    id: "VS-001",
+    name: "Victoria Seven Black Ruched Leather Tote",
+    brand: "Victoria Seven",
+    category: "Handbag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0046.png"],
+    colors: ["Black"],
+    description:
+      "Structured Victoria Seven ruched tote in pebbled black leather. Dual rounded top handles with silver knot detail, wide detachable strap, silver hardware.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "VS-002",
+    name: "Victoria Seven Silver Metallic Ruched Tote",
+    brand: "Victoria Seven",
+    category: "Handbag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0057.png"],
+    colors: ["Silver / Metallic"],
+    description:
+      "Glamorous Victoria Seven metallic silver pebbled leather tote with dual rounded handles, silver knot detail and detachable crossbody strap.",
+    inStock: true,
+    featured: true,
+  },
+
+  // ─────────────────────────────────────────────
+  //  BAGCO
+  // ─────────────────────────────────────────────
+  {
+    id: "BG-001",
+    name: "Bagco Tan Rope-Handle Flap Shoulder Bag",
+    brand: "Bagco",
+    category: "Shoulder Bag",
+    price: 145000,
+    images: ["images/IMG-20260511-WA0012.png"],
+    colors: ["Tan / Caramel"],
+    description:
+      "Sleek Bagco tan leather-look flap shoulder bag with a distinctive macramé-style braided rope handle and silver-metal stone clasp. Detachable rope crossbody strap.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  DAVID JONES
+  // ─────────────────────────────────────────────
+  {
+    id: "DJ-001",
+    name: "David Jones Camel Croc-Embossed Chain Shoulder Bag",
+    brand: "David Jones",
+    category: "Shoulder Bag",
+    price: 125000,
+    images: ["images/IMG-20260511-WA0013.png"],
+    colors: ["Camel"],
+    description:
+      "Elegant David Jones camel-coloured croc-embossed shoulder bag with gold double-chain straps and a clean zip-top silhouette. Gold David Jones logo plate.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  MIU MIU-INSPIRED
+  // ─────────────────────────────────────────────
+  {
+    id: "MM-001",
+    name: "Miu Miu-Inspired Taupe Monogram Top Handle Bag",
+    brand: "Miu Miu Style",
+    category: "Handbag",
+    price: 185000,
+    images: [
+      "images/IMG-20260511-WA0035.png",
+      "images/IMG-20260515-WA0048.png",
+    ],
+    colors: ["Taupe / Warm Brown", "Tan"],
+    description:
+      "Chic Miu Miu-inspired structured top handle bag with all-over embossed 'miu' logo canvas flap and smooth leather lower body. Gold oval-loop lock. Available in taupe and tan.",
+    inStock: true,
+    featured: true,
+  },
+
+  // ─────────────────────────────────────────────
+  //  GD / GUCCI-INSPIRED
+  // ─────────────────────────────────────────────
+  {
+    id: "GD-001",
+    name: "GD Monogram Sage Green Chain Shoulder Bag",
+    brand: "GD Style",
+    category: "Crossbody Bag",
+    price: 145000,
+    images: [
+      "images/IMG-20260511-WA0045.png",
+      "images/IMG-20260515-WA0043.png",
+    ],
+    colors: ["Sage Green", "Mint Green"],
+    description:
+      "Quilted GD monogram flap crossbody in soft sage green. Silver double-G-style clasp and silver chain strap. Compact and elegant for day or evening.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "GD-002",
+    name: "GD Monogram Khaki Tote + Wallet + Strap Set",
+    brand: "GD Style",
+    category: "Tote Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0051.png"],
+    colors: ["Khaki / Warm Taupe"],
+    description:
+      "Three-piece GD set: a spacious khaki tote with gold GD logo centrepiece, a matching zip wallet and a wide monochrome crossbody strap.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  GUESS
+  // ─────────────────────────────────────────────
+  {
+    id: "GS-001",
+    name: "Guess Dark Brown Chain Hobo Bag",
+    brand: "Guess",
+    category: "Shoulder Bag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0048.png"],
+    colors: ["Dark Brown"],
+    description:
+      "Buttery-soft dark brown distressed Guess hobo with an oversized antique-gold chunky chain strap and small 'G' logo charm. Crescent silhouette.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "GS-002",
+    name: "Guess Black Velvet Chain Hobo Bag",
+    brand: "Guess",
+    category: "Shoulder Bag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0086(1).png"],
+    colors: ["Black"],
+    description:
+      "Luxuriously soft black velvet Guess hobo bag with a bold gold chunky chain strap and 'G' logo charm. Crescent body, clean minimalist design.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  FOREVER BARSITI
+  // ─────────────────────────────────────────────
+  {
+    id: "FB-001",
+    name: "Forever Barsiti White & Pink Mini Satchel",
+    brand: "Forever Barsiti",
+    category: "Mini Bag",
+    price: 75000,
+    images: [
+      "images/IMG-20260511-WA0037.png",
+      "images/IMG-20260515-WA0035.png",
+    ],
+    colors: ["White / Pink"],
+    description:
+      "Cute Forever Barsiti mini top-handle satchel with a white flap over a pink PU body. Two round snap buttons, compact size, perfect for outings.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  ZAYZ
+  // ─────────────────────────────────────────────
+  {
+    id: "ZZ-001",
+    name: "ZAYZ Ring Handle Hobo Bag – White",
+    brand: "ZAYZ",
+    category: "Shoulder Bag",
+    price: 125000,
+    images: ["images/IMG-20260511-WA0078.png"],
+    colors: ["White"],
+    description:
+      "Striking ZAYZ crescent hobo bag with a hammered gold circular ring handle and detachable crossbody strap. Soft smooth PU, zip closure.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "ZZ-002",
+    name: "ZAYZ Ring Handle Hobo Bag – Black",
+    brand: "ZAYZ",
+    category: "Shoulder Bag",
+    price: 125000,
+    images: ["images/IMG-20260511-WA0110(1).png"],
+    colors: ["Black"],
+    description:
+      "Sleek black ZAYZ crescent hobo bag with a hammered gold circular ring handle and detachable crossbody strap. Zip closure.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  VOGUE & CLASSIC
+  // ─────────────────────────────────────────────
+  {
+    id: "VC-001",
+    name: "Vogue & Classic Black Croc Chain Tote + Pouch",
+    brand: "Vogue & Classic",
+    category: "Tote Bag",
+    price: 145000,
+    images: ["images/IMG-20260511-WA0070.png"],
+    colors: ["Black"],
+    description:
+      "Sleek Vogue & Classic black croc-embossed structured tote with gold chain-and-leather twin straps and a matching zip pouch. Clean silhouette.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "VC-002",
+    name: "Vogue & Classic Brown Croc Chain Shoulder Bag",
+    brand: "Vogue & Classic",
+    category: "Shoulder Bag",
+    price: 135000,
+    images: ["images/IMG-20260511-WA0080.png"],
+    colors: ["Cognac Brown"],
+    description:
+      "Rich cognac croc-embossed Vogue & Classic shoulder bag with gold chain-and-leather strap and gold logo plate. Classic structured shape.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  GIVENCHY-INSPIRED  (4G lock)
+  // ─────────────────────────────────────────────
+  {
+    id: "GV-001",
+    name: "Givenchy-Inspired Plum 4G Quilted Chain Flap Bag",
+    brand: "Givenchy Style",
+    category: "Crossbody Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0073.png"],
+    colors: ["Plum / Burgundy"],
+    description:
+      "Chevron-quilted plum crossbody bag with a silver 4G-logo turn-lock and silver chain strap. Refined evening-to-day carry.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "GV-002",
+    name: "Givenchy-Inspired Navy 4G Quilted Chain Flap Bag",
+    brand: "Givenchy Style",
+    category: "Crossbody Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0076.png"],
+    colors: ["Navy Blue"],
+    description:
+      "Chevron-quilted navy blue crossbody bag with a gunmetal 4G-logo turn-lock and gunmetal chain strap.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  BALENCIAGA-INSPIRED  (BB logo)
+  // ─────────────────────────────────────────────
+  {
+    id: "BB-001",
+    name: "BB-Logo Dark Brown Patent Clutch Bag",
+    brand: "BB Style",
+    category: "Clutch",
+    price: 125000,
+    images: ["images/IMG-20260511-WA0087.png"],
+    colors: ["Dark Burgundy Brown / Patent"],
+    description:
+      "Sleek dark-brown patent leather clutch with a silver BB-style turn-lock clasp and chain strap. Polished finish with a structured silhouette.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "BB-002",
+    name: "BB Quilted Chocolate Top Handle Satchel",
+    brand: "BB Style",
+    category: "Handbag",
+    price: 185000,
+    images: ["images/IMG-20260511-WA0104.png"],
+    colors: ["Chocolate Brown"],
+    description:
+      "Premium diamond-quilted chocolate brown top handle satchel with an embossed tone-on-tone BB logo, top handle and detachable strap. Rich structured silhouette.",
+    inStock: true,
+    featured: true,
+  },
+
+  // ─────────────────────────────────────────────
+  //  HERMÈS-INSPIRED  (H hardware)
+  // ─────────────────────────────────────────────
+  {
+    id: "HM-001",
+    name: "H-Lock Quilted Chocolate Crossbody Bag",
+    brand: "H Style",
+    category: "Crossbody Bag",
+    price: 148000,
+    images: [
+      "images/IMG-20260511-WA0072(1).png",
+      "images/IMG-20260511-WA0088.png",
+    ],
+    colors: ["Chocolate Brown", "Burgundy"],
+    description:
+      "Diamond-quilted flap crossbody with a gold H-logo push-lock clasp. Gold chain-and-leather shoulder strap and wide adjustable strap. In chocolate brown and burgundy.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "HM-002",
+    name: "H-Lock Lemon Yellow Mini Top Handle Bag",
+    brand: "H Style",
+    category: "Mini Bag",
+    price: 98000,
+    images: [
+      "images/IMG-20260511-WA0039.png",
+      "images/IMG-20260515-WA0041.png",
+    ],
+    colors: ["Lemon Yellow", "Cream / Ivory"],
+    description:
+      "Chic Kelly-inspired mini top handle in soft pebbled PU. Gold H-bar turn-lock clasp, top handle and adjustable strap. Available in lemon yellow and cream.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  FENDI-INSPIRED  (FF baguette)
+  // ─────────────────────────────────────────────
+  {
+    id: "FD-001",
+    name: "FF-Buckle Baguette Shoulder Bag – Tan/Nude",
+    brand: "Fendi Style",
+    category: "Shoulder Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0043.png"],
+    colors: ["Tan / Nude"],
+    description:
+      "Iconic baguette-style shoulder bag in soft tan PU with a gold FF-inspired buckle clasp and adjustable strap. Ruched drape silhouette.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "FD-002",
+    name: "FF-Buckle Baguette Shoulder Bag – Black",
+    brand: "Fendi Style",
+    category: "Shoulder Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0071.png"],
+    colors: ["Black"],
+    description:
+      "Sleek black version of the baguette-style shoulder bag with a gold FF-inspired buckle clasp and adjustable strap.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  CELINE-INSPIRED  (Triomphe CC clasp)
+  // ─────────────────────────────────────────────
+  {
+    id: "CL-001",
+    name: "Celine-Inspired Triomphe Burgundy Chain Shoulder Bag",
+    brand: "Celine Style",
+    category: "Shoulder Bag",
+    price: 168000,
+    images: ["images/IMG-20260511-WA0022.png"],
+    colors: ["Deep Burgundy"],
+    description:
+      "Distressed lambskin-feel deep-burgundy flap bag with a gold interlinked CC-clasp and gold chunky-chain shoulder strap. Slouchy yet structured.",
+    inStock: true,
+    featured: true,
+  },
+
+  // ─────────────────────────────────────────────
+  //  BOTTEGA VENETA-INSPIRED  (woven intrecciato)
+  // ─────────────────────────────────────────────
+  {
+    id: "BV-001",
+    name: "BV-Style Olive Woven Bucket Bag",
+    brand: "BV Style",
+    category: "Bucket Bag",
+    price: 185000,
+    images: ["images/IMG-20260511-WA0018.png"],
+    colors: ["Olive / Army Green"],
+    description:
+      "Luxurious intrecciato-weave bucket bag in military olive. Knotted leather draw-cord and shoulder strap, silver hardware details.",
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "BV-002",
+    name: "BV-Style Black Woven Bucket Bag",
+    brand: "BV Style",
+    category: "Bucket Bag",
+    price: 185000,
+    images: ["images/IMG-20260511-WA0062.png"],
+    colors: ["Black"],
+    description:
+      "Classic black intrecciato-weave bucket bag with knotted shoulder strap and silver hardware. Timeless and elegant.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "BV-003",
+    name: "BV-Style Dark Brown Woven Flap Shoulder Bag",
+    brand: "BV Style",
+    category: "Shoulder Bag",
+    price: 175000,
+    images: ["images/IMG-20260511-WA0069.png"],
+    colors: ["Dark Brown"],
+    description:
+      "Dark brown intrecciato-weave structured flap shoulder bag with a signature gold X-clasp and woven rope handle.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  CLASSIC BRAND
+  // ─────────────────────────────────────────────
+  {
+    id: "CK-001",
+    name: "Classic Burgundy Top Handle Satchel",
+    brand: "Classic",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0040.png"],
+    colors: ["Burgundy / Wine"],
+    description:
+      "Understated Classic-brand structured satchel in rich burgundy PU. Gold push-lock bar clasp, loop top handle and detachable strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CK-002",
+    name: "Classic Sage Green Top Handle Satchel",
+    brand: "Classic",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0077.png"],
+    colors: ["Sage Green"],
+    description:
+      "Muted sage-green Classic-brand structured satchel. Gold push-lock bar clasp, loop top handle and detachable strap. Effortlessly understated.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CK-003",
+    name: "Classic Black Top Handle Satchel",
+    brand: "Classic",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0060.png"],
+    colors: ["Black"],
+    description:
+      "Clean all-black Classic-brand structured top handle satchel with a gold push-lock and strap. A wardrobe staple.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  CHRISTINA & GLK
+  // ─────────────────────────────────────────────
+  {
+    id: "CG-001",
+    name: "Christina & Glk Burgundy Structured Shoulder Tote",
+    brand: "Christina & Glk",
+    category: "Tote Bag",
+    price: 135000,
+    images: ["images/IMG-20260511-WA0095.png"],
+    colors: ["Burgundy"],
+    description:
+      "Refined Christina & Glk structured shoulder tote in burgundy PU with perforated side panels, wood-bead tassel pendant and dual top handles.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CG-002",
+    name: "Christina & Glk Cream & Brown Structured Tote",
+    brand: "Christina & Glk",
+    category: "Tote Bag",
+    price: 135000,
+    images: ["images/IMG-20260511-WA0099.png"],
+    colors: ["Cream / Brown"],
+    description:
+      "Elegant Christina & Glk two-tone structured tote in cream with brown leather-look handles, perforated side panels and wood-bead tassel pendant.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  PENNY C
+  // ─────────────────────────────────────────────
+  {
+    id: "PC-001",
+    name: "Penny C Camel Suede Shoulder Hobo",
+    brand: "Penny C",
+    category: "Shoulder Bag",
+    price: 108000,
+    images: ["images/IMG-20260515-WA0090(1).png"],
+    colors: ["Camel"],
+    description:
+      "Casual Penny C shoulder hobo in soft camel suede-feel PU. Adjustable leather strap, gold zip closure and dainty logo patch.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  YUESKANGAROO  –  Men's
+  // ─────────────────────────────────────────────
+  {
+    id: "YK-001",
+    name: "YUESKANGAROO Men's Leather Clutch Wallet Bag",
+    brand: "YUESKANGAROO",
+    category: "Men's Bag",
+    price: 95000,
+    images: ["images/IMG-20260511-WA0019.png"],
+    colors: ["Black"],
+    description:
+      "Premium men's multi-compartment clutch/wristlet by YUESKANGAROO. Kangaroo embossed logo, double zip, wristlet strap. Holds phone, cards, cash.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  LOUIS VUITTON-INSPIRED
+  // ─────────────────────────────────────────────
+  {
+    id: "LV-001",
+    name: "LV-Inspired Grey Quilted Chain Flap Bag",
+    brand: "LV Style",
+    category: "Crossbody Bag",
+    price: 195000,
+    images: ["images/IMG-20260515-WA0019.png"],
+    colors: ["Pearl Grey"],
+    description:
+      "Quilted pearl-grey flap crossbody with a gunmetal LV-style monogram clasp and gunmetal chain-and-leather strap. Chevron quilt pattern.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  EG BRAND
+  // ─────────────────────────────────────────────
+  {
+    id: "EG-001",
+    name: "EG Brown Top Handle Flap Shoulder Bag",
+    brand: "EG",
+    category: "Shoulder Bag",
+    price: 128000,
+    images: ["images/IMG-20260511-WA0023(1).png"],
+    colors: ["Cognac Brown"],
+    description:
+      "Structured EG brand flap shoulder bag in cognac brown smooth PU. Large gold EG monogram clasp, top handle and detachable strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "EG-002",
+    name: "EG Crimson Red Structured Tote with Scarf",
+    brand: "EG",
+    category: "Handbag",
+    price: 155000,
+    images: ["images/IMG-20260511-WA0084(1).png"],
+    colors: ["Crimson Red"],
+    description:
+      "Bold crimson-red EG structured tote with white contrast stitch, gold EG push-lock clasp, top handles and a decorative floral satin scarf wrap.",
+    inStock: true,
+    featured: true,
+  },
+
+  // ─────────────────────────────────────────────
+  //  MAISON MARGIELA-INSPIRED
+  // ─────────────────────────────────────────────
+  {
+    id: "MG-001",
+    name: "MM-Inspired Ivory Patent Chain Clutch",
+    brand: "MM Style",
+    category: "Clutch",
+    price: 115000,
+    images: ["images/IMG-20260515-WA0014.png"],
+    colors: ["Ivory / Off-White"],
+    description:
+      "Minimalist ivory patent leather flap clutch with a silver Braille-style logo plate and silver chunky link chain strap. Clean and sophisticated.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  BOYY-INSPIRED
+  // ─────────────────────────────────────────────
+  {
+    id: "BY-001",
+    name: "Boyy-Inspired Tan Acrylic Buckle Top Handle Bag",
+    brand: "Boyy Style",
+    category: "Handbag",
+    price: 135000,
+    images: ["images/IMG-20260515-WA0031.png"],
+    colors: ["Tan / Nude"],
+    description:
+      "Structured top handle bag in tan pebbled PU with a dramatic oversized marble-effect acrylic buckle closure. Sleek minimalist silhouette with strap.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  OO-LOCK QUILTED  (unbranded / fashion)
+  // ─────────────────────────────────────────────
+  {
+    id: "OO-001",
+    name: "OO-Lock Quilted Chain Flap Bag – Plum",
+    brand: "Fashion",
+    category: "Crossbody Bag",
+    price: 128000,
+    images: [
+      "images/IMG-20260511-WA0089(1).png",
+      "images/IMG-20260511-WA0092.png",
+    ],
+    colors: ["Plum / Wine", "Dark Plum"],
+    description:
+      "Diamond-quilted flap crossbody with a silver OO bamboo-style lock clasp and heavy silver link chain. Soft lambskin-feel PU.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  MISC / FASHION  (unbranded boutique bags)
+  // ─────────────────────────────────────────────
+  {
+    id: "MF-001",
+    name: "Brown Suede Knotted Mini Shoulder Bag",
+    brand: "Fashion",
+    category: "Mini Bag",
+    price: 72000,
+    images: [
+      "images/IMG-20260511-WA0024.png",
+      "images/IMG-20260511-WA0075.png",
+    ],
+    colors: ["Brown Suede", "Camel Suede"],
+    description:
+      "Adorable mini shoulder bag in soft suede-feel PU with knotted double-strand leather handles and silver ring hardware. Available in brown and camel.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-002",
+    name: "Cream & Navy Tweed Top Handle Satchel",
+    brand: "Fashion",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0038.png"],
+    colors: ["Cream / Navy Tweed"],
+    description:
+      "Chic structured satchel with a cream smooth-leather flap over a navy tweed body. Gold twist-lock, single top handle and adjustable strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-003",
+    name: "Pearl-Strap Taupe Chain Crossbody Bag",
+    brand: "Fashion",
+    category: "Crossbody Bag",
+    price: 108000,
+    images: ["images/IMG-20260511-WA0041.png"],
+    colors: ["Taupe / Nude"],
+    description:
+      "Elegant taupe crossbody bag with a gold grid-cube push-lock and a pearl-bead-adorned adjustable chain strap. Sophisticated and versatile.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-004",
+    name: "Distressed Burgundy Chain Clutch / Shoulder",
+    brand: "Fashion",
+    category: "Clutch",
+    price: 85000,
+    images: ["images/IMG-20260511-WA0017.png"],
+    colors: ["Burgundy / Distressed"],
+    description:
+      "Edgy distressed-leather-look burgundy foldover clutch with a zip base and silver link chain. Vintage crinkled finish.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-005",
+    name: "Pewter Metallic Distressed Chain Clutch",
+    brand: "Fashion",
+    category: "Clutch",
+    price: 88000,
+    images: ["images/IMG-20260511-WA0068.png"],
+    colors: ["Pewter / Gunmetal"],
+    description:
+      "Glamorous distressed pewter metallic foldover clutch with a fine silver chain strap. Perfect for evenings out.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-006",
+    name: "Black Glossy Fold-Over Clutch",
+    brand: "Fashion",
+    category: "Clutch",
+    price: 82000,
+    images: ["images/IMG-20260511-WA0067.png"],
+    colors: ["Black / Glossy"],
+    description:
+      "Sleek black crinkled-patent fold-over clutch with a fine silver zip base and minimalist profile. Goes with everything.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-007",
+    name: "Beige/Natural Straw Woven Mini Top Handle",
+    brand: "Fashion",
+    category: "Mini Bag",
+    price: 88000,
+    images: [
+      "images/IMG-20260511-WA0044.png",
+      "images/IMG-20260515-WA0016.png",
+    ],
+    colors: ["Natural / Beige"],
+    description:
+      "Summer-ready mini top handle bag with a gold woven front panel and cream leather-look flap. Silver bar detail, strap included.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-008",
+    name: "Navy & White Stripe Tweed Top Handle Satchel",
+    brand: "Fashion",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260511-WA0052.png"],
+    colors: ["Navy / White Stripe"],
+    description:
+      "Classic navy-and-white stripe tweed mini satchel with black leather top and gold H-bar turn-lock. Structured and smart.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-009",
+    name: "Tan / Beige Tweed Chain Crossbody",
+    brand: "Fashion",
+    category: "Crossbody Bag",
+    price: 108000,
+    images: ["images/IMG-20260511-WA0083.png"],
+    colors: ["Tan / Beige Tweed"],
+    description:
+      "Chic crossbody featuring a tan smooth leather flap over a beige herringbone-tweed body. Gold bear-paw push-lock and chain-and-leather strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-010",
+    name: "Bear-Lock Beige Chain Crossbody Bag",
+    brand: "Fashion",
+    category: "Crossbody Bag",
+    price: 108000,
+    images: ["images/IMG-20260511-WA0085.png"],
+    colors: ["Beige / Tan"],
+    description:
+      "Sweet beige fabric-and-leather flap crossbody with a gold bear-face push-lock clasp and gold chain strap. Playful and practical.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-011",
+    name: "Navy & White Stripe Chain Shoulder Bag",
+    brand: "Fashion",
+    category: "Shoulder Bag",
+    price: 108000,
+    images: ["images/IMG-20260511-WA0093.png"],
+    colors: ["Navy / White Stripe"],
+    description:
+      "Structured navy flap shoulder bag with a white stripe fabric lower panel, gold ring push-lock and gold chain-and-leather strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-012",
+    name: "Black Structured Tweed-Strap Flap Satchel",
+    brand: "Fashion",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260515-WA0012.png"],
+    colors: ["Black / Grey Tweed"],
+    description:
+      "Sharp black PU satchel with a grey mosaic-tweed centre strap and gold bar-buckle. Clean structured silhouette with top handle.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-013",
+    name: "Lavender & Blue Tweed Mini Top Handle",
+    brand: "Fashion",
+    category: "Handbag",
+    price: 115000,
+    images: ["images/IMG-20260515-WA0028.png"],
+    colors: ["Lavender / Blue Tweed"],
+    description:
+      "Feminine mini top handle satchel with a lavender leather flap over a purple-blue mosaic-tweed body and gold hook clasp.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-014",
+    name: "Purple Structured Top Handle with Scarf",
+    brand: "Fashion",
+    category: "Handbag",
+    price: 108000,
+    images: ["images/IMG-20260515-WA0007.png"],
+    colors: ["Purple / Violet"],
+    description:
+      "Compact purple PU structured top handle bag with a satin envelope flap, silver tab lock and a matching silk scarf wrapped on the handle.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-015",
+    name: "Olive Canvas Micro Top Handle Satchel",
+    brand: "Fashion",
+    category: "Mini Bag",
+    price: 75000,
+    images: ["images/IMG-20260511-WA0103.png"],
+    colors: ["Olive / Sage"],
+    description:
+      "Petite micro satchel in olive diagonal-stripe canvas with sage leather-look trim, gold rod-end handles and gold zip closure.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-016",
+    name: "GG Monogram Beige/Brown Shoulder Tote",
+    brand: "GG Style",
+    category: "Tote Bag",
+    price: 165000,
+    images: ["images/IMG-20260511-WA0105.png"],
+    colors: ["Beige / Brown"],
+    description:
+      "Classic GG-inspired monogram canvas shoulder tote in tan and brown with leather trim and a tied satin scarf accent on the strap.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "MF-017",
+    name: "Black Chain Shoulder Bag with Scarf Accent",
+    brand: "Fashion",
+    category: "Shoulder Bag",
+    price: 118000,
+    images: ["images/IMG-20260511-WA0082.png"],
+    colors: ["Black"],
+    description:
+      "Sleek black structured shoulder bag with gold chain strap, coin-charm pendant and a delicate floral satin scarf accent. Clean trapezoidal silhouette.",
+    inStock: true,
+    featured: false,
+  },
+
+  // ─────────────────────────────────────────────
+  //  CANVAS / TOTE BAGS
+  // ─────────────────────────────────────────────
+  {
+    id: "CT-001",
+    name: "HelloKeke Embroidered Beige Canvas Tote",
+    brand: "HelloKeke",
+    category: "Canvas Tote",
+    price: 45000,
+    images: ["images/IMG-20260515-WA0004.png"],
+    colors: ["Beige / Natural"],
+    description:
+      "Casual HelloKeke large canvas tote in warm beige with a cute embroidered cutlery graphic and patch badge detail. Ideal for everyday and market use.",
+    inStock: true,
+    featured: false,
+  },
+  {
+    id: "CT-002",
+    name: "Cotso 'Tickle Me Pink' Graphic Canvas Tote",
+    brand: "Cotso",
+    category: "Canvas Tote",
+    price: 45000,
+    images: ["images/IMG-20260515-WA0026.png"],
+    colors: ["Beige / Natural"],
+    description:
+      "Fun Cotso canvas tote with a large cartoon bear 'Tickle Me Pink' print. Lightweight, roomy and playful.",
+    inStock: true,
+    featured: false,
+  },
+];
+
+// ─────────────────────────────────────────────
+//  HELPER  –  derived data
+// ─────────────────────────────────────────────
+
+export const categories = [
+  ...new Set(products.map((p) => p.category)),
+].sort();
+
+export const brands = [
+  ...new Set(products.map((p) => p.brand)),
+].sort();
+
+export const featuredProducts = products.filter((p) => p.featured);
+
+export const getProductById = (id) =>
+  products.find((p) => p.id === id) || null;
+
+export const getProductsByCategory = (category) =>
+  products.filter((p) => p.category === category);
+
+export const getProductsByBrand = (brand) =>
+  products.filter((p) => p.brand === brand);
+
+export const searchProducts = (query) => {
+  const q = query.toLowerCase();
+  return products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.brand.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.colors.some((c) => c.toLowerCase().includes(q))
+  );
 };
 
-export const PRODUCTS = [
-  {
-    id: 1,
-    name: "Sophia Tote",
-    category: "tote",
-    price: "UGX 150,000",
-    image: IMAGES.products[0],
-    desc: "A timeless black leather tote perfect for the modern professional. Features dual handles, gold hardware, and spacious interior compartments.",
-    badge: "NEW"
-  },
-  {
-    id: 2,
-    name: "Noir Quilted",
-    category: "shoulder",
-    price: "UGX 220,000",
-    image: IMAGES.products[1],
-    desc: "Elegant red quilted shoulder bag with gold chain strap. The classic design that never goes out of style.",
-    badge: "TRENDING"
-  },
-  {
-    id: 3,
-    name: "Rosé Mini",
-    category: "mini",
-    price: "UGX 95,000",
-    image: IMAGES.products[2],
-    desc: "Charming cream mini crossbody with delicate gold chain strap. Perfect for casual outings.",
-    badge: "POPULAR"
-  },
-  {
-    id: 4,
-    name: "Classic Brown",
-    category: "tote",
-    price: "UGX 130,000",
-    image: IMAGES.products[3],
-    desc: "Rich brown leather travel tote with structured silhouette. Versatile everyday bag.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 5,
-    name: "Burgundy Classic",
-    category: "luxury",
-    price: "UGX 180,000",
-    image: IMAGES.products[4],
-    desc: "Luxurious burgundy handbag with signature gold hardware. A statement piece.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 6,
-    name: "Pearl Collection",
-    category: "luxury",
-    price: "UGX 160,000",
-    image: IMAGES.products[5],
-    desc: "Exquisite cream-white collection set featuring pearl-tone finishes. Elegant and sophisticated.",
-    badge: "NEW"
-  },
-  {
-    id: 7,
-    name: "Croco Shoulder",
-    category: "luxury",
-    price: "UGX 250,000",
-    image: IMAGES.products[6],
-    desc: "Premium black crocodile-textured shoulder bag with gold chain. The ultimate luxury statement.",
-    badge: "LUXURY"
-  },
-  {
-    id: 8,
-    name: "Glamour Set",
-    category: "travel",
-    price: "UGX 200,000",
-    image: IMAGES.products[7],
-    desc: "Versatile travel set with multiple color options. Style and function in one elegant package.",
-    badge: "TRAVEL"
-  },
-  {
-    id: 9,
-    name: "Amara Clutch",
-    category: "luxury",
-    price: "UGX 120,000",
-    image: IMAGES.products[8],
-    desc: "Elegant black leather clutch with burgundy velvet interior and gold chain. Perfect for evening events.",
-    badge: "NEW"
-  },
-  {
-    id: 10,
-    name: "Queen Tote",
-    category: "tote",
-    price: "UGX 185,000",
-    image: IMAGES.products[9],
-    desc: "Premium black leather tote with gold chain handles and royal crest emblem. For the modern queen.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 11,
-    name: "Savanna Crossbody",
-    category: "shoulder",
-    price: "UGX 145,000",
-    image: IMAGES.products[10],
-    desc: "Rich burgundy leather crossbody with gold clasp. Inspired by African savanna sunsets.",
-    badge: "TRENDING"
-  },
-  {
-    id: 12,
-    name: "Nile Mini",
-    category: "mini",
-    price: "UGX 85,000",
-    image: IMAGES.products[11],
-    desc: "Elegant beige mini crossbody with gold chain strap. Named after the mighty Nile River.",
-    badge: "POPULAR"
-  },
-  {
-    id: 13,
-    name: "Kampala Quilted",
-    category: "shoulder",
-    price: "UGX 195,000",
-    image: IMAGES.products[12],
-    desc: "Black quilted leather shoulder bag with iconic gold logo. The ultimate Kampala fashion statement.",
-    badge: "LUXURY"
-  },
-  {
-    id: 14,
-    name: "Serengeti Tote",
-    category: "tote",
-    price: "UGX 175,000",
-    image: IMAGES.products[13],
-    desc: "Tan brown leather tote with gold corner protectors and dual carry options. Adventure meets elegance.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 15,
-    name: "Kampala Rose",
-    category: "mini",
-    price: "UGX 110,000",
-    image: IMAGES.products[14],
-    desc: "Rose pink leather mini bag with gold chain strap and signature buckle. A Kampala favorite.",
-    badge: "NEW"
-  },
-  {
-    id: 16,
-    name: "Pearl Dome",
-    category: "luxury",
-    price: "UGX 210,000",
-    image: IMAGES.products[15],
-    desc: "White pearl leather dome satchel with gold hardware. Elegant and timeless for special occasions.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 17,
-    name: "Croco Hobo",
-    category: "shoulder",
-    price: "UGX 230,000",
-    image: IMAGES.products[16],
-    desc: "Black crocodile-textured hobo bag with bold gold chain. Bold and beautiful.",
-    badge: "LUXURY"
-  },
-  {
-    id: 18,
-    name: "Emerald Tote",
-    category: "tote",
-    price: "UGX 165,000",
-    image: IMAGES.products[17],
-    desc: "Deep emerald green leather tote with gold clasp. Stand out with this stunning piece.",
-    badge: "NEW"
-  },
-  {
-    id: 19,
-    name: "Ocean Satchel",
-    category: "office",
-    price: "UGX 155,000",
-    image: IMAGES.products[18],
-    desc: "Navy blue leather satchel with gold zippers. Perfect for the professional woman.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 20,
-    name: "Blush Quilted",
-    category: "mini",
-    price: "UGX 125,000",
-    image: IMAGES.products[19],
-    desc: "Blush pink quilted mini bag with gold chain. Sweet and sophisticated.",
-    badge: "POPULAR"
-  },
-  {
-    id: 21,
-    name: "Sahara Hobo",
-    category: "shoulder",
-    price: "UGX 140,000",
-    image: IMAGES.products[20],
-    desc: "Camel brown leather hobo bag with gold ring details. Relaxed luxury inspired by the Sahara.",
-    badge: "TRENDING"
-  },
-  {
-    id: 22,
-    name: "Silver Moon Clutch",
-    category: "luxury",
-    price: "UGX 95,000",
-    image: IMAGES.products[21],
-    desc: "Metallic silver leather clutch with gold chain. Perfect for moonlit events.",
-    badge: "NEW"
-  },
-  {
-    id: 23,
-    name: "Victoria Bucket",
-    category: "shoulder",
-    price: "UGX 135,000",
-    image: IMAGES.products[22],
-    desc: "Black leather bucket bag with drawstring closure and gold hardware. Classic and versatile.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 24,
-    name: "Sunflower Crossbody",
-    category: "shoulder",
-    price: "UGX 115,000",
-    image: IMAGES.products[23],
-    desc: "Mustard yellow leather crossbody with gold clasp. Brighten your day with this cheerful bag.",
-    badge: "POPULAR"
-  },
-  {
-    id: 25,
-    name: "Executive Brief",
-    category: "office",
-    price: "UGX 190,000",
-    image: IMAGES.products[24],
-    desc: "Black leather structured briefcase with gold corner protectors. For the executive woman.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 26,
-    name: "Ruby Clutch",
-    category: "luxury",
-    price: "UGX 105,000",
-    image: IMAGES.products[25],
-    desc: "Red leather envelope clutch with gold clasp. Passionate and elegant.",
-    badge: "NEW"
-  },
-  {
-    id: 27,
-    name: "Ivory Chain",
-    category: "shoulder",
-    price: "UGX 170,000",
-    image: IMAGES.products[26],
-    desc: "White leather shoulder bag with gold chain strap. Pure elegance.",
-    badge: "TRENDING"
-  },
-  {
-    id: 28,
-    name: "Sahel Quilted",
-    category: "shoulder",
-    price: "UGX 185,000",
-    image: IMAGES.products[27],
-    desc: "Beige quilted leather shoulder bag with gold chain. Inspired by Sahel landscapes.",
-    badge: "LUXURY"
-  },
-  {
-    id: 29,
-    name: "Onyx Tote",
-    category: "tote",
-    price: "UGX 160,000",
-    image: IMAGES.products[28],
-    desc: "Black leather structured tote with gold zippers. Sleek and powerful.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 30,
-    name: "Dusty Rose Mini",
-    category: "mini",
-    price: "UGX 100,000",
-    image: IMAGES.products[29],
-    desc: "Dusty rose leather mini bag with gold chain. Soft and romantic.",
-    badge: "POPULAR"
-  },
-  {
-    id: 31,
-    name: "Merlot Satchel",
-    category: "office",
-    price: "UGX 175,000",
-    image: IMAGES.products[30],
-    desc: "Burgundy leather structured satchel with top handle. Rich and sophisticated.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 32,
-    name: "Midnight Hobo",
-    category: "shoulder",
-    price: "UGX 150,000",
-    image: IMAGES.products[31],
-    desc: "Black leather hobo bag with gold chain detail. Mysterious and elegant.",
-    badge: "NEW"
-  },
-  {
-    id: 33,
-    name: "Golden Hour Clutch",
-    category: "luxury",
-    price: "UGX 110,000",
-    image: IMAGES.products[32],
-    desc: "Metallic gold leather clutch with chain strap. Glow like golden hour.",
-    badge: "TRENDING"
-  },
-  {
-    id: 34,
-    name: "Pearl Tote",
-    category: "tote",
-    price: "UGX 165,000",
-    image: IMAGES.products[33],
-    desc: "Cream white leather tote with gold metal handles. Pure sophistication.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 35,
-    name: "Shadow Crossbody",
-    category: "shoulder",
-    price: "UGX 130,000",
-    image: IMAGES.products[34],
-    desc: "Black leather crossbody with gold T-buckle. Minimalist and chic.",
-    badge: "POPULAR"
-  },
-  {
-    id: 36,
-    name: "Olive Bucket",
-    category: "shoulder",
-    price: "UGX 140,000",
-    image: IMAGES.products[35],
-    desc: "Olive green leather bucket bag with gold ring detail. Earthy and elegant.",
-    badge: "NEW"
-  },
-  {
-    id: 37,
-    name: "Fuchsia Mini",
-    category: "mini",
-    price: "UGX 105,000",
-    image: IMAGES.products[36],
-    desc: "Hot pink leather mini bag with gold chain. Bold and vibrant.",
-    badge: "TRENDING"
-  },
-  {
-    id: 38,
-    name: "Cognac Satchel",
-    category: "office",
-    price: "UGX 180,000",
-    image: IMAGES.products[37],
-    desc: "Cognac brown leather structured satchel with gold hardware. Timeless elegance.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 39,
-    name: "Kampala Classic",
-    category: "tote",
-    price: "UGX 145,000",
-    image: IMAGES.products[38],
-    desc: "Black leather chain strap bag with burgundy interior. A Kampala classic reimagined.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 40,
-    name: "Aurora Quilted",
-    category: "shoulder",
-    price: "UGX 200,000",
-    image: IMAGES.products[39],
-    desc: "Black quilted leather shoulder bag with gold logo. Like the aurora borealis.",
-    badge: "LUXURY"
-  },
-  {
-    id: 41,
-    name: "Safari Tote",
-    category: "travel",
-    price: "UGX 170,000",
-    image: IMAGES.products[40],
-    desc: "Tan brown leather travel tote with gold corner protectors. Adventure-ready elegance.",
-    badge: "TRAVEL"
-  },
-  {
-    id: 42,
-    name: "Blossom Mini",
-    category: "mini",
-    price: "UGX 90,000",
-    image: IMAGES.products[41],
-    desc: "Rose pink leather mini bag with gold chain. Delicate like a blossom.",
-    badge: "POPULAR"
-  },
-  {
-    id: 43,
-    name: "Diamond Dome",
-    category: "luxury",
-    price: "UGX 220,000",
-    image: IMAGES.products[42],
-    desc: "White pearl leather dome satchel with gold hardware. Sparkle like a diamond.",
-    badge: "PREMIUM"
-  },
-  {
-    id: 44,
-    name: "Panther Shoulder",
-    category: "shoulder",
-    price: "UGX 240,000",
-    image: IMAGES.products[43],
-    desc: "Black crocodile-textured shoulder bag with bold gold chain. Fierce and beautiful.",
-    badge: "LUXURY"
-  },
-  {
-    id: 45,
-    name: "Forest Tote",
-    category: "tote",
-    price: "UGX 155,000",
-    image: IMAGES.products[44],
-    desc: "Emerald green leather tote with gold clasp. Fresh as a forest morning.",
-    badge: "NEW"
-  },
-  {
-    id: 46,
-    name: "Navy Executive",
-    category: "office",
-    price: "UGX 165,000",
-    image: IMAGES.products[45],
-    desc: "Navy blue leather satchel with gold zippers. Command respect.",
-    badge: "BEST SELLER"
-  },
-  {
-    id: 47,
-    name: "Petal Quilted",
-    category: "mini",
-    price: "UGX 115,000",
-    image: IMAGES.products[46],
-    desc: "Blush pink quilted mini bag with gold chain. Soft as a petal.",
-    badge: "TRENDING"
-  },
-  {
-    id: 48,
-    name: "Dune Hobo",
-    category: "shoulder",
-    price: "UGX 135,000",
-    image: IMAGES.products[47],
-    desc: "Camel brown leather hobo bag with gold rings. Inspired by desert dunes.",
-    badge: "POPULAR"
-  },
-  {
-    id: 49,
-    name: "Stella Clutch",
-    category: "luxury",
-    price: "UGX 100,000",
-    image: IMAGES.products[48],
-    desc: "Silver metallic leather clutch with gold chain. Shine like a star.",
-    badge: "NEW"
-  },
-  {
-    id: 50,
-    name: "Heritage Tote",
-    category: "tote",
-    price: "UGX 175,000",
-    image: IMAGES.products[49],
-    desc: "Black leather structured tote with gold zippers. A heritage of excellence.",
-    badge: "PREMIUM"
-  }
-];
+// ─────────────────────────────────────────────
+//  FORMATTED PRODUCTS  –  shape expected by UI
+// ─────────────────────────────────────────────
+
+const badgeFor = (p) => {
+  if (p.featured) return 'Featured';
+  if (p.price <= 80000) return 'Best Value';
+  if (p.category === 'Mini Bag') return 'New';
+  return 'Popular';
+};
+
+export const PRODUCTS = products.map((p) => ({
+  ...p,
+  image: p.images[0],
+  desc: p.description,
+  price: `UGX ${p.price.toLocaleString()}`,
+  badge: badgeFor(p),
+}));
+
+// ─────────────────────────────────────────────
+//  IMAGES  –  static site image paths
+// ─────────────────────────────────────────────
+
+export const IMAGES = {
+  logo: 'images/lorah-logo.jpeg',
+  hero: 'images/IMG-20260511-WA0008.png',
+  about: 'images/IMG-20260511-WA0065.png',
+  luxury: 'images/IMG-20260511-WA0029.png',
+  affordable: 'images/IMG-20260511-WA0037.png',
+};
+
+// ─────────────────────────────────────────────
+//  COLLECTIONS
+// ─────────────────────────────────────────────
 
 export const COLLECTIONS = [
   {
-    id: 1,
-    name: "Sophia Tote",
-    price: "UGX 150,000",
-    image: IMAGES.collections[0],
-    badge: "NEW"
+    id: 'col-1',
+    name: 'New Arrival Tote Set',
+    image: 'images/IMG-20260511-WA0008.png',
+    price: 'From UGX 155,000',
+    badge: 'New In',
   },
   {
-    id: 2,
-    name: "Noir Quilted",
-    price: "UGX 220,000",
-    image: IMAGES.collections[1],
-    badge: "NEW"
+    id: 'col-2',
+    name: 'Chain Shoulder Bags',
+    image: 'images/IMG-20260511-WA0055.png',
+    price: 'From UGX 98,000',
+    badge: 'Trending',
   },
   {
-    id: 3,
-    name: "Rosé Mini",
-    price: "UGX 95,000",
-    image: IMAGES.collections[2],
-    badge: "NEW"
+    id: 'col-3',
+    name: 'Quilted Crossbody',
+    image: 'images/IMG-20260511-WA0033.png',
+    price: 'From UGX 128,000',
+    badge: 'Best Seller',
   },
   {
-    id: 4,
-    name: "Burgundy Classic",
-    price: "UGX 180,000",
-    image: IMAGES.collections[3],
-    badge: "NEW"
-  }
+    id: 'col-4',
+    name: 'Designer-Inspired',
+    image: 'images/IMG-20260515-WA0009.png',
+    price: 'From UGX 145,000',
+    badge: 'Premium',
+  },
 ];
 
-export const TESTIMONIALS = [
-  {
-    id: 1,
-    name: "Sarah Namuli",
-    role: "Business Executive, Kampala",
-    image: IMAGES.testimonials[0],
-    rating: 5,
-    text: "I ordered the Sophia Tote for a work event and received so many compliments! The quality is incredible for the price. Delivery was same day in Kampala. LORAH is now my go-to!"
-  },
-  {
-    id: 2,
-    name: "Grace Auma",
-    role: "Fashion Blogger, Entebbe",
-    image: IMAGES.testimonials[1],
-    rating: 5,
-    text: "The customer service is outstanding. They helped me choose the perfect bag for my wedding. The response on WhatsApp was instant!"
-  },
-  {
-    id: 3,
-    name: "Diana Atwine",
-    role: "Loyal Customer, Jinja",
-    image: IMAGES.testimonials[2],
-    rating: 5,
-    text: "I've bought 5 bags from LORAH now and each one is better than the last. The quality rivals brands that cost 3x more!"
-  }
-];
-
-export const SOCIAL_POSTS = IMAGES.social.map((img, index) => ({
-  id: index + 1,
-  image: img
-}));
+// ─────────────────────────────────────────────
+//  FAQS
+// ─────────────────────────────────────────────
 
 export const FAQS = [
   {
-    id: 1,
-    question: "Do you deliver?",
-    answer: "Yes! We offer same-day delivery within Kampala and nationwide shipping across Uganda and East Africa within 2-3 business days."
+    id: 'faq-1',
+    question: 'Do you deliver outside Kampala?',
+    answer: 'Yes! We deliver across Uganda and to select East African cities. Delivery fees vary by location. Contact us on WhatsApp for a quote.',
   },
   {
-    id: 2,
-    question: "How do I order?",
-    answer: "Simply browse our collection, find a bag you love, and contact us via WhatsApp, phone call, or email. We'll handle the rest!"
+    id: 'faq-2',
+    question: 'Are the bags authentic?',
+    answer: 'We carry a mix of authentic brand bags and premium inspired designs. Each product description clearly states the brand and style. Quality is always guaranteed.',
   },
   {
-    id: 3,
-    question: "Can I reserve a handbag?",
-    answer: "Absolutely! You can reserve any handbag by sending us a WhatsApp message. We'll hold it for you for up to 48 hours."
+    id: 'faq-3',
+    question: 'What payment methods do you accept?',
+    answer: 'We accept Mobile Money (MTN & Airtel), bank transfers, and cash on delivery for Kampala orders. WhatsApp us for payment details.',
   },
   {
-    id: 4,
-    question: "Do you restock sold out items?",
-    answer: "Yes, we regularly restock popular items! Let us know and we'll notify you as soon as it's available again."
+    id: 'faq-4',
+    question: 'Can I return or exchange a bag?',
+    answer: 'We offer exchanges within 7 days for unused items in original packaging. Returns are handled on a case-by-case basis. Contact us immediately if there is an issue.',
   },
   {
-    id: 5,
-    question: "What payment methods do you accept?",
-    answer: "We accept Mobile Money (MTN & Airtel), bank transfer, and cash on delivery within Kampala."
-  }
+    id: 'faq-5',
+    question: 'How long does delivery take?',
+    answer: 'Kampala deliveries are same-day or next-day. Upcountry deliveries take 1-3 business days. We will send you tracking info via WhatsApp.',
+  },
+  {
+    id: 'faq-6',
+    question: 'Do you offer wholesale or bulk pricing?',
+    answer: 'Yes! We offer competitive wholesale pricing for bulk orders. Contact us on WhatsApp or call 0752 103 529 for a custom quote.',
+  },
 ];
 
-export const SOCIAL_STATS = [
-  { icon: "music", value: 15000, label: "TikTok Followers" },
-  { icon: "instagram", value: 8500, label: "Instagram Fans" },
-  { icon: "heart", value: 50000, label: "Likes & Hearts" },
-  { icon: "eye", value: 200000, label: "Video Views" }
+// ─────────────────────────────────────────────
+//  TESTIMONIALS
+// ─────────────────────────────────────────────
+
+export const TESTIMONIALS = [
+  {
+    id: 'test-1',
+    name: 'Sarah K.',
+    role: 'Fashion Blogger, Kampala',
+    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=face',
+    rating: 5,
+    text: 'Absolutely love my Chrisbella tote set! The quality is incredible for the price. LORAH is my go-to for handbags now.',
+  },
+  {
+    id: 'test-2',
+    name: 'Grace M.',
+    role: 'Business Owner',
+    image: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=200&h=200&fit=crop&crop=face',
+    rating: 5,
+    text: 'The Coach shoulder bag is stunning. Fast delivery and beautiful packaging. I have already ordered three more bags!',
+  },
+  {
+    id: 'test-3',
+    name: 'Diana N.',
+    role: 'University Student',
+    image: 'https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=200&h=200&fit=crop&crop=face',
+    rating: 5,
+    text: 'Best affordable bags in Uganda. The Forever Barsiti mini satchel is so cute and the price was unbeatable.',
+  },
+  {
+    id: 'test-4',
+    name: 'Patricia O.',
+    role: 'Entrepreneur',
+    image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=face',
+    rating: 5,
+    text: 'LORAH never disappoints. My Victoria Seven tote gets compliments everywhere I go. Premium quality at fair prices.',
+  },
 ];
+
+// ─────────────────────────────────────────────
+//  WHY CHOOSE US
+// ─────────────────────────────────────────────
 
 export const WHY_CHOOSE_US = [
   {
-    icon: "gem",
-    title: "Authentic Quality",
-    desc: "Every handbag crafted from premium materials with meticulous attention to detail."
+    icon: 'gem',
+    title: 'Premium Quality',
+    desc: 'Every bag is handpicked and inspected to ensure the finest materials and craftsmanship.',
   },
   {
-    icon: "truck",
-    title: "Fast Delivery",
-    desc: "Same-day delivery within Kampala. Nationwide shipping across Uganda & East Africa."
+    icon: 'truck',
+    title: 'Fast Delivery',
+    desc: 'Same-day delivery in Kampala. 1-3 days nationwide. We keep you updated every step of the way.',
   },
   {
-    icon: "tag",
-    title: "Affordable Luxury",
-    desc: "Designer-quality bags at prices that make sense."
+    icon: 'tag',
+    title: 'Affordable Luxury',
+    desc: 'Designer-inspired bags at prices that respect your budget. Starting from just UGX 45,000.',
   },
   {
-    icon: "headphones",
-    title: "Customer Support",
-    desc: "Quick responses on WhatsApp, phone, or email — because you matter."
+    icon: 'headphones',
+    title: '24/7 Support',
+    desc: 'Reach us anytime on WhatsApp. We respond within minutes, not hours.',
   },
   {
-    icon: "sparkles",
-    title: "Trendy Collections",
-    desc: "New arrivals every week. Stay ahead of the fashion curve."
+    icon: 'sparkles',
+    title: 'New Arrivals Weekly',
+    desc: 'Fresh styles every week. Follow us on TikTok and Instagram to see the latest drops.',
   },
   {
-    icon: "shield",
-    title: "Secure Communication",
-    desc: "Order safely through WhatsApp with confirmation and tracking."
-  }
+    icon: 'shield',
+    title: 'Quality Guarantee',
+    desc: 'Not satisfied? We offer hassle-free exchanges within 7 days. Your happiness is our priority.',
+  },
 ];
 
-// Newsletter Storage Functions
-export const NL_STORAGE_KEY = 'lorah_newsletter_subscribers';
+// ─────────────────────────────────────────────
+//  SOCIAL GALLERY
+// ─────────────────────────────────────────────
+
+export const SOCIAL_POSTS = [
+  { id: 'sp-1', image: 'images/IMG-20260511-WA0008.png' },
+  { id: 'sp-2', image: 'images/IMG-20260511-WA0029.png' },
+  { id: 'sp-3', image: 'images/IMG-20260511-WA0033.png' },
+  { id: 'sp-4', image: 'images/IMG-20260511-WA0046.png' },
+  { id: 'sp-5', image: 'images/IMG-20260511-WA0055.png' },
+  { id: 'sp-6', image: 'images/IMG-20260511-WA0066.png' },
+  { id: 'sp-7', image: 'images/IMG-20260515-WA0009.png' },
+  { id: 'sp-8', image: 'images/IMG-20260511-WA0078.png' },
+];
+
+export const SOCIAL_STATS = [
+  { icon: 'music', value: 12500, label: 'TikTok Followers' },
+  { icon: 'instagram', value: 8200, label: 'Instagram Followers' },
+  { icon: 'heart', value: 45000, label: 'Total Likes' },
+  { icon: 'eye', value: 120000, label: 'Monthly Views' },
+];
+
+// ─────────────────────────────────────────────
+//  NEWSLETTER SUBSCRIBERS  –  localStorage
+// ─────────────────────────────────────────────
+
+const SUB_KEY = 'lorah_subscribers';
 
 export const getSubscribers = () => {
   try {
-    return JSON.parse(localStorage.getItem(NL_STORAGE_KEY)) || [];
-  } catch(e) {
+    return JSON.parse(localStorage.getItem(SUB_KEY)) || [];
+  } catch {
     return [];
   }
 };
 
-export const saveSubscribers = (subscribers) => {
-  try {
-    localStorage.setItem(NL_STORAGE_KEY, JSON.stringify(subscribers));
-    return true;
-  } catch(e) {
-    return false;
-  }
-};
-
-export const addSubscriber = (name, email) => {
-  const subs = getSubscribers();
-  const e = email.toLowerCase().trim();
-  
-  if (subs.some(s => s.email.toLowerCase() === e)) {
-    return 'duplicate';
-  }
-  
-  subs.push({
-    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-    name: name.trim() || 'Anonymous',
-    email: e,
-    subscribedAt: new Date().toISOString(),
-    source: 'website'
-  });
-  
-  return saveSubscribers(subs) ? 'success' : 'error';
+export const saveSubscribers = (subs) => {
+  localStorage.setItem(SUB_KEY, JSON.stringify(subs));
 };
 
 export const removeSubscriber = (id) => {
-  saveSubscribers(getSubscribers().filter(s => s.id !== id));
+  const subs = getSubscribers().filter((s) => s.id !== id);
+  saveSubscribers(subs);
 };
 
-export const validateEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+export const validateEmail = (email) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+export const addSubscriber = (name, email) => {
+  try {
+    const subs = getSubscribers();
+    if (subs.some((s) => s.email.toLowerCase() === email.toLowerCase())) {
+      return 'duplicate';
+    }
+    subs.push({
+      id: Date.now().toString(),
+      name: name || 'Subscriber',
+      email,
+      subscribedAt: new Date().toISOString(),
+    });
+    saveSubscribers(subs);
+    return 'success';
+  } catch {
+    return 'error';
+  }
 };
 
-export const escapeHtml = (str) => {
-  const d = document.createElement('div');
-  d.textContent = str;
-  return d.innerHTML;
-};
+export const escapeHtml = (str) =>
+  String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+export default products;

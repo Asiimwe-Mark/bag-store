@@ -3,16 +3,21 @@ import { Heart, MessageCircle, Eye } from 'lucide-react';
 
 const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
   const [isFavorited, setIsFavorited] = React.useState(false);
+  const [justFavorited, setJustFavorited] = React.useState(false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
     setIsFavorited(!isFavorited);
+    if (!isFavorited) {
+      setJustFavorited(true);
+      setTimeout(() => setJustFavorited(false), 400);
+    }
   };
 
   return (
-    <div className="product-card card-shimmer group bg-white rounded-2xl overflow-hidden shadow-card product-enter">
+    <div className="product-card product-card-3d card-shimmer group bg-white rounded-2xl overflow-hidden shadow-card product-enter">
       <div className="h-0.5 bg-gradient-to-r from-transparent via-champagne-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-      <div className="relative overflow-hidden aspect-[4/5] bg-beige-50">
+      <div className="relative overflow-hidden aspect-[4/5] bg-beige-50 img-zoom-container">
         <img
           src={product.image}
           alt={product.name}
@@ -23,7 +28,7 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
           }}
         />
         <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
-          <span className="bg-brand-red text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+          <span className="bg-brand-red text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full badge-pulse">
             {product.badge}
           </span>
         </div>
@@ -31,42 +36,35 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
           onClick={toggleFavorite}
           aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           className={`absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-all shadow-sm ${
-            isFavorited ? 'favorited' : ''
+            isFavorited ? 'text-brand-red' : 'text-matte-400'
           }`}
         >
-          <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-all ${isFavorited ? 'text-brand-red fill-current scale-110' : 'text-matte-400'}`} />
+          <Heart
+            className={`w-4 h-4 sm:w-5 sm:h-5 transition-all ${
+              isFavorited ? 'fill-current' : ''
+            } ${justFavorited ? 'heart-bounce' : ''}`}
+          />
         </button>
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
-
-      <div className="p-3 sm:p-4 lg:p-5">
-        <p className="text-[10px] sm:text-xs font-semibold text-brand-red tracking-widest uppercase mb-1">
-          {product.category}
-        </p>
-        <h3 className="font-serif text-sm sm:text-base lg:text-lg font-semibold text-matte-900 mb-1 sm:mb-2 leading-tight">
-          {product.name}
-        </h3>
-        <p className="text-matte-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2 leading-relaxed">
-          {product.desc}
-        </p>
-        <span className="text-base sm:text-lg lg:text-xl font-bold text-matte-900">
-          {product.price}
-        </span>
-        
-        <div className="flex gap-2 mt-3 sm:mt-4">
+      <div className="p-3 sm:p-4 space-y-1.5 sm:space-y-2">
+        <p className="text-[10px] sm:text-xs font-medium text-champagne-300 tracking-widest uppercase">{product.brand}</p>
+        <h3 className="font-serif font-bold text-matte-900 text-xs sm:text-sm leading-tight line-clamp-2">{product.name}</h3>
+        <p className="text-matte-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2">{product.desc}</p>
+        <p className="font-bold text-brand-red text-sm sm:text-base">{product.price}</p>
+        <div className="flex gap-2 pt-1">
           <button
             onClick={() => onOrderClick(product)}
-            aria-label={`Order ${product.name} via WhatsApp`}
-            className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all"
+            className="magnetic-btn flex-1 flex items-center justify-center gap-1.5 bg-brand-red text-white py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:bg-red-700 transition-colors"
           >
             <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Order
           </button>
           <button
             onClick={() => onDetailsClick(product)}
-            aria-label={`View details for ${product.name}`}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-beige-200 text-matte-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:border-champagne-300 hover:text-champagne-300 transition-colors"
+            className="flex items-center justify-center w-10 sm:w-11 bg-beige-50 text-matte-700 py-2 sm:py-2.5 rounded-xl hover:bg-champagne-100 transition-colors"
+            aria-label="View details"
           >
             <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Details</span>
           </button>
         </div>
       </div>

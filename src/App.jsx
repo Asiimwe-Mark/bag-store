@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MessageCircle, Phone, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { PRODUCTS } from './data/products';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -14,8 +14,19 @@ import Footer from './components/Footer';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import ProductModal from './components/ProductModal';
 import AdminPanel from './components/AdminPanel';
+import AdminPage from './components/AdminPage';
 import Toast from './components/Toast';
 import ScrollToTop from './components/ScrollToTop';
+
+// Build category list from product data with counts
+const categoryMap = {};
+PRODUCTS.forEach(p => {
+  const cat = p.category;
+  categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+});
+const CATEGORIES = Object.entries(categoryMap)
+  .sort((a, b) => b[1] - a[1])
+  .map(([name, count]) => ({ name, count }));
 
 function App() {
   // UI State
@@ -23,8 +34,9 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [adminPageOpen, setAdminPageOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   // Toast State
   const [toast, setToast] = useState({ show: false, type: 'success', title: '', message: '' });
   const showToast = useCallback((type, title, message) => {
@@ -43,9 +55,12 @@ function App() {
   // Filter Logic
   const filteredProducts = PRODUCTS.filter(product => {
     const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.category.toLowerCase().includes(searchQuery.toLowerCase());
+    const q = searchQuery.toLowerCase();
+    const matchesSearch = !q ||
+      product.name.toLowerCase().includes(q) ||
+      product.description.toLowerCase().includes(q) ||
+      product.category.toLowerCase().includes(q) ||
+      product.brand.toLowerCase().includes(q);
     return matchesCategory && matchesSearch;
   });
 
@@ -97,26 +112,15 @@ function App() {
       { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
     );
 
-    const animateElements = document.querySelectorAll('.fade-up, .fade-left, .fade-right');
+    const animateElements = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .fade-scale, .scale-in, .slide-in-left, .slide-in-right, .section-heading-underline, .gold-underline');
     animateElements.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
   }, [visibleProducts, currentCategory]);
 
-  // Navbar Scroll Effect + Parallax + Scroll-to-Top
+  // Hero Parallax
   useEffect(() => {
     const handleScroll = () => {
-      const navbar = document.getElementById('navbar');
-      if (navbar) {
-        if (window.scrollY > 50) {
-          navbar.classList.add('glass', 'shadow-lg');
-          navbar.style.background = 'rgba(255,255,255,0.85)';
-        } else {
-          navbar.classList.remove('glass', 'shadow-lg');
-          navbar.style.background = 'transparent';
-        }
-      }
-      // Hero parallax
       const heroBg = document.getElementById('heroBg');
       if (heroBg) {
         heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
@@ -128,13 +132,13 @@ function App() {
 
   // Body overflow lock for modals
   useEffect(() => {
-    if (modalOpen || adminOpen) {
+    if (modalOpen || adminOpen || adminPageOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [modalOpen, adminOpen]);
+  }, [modalOpen, adminOpen, adminPageOpen]);
 
   // Keyboard Navigation
   useEffect(() => {
@@ -142,21 +146,22 @@ function App() {
       if (e.key === 'Escape') {
         if (modalOpen) closeProductModal();
         if (adminOpen) setAdminOpen(false);
+        if (adminPageOpen) setAdminPageOpen(false);
         if (waOpen) setWaOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [modalOpen, adminOpen, waOpen]);
+  }, [modalOpen, adminOpen, adminPageOpen, waOpen]);
 
   return (
     <div className="bg-beige-50 text-matte-900 antialiased min-h-screen">
-      <Navbar 
-        onMenuToggle={() => setMobileMenuOpen(true)} 
-        onChatClick={() => setWaOpen(true)} 
+      <Navbar
+        onMenuToggle={() => setMobileMenuOpen(true)}
+        onChatClick={() => setWaOpen(true)}
       />
-      
-      <Hero 
+
+      <Hero
         onShopClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
         onChatClick={() => setWaOpen(true)}
       />
@@ -179,32 +184,42 @@ function App() {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="Search 50+ handbags..."
+                placeholder="Search by name, brand, or category..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input w-full pl-12 pr-4 py-3 rounded-xl border border-beige-200 bg-beige-50 focus:outline-none focus:border-brand-red transition-all text-sm"
               />
             </div>
             <div className="flex flex-wrap gap-2 overflow-x-auto pb-1">
-              {['all', 'luxury', 'tote', 'shoulder', 'mini', 'office', 'travel'].map(cat => (
+              <button
+                onClick={() => handleCategoryChange('all')}
+                className={`cat-tab px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-all whitespace-nowrap ${
+                  currentCategory === 'all'
+                    ? 'active bg-brand-red text-white border-brand-red'
+                    : 'border-beige-200 bg-white hover:border-brand-red'
+                }`}
+              >
+                All ({PRODUCTS.length})
+              </button>
+              {CATEGORIES.map(cat => (
                 <button
-                  key={cat}
-                  onClick={() => handleCategoryChange(cat)}
-                  className={`cat-tab px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-all ${
-                    currentCategory === cat 
-                      ? 'active bg-brand-red text-white border-brand-red' 
+                  key={cat.name}
+                  onClick={() => handleCategoryChange(cat.name)}
+                  className={`cat-tab px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-all whitespace-nowrap ${
+                    currentCategory === cat.name
+                      ? 'active bg-brand-red text-white border-brand-red'
                       : 'border-beige-200 bg-white hover:border-brand-red'
                   }`}
                 >
-                  {cat === 'all' ? `All (${PRODUCTS.length})` : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  {cat.name} ({cat.count})
                 </button>
               ))}
             </div>
           </div>
 
           {/* Product Grid */}
-          <ProductGrid 
-            products={visibleProducts} 
+          <ProductGrid
+            products={visibleProducts}
             onOrderClick={handleOrderClick}
             onDetailsClick={openProductModal}
           />
@@ -212,7 +227,7 @@ function App() {
           {/* Load More */}
           <div className="text-center mt-10 sm:mt-12 fade-up">
             {hasMore ? (
-              <button 
+              <button
                 onClick={loadMore}
                 disabled={isLoading}
                 className={`load-more-btn inline-flex items-center gap-2 sm:gap-3 bg-matte-900 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-semibold hover:bg-brand-red transition-all text-sm sm:text-base ${isLoading ? 'loading' : ''}`}
@@ -228,72 +243,50 @@ function App() {
 
       <Collections onCollectionClick={(col) => handleOrderClick({ name: col.name, price: col.price, image: col.image })} />
 
-      <div className="section-divider max-w-4xl mx-auto"></div>
+      <div className="premium-divider max-w-4xl mx-auto"></div>
 
       <About />
 
-      <div className="section-divider max-w-4xl mx-auto"></div>
+      <div className="premium-divider max-w-4xl mx-auto"></div>
 
       <WhyChooseUs />
       <Testimonials />
-      
-      {/* WhatsApp CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-36 h-36 sm:w-48 sm:h-48 bg-white/5 rounded-full blur-3xl"></div>
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-up">
-          <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 sm:px-5 py-2 mb-4 sm:mb-6">
-            <span className="w-2 h-2 bg-white rounded-full wa-status-online"></span>
-            <span className="text-white/90 text-xs sm:text-sm font-medium">We respond in minutes</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Found a Bag You Love?</h2>
-          <p className="text-white/80 text-base sm:text-lg mb-8 sm:mb-10 max-w-2xl mx-auto">
-            Contact us instantly and we'll help you find your perfect handbag from our 50+ collection.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            <button onClick={() => setWaOpen(true)} className="btn-glow inline-flex items-center gap-2 sm:gap-3 bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:shadow-2xl transition-all text-sm sm:text-lg">
-              <MessageCircle className="w-5 h-5" /> WhatsApp Us
-            </button>
-            <a href="tel:+256752103529" className="inline-flex items-center gap-2 sm:gap-3 bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-white/30 transition-all text-sm sm:text-lg border border-white/30">
-              <Phone className="w-5 h-5" /> 0752 103 529
-            </a>
-            <a href="tel:+256765066209" className="inline-flex items-center gap-2 sm:gap-3 bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-white/30 transition-all text-sm sm:text-lg border border-white/30">
-              <Phone className="w-5 h-5" /> 0765 066 209
-            </a>
-          </div>
-        </div>
-      </section>
 
-      <div className="section-divider max-w-4xl mx-auto"></div>
+      <div className="premium-divider max-w-4xl mx-auto"></div>
 
       <SocialGallery />
       <FAQ />
-      
-      <Footer showToast={showToast} onOpenAdmin={() => setAdminOpen(true)} />
-      
+
+      <Footer showToast={showToast} onOpenAdmin={() => setAdminPageOpen(true)} />
+
       {/* Overlays & Modals */}
-      <WhatsAppWidget 
-        isOpen={waOpen} 
-        onClose={() => setWaOpen(false)} 
+      <WhatsAppWidget
+        isOpen={waOpen}
+        onClose={() => setWaOpen(false)}
         onToggle={() => setWaOpen(prev => !prev)}
         product={selectedProduct}
       />
-      
-      <ProductModal 
-        product={selectedProduct} 
-        isOpen={modalOpen} 
-        onClose={closeProductModal} 
+
+      <ProductModal
+        product={selectedProduct}
+        isOpen={modalOpen}
+        onClose={closeProductModal}
         onOrderClick={handleOrderClick}
       />
-      
-      <AdminPanel 
-        isOpen={adminOpen} 
-        onClose={() => setAdminOpen(false)} 
+
+      <AdminPanel
+        isOpen={adminOpen}
+        onClose={() => setAdminOpen(false)}
         showToast={showToast}
       />
-      
+
+      {adminPageOpen && (
+        <AdminPage
+          onClose={() => setAdminPageOpen(false)}
+          showToast={showToast}
+        />
+      )}
+
       <Toast toast={toast} onClose={hideToast} />
       <ScrollToTop />
     </div>

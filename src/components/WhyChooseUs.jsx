@@ -9,13 +9,13 @@ const WhyChooseUs = () => {
     <section className="py-16 sm:py-20 lg:py-32 bg-gradient-to-br from-matte-900 to-matte-800 text-white relative overflow-hidden">
       <div className="absolute top-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-brand-red/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-rose-400/5 rounded-full blur-3xl"></div>
-      
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-16">
           <p className="text-sm font-semibold text-champagne-300 tracking-widest uppercase mb-4 fade-up">
             Why LORAH
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title text-white">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title section-heading-underline text-white">
             Why Choose Us
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto mt-4 sm:mt-6 fade-up stagger-2 text-sm sm:text-base">
@@ -31,19 +31,14 @@ const WhyChooseUs = () => {
             return (
               <div
                 key={index}
-                className="group glass-dark rounded-2xl p-6 sm:p-8 hover:bg-white/10 hover:border-champagne-300/20 transition-all duration-500 fade-up"
-                style={{ transitionDelay: `${index * 0.05}s` }}
+                className="fade-up group glass-dark rounded-2xl p-6 sm:p-8 hover:bg-white/10 hover:border-champagne-300/20 transition-all duration-500 gold-border-anim"
+                style={{ transitionDelay: `${index * 0.08}s` }}
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-brand-red to-rose-400 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-brand-red/10 flex items-center justify-center mb-4 sm:mb-5 group-hover:bg-brand-red/20 group-hover:scale-110 transition-all duration-300">
+                  {Icon && <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-brand-red" />}
                 </div>
-                <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2 sm:mb-3">
-                  {item.title}
-                </h3>
-                <div className="w-8 h-0.5 bg-champagne-300 mt-2 mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <p className="text-white/60 text-sm">
-                  {item.desc}
-                </p>
+                <h3 className="font-serif font-bold text-base sm:text-lg mb-2">{item.title}</h3>
+                <p className="text-white/50 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
               </div>
             );
           })}

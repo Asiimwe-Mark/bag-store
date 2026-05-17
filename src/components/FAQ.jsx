@@ -16,7 +16,7 @@ const FAQ = () => {
           <p className="text-sm font-semibold text-brand-red tracking-widest uppercase mb-4 fade-up">
             Got Questions?
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title section-heading-underline">
             Frequently Asked Questions
           </h2>
         </div>
@@ -27,13 +27,15 @@ const FAQ = () => {
           <div className="w-12 h-0.5 bg-champagne-300"></div>
         </div>
 
-        <div className="space-y-3 sm:space-y-4 fade-up">
+        <div className="space-y-3 sm:space-y-4">
           {FAQS.map((faq, index) => (
             <div
               key={faq.id}
-              className={`faq-item bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden border-l-4 transition-colors ${
-                openIndex === index ? 'border-champagne-300' : 'border-transparent'
-              }`}
+              className="fade-up bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden border-l-4 transition-all duration-300 hover:shadow-md"
+              style={{
+                transitionDelay: `${index * 0.06}s`,
+                borderLeftColor: openIndex === index ? '#D4AF37' : 'transparent',
+              }}
             >
               <button
                 className="faq-question w-full flex items-center justify-between p-4 sm:p-6 text-left hover:bg-champagne-50 transition-colors"
@@ -41,25 +43,25 @@ const FAQ = () => {
                 aria-expanded={openIndex === index}
                 aria-controls={`faq-answer-${index}`}
               >
-                <span className="font-semibold text-matte-900 pr-4 text-sm sm:text-base">
-                  {faq.question}
-                </span>
-                <ChevronDown 
-                  className={`faq-chevron w-5 h-5 text-brand-red flex-shrink-0 transition-transform ${
+                <span className="font-semibold text-matte-900 text-sm sm:text-base pr-4">{faq.question}</span>
+                <ChevronDown
+                  className={`faq-chevron w-5 h-5 flex-shrink-0 text-champagne-300 transition-transform duration-300 ${
                     openIndex === index ? 'rotated' : ''
                   }`}
                 />
               </button>
               <div
                 id={`faq-answer-${index}`}
+                className={`accordion-body ${openIndex === index ? 'open' : ''}`}
                 role="region"
-                className={`faq-answer px-4 sm:px-6 pb-4 sm:pb-6 ${
-                  openIndex === index ? 'open' : ''
-                }`}
+                aria-labelledby={`faq-question-${index}`}
               >
-                <p className="text-matte-600 leading-relaxed text-sm sm:text-base">
-                  {faq.answer}
-                </p>
+                <div>
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <div className="w-8 h-0.5 bg-champagne-300 mb-3"></div>
+                    <p className="text-matte-600 text-sm sm:text-base leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

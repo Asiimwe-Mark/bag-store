@@ -1,5 +1,5 @@
 import React from 'react';
-import { COLLECTIONS, IMAGES } from '../data/products';
+import { COLLECTIONS } from '../data/products';
 
 const Collections = ({ onCollectionClick }) => {
   return (
@@ -9,100 +9,46 @@ const Collections = ({ onCollectionClick }) => {
           <p className="text-sm font-semibold text-brand-red tracking-widest uppercase mb-4 fade-up">
             Curated For You
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold fade-up stagger-1 section-title section-heading-underline">
             Shop by Collection
           </h2>
         </div>
 
         {/* New Arrivals Horizontal Scroll */}
-        <div className="mb-10 sm:mb-16 fade-up">
+        <div className="mb-10 sm:mb-16 fade-up stagger-2">
           <div className="flex items-center justify-between mb-6 sm:mb-8">
             <h3 className="font-serif text-xl sm:text-2xl font-semibold">New Arrivals</h3>
             <a href="#shop" className="text-brand-red font-medium text-sm hover:underline">
-              View All →
+              View All &rarr;
             </a>
           </div>
-          
+
           <div className="collection-scroll flex gap-4 sm:gap-6 overflow-x-auto pb-4">
-            {COLLECTIONS.map((collection) => (
-              <div 
+            {COLLECTIONS.map((collection, index) => (
+              <div
                 key={collection.id}
                 onClick={() => onCollectionClick(collection)}
-                className="min-w-[240px] sm:min-w-[280px] snap-center rounded-2xl overflow-hidden shadow-lg group cursor-pointer card-shimmer"
+                className="fade-up min-w-[240px] sm:min-w-[280px] snap-center rounded-2xl overflow-hidden shadow-lg group cursor-pointer card-shimmer gold-border-anim"
+                style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className="relative h-60 sm:h-72 overflow-hidden">
-                  <img 
-                    src={collection.image} 
+                <div className="relative h-60 sm:h-72 overflow-hidden img-zoom-container">
+                  <img
+                    src={collection.image}
                     alt={collection.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover collection-card-img"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 collection-overlay"></div>
-                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
-                    <span className="bg-brand-red text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 rounded-full">
-                      {collection.badge}
-                    </span>
-                    <h4 className="text-white font-serif text-base sm:text-lg mt-2">
-                      {collection.name}
-                    </h4>
-                    <p className="text-white/80 text-xs sm:text-sm">
-                      {collection.price}
-                    </p>
+                  <div className="collection-overlay absolute inset-0 flex flex-col justify-end p-4 sm:p-6">
+                    <span className="text-xs font-bold text-champagne-300 tracking-widest uppercase mb-1">{collection.badge}</span>
+                    <h4 className="font-serif text-lg sm:text-xl font-bold text-white">{collection.name}</h4>
+                    <p className="text-white/80 text-xs sm:text-sm mt-1">{collection.price}</p>
+                    <button className="mt-3 inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white bg-brand-red/80 hover:bg-brand-red px-4 py-2 rounded-full transition-all w-fit">
+                      Shop Now
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Featured Collections Grid */}
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 fade-up">
-          <div
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer ring-2 ring-transparent hover:ring-champagne-300/50 transition-all duration-500"
-            onClick={() => onCollectionClick({ name: 'Luxury Collection' })}
-          >
-            <img
-              src={IMAGES.luxury}
-              alt="Luxury Collection"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-              <span className="text-champagne-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">
-                Premium Line
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-white mt-1 sm:mt-2">
-                Luxury Collection
-              </h3>
-              <p className="text-white/70 text-xs sm:text-sm mt-1 sm:mt-2">
-                Handcrafted with the finest materials
-              </p>
-            </div>
-          </div>
-
-          <div
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer ring-2 ring-transparent hover:ring-champagne-300/50 transition-all duration-500"
-            onClick={() => onCollectionClick({ name: 'Affordable Picks' })}
-          >
-            <img
-              src={IMAGES.affordable}
-              alt="Affordable Luxury"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-              <span className="text-rose-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">
-                Smart Choice
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-white mt-1 sm:mt-2">
-                Affordable Luxury
-              </h3>
-              <p className="text-white/70 text-xs sm:text-sm mt-1 sm:mt-2">
-                Style that doesn't break the bank
-              </p>
-            </div>
           </div>
         </div>
       </div>
