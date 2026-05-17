@@ -28,7 +28,7 @@ const Collections = ({ onCollectionClick }) => {
               <div 
                 key={collection.id}
                 onClick={() => onCollectionClick(collection)}
-                className="min-w-[240px] sm:min-w-[280px] snap-center rounded-2xl overflow-hidden shadow-lg group cursor-pointer"
+                className="min-w-[240px] sm:min-w-[280px] snap-center rounded-2xl overflow-hidden shadow-lg group cursor-pointer card-shimmer"
               >
                 <div className="relative h-60 sm:h-72 overflow-hidden">
                   <img 
@@ -57,17 +57,17 @@ const Collections = ({ onCollectionClick }) => {
 
         {/* Featured Collections Grid */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 fade-up">
-          <div 
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer"
+          <div
+            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer ring-2 ring-transparent hover:ring-champagne-300/50 transition-all duration-500"
             onClick={() => onCollectionClick({ name: 'Luxury Collection' })}
           >
-            <img 
-              src={IMAGES.luxury} 
+            <img
+              src={IMAGES.luxury}
               alt="Luxury Collection"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
               <span className="text-champagne-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">
                 Premium Line
@@ -81,17 +81,17 @@ const Collections = ({ onCollectionClick }) => {
             </div>
           </div>
 
-          <div 
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer"
+          <div
+            className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-64 sm:h-80 group cursor-pointer ring-2 ring-transparent hover:ring-champagne-300/50 transition-all duration-500"
             onClick={() => onCollectionClick({ name: 'Affordable Picks' })}
           >
-            <img 
-              src={IMAGES.affordable} 
+            <img
+              src={IMAGES.affordable}
               alt="Affordable Luxury"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
               <span className="text-rose-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">
                 Smart Choice

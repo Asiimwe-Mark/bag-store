@@ -35,6 +35,9 @@ const Toast = ({ toast, onClose }) => {
       <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
         <XCircle className="w-5 h-5" />
       </button>
+      <div className="toast-progress">
+        <div className={`toast-progress-bar ${toast.type === 'success' ? 'bg-green-500' : toast.type === 'error' ? 'bg-red-500' : 'bg-yellow-500'}`}></div>
+      </div>
     </div>
   );
 };

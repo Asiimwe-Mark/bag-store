@@ -1,92 +1,37 @@
-// Image imports - Replace these paths with your actual image paths
-// Example: import heroImage from '../assets/images/hero-bg.jpg';
+// Auto-import all images from assets/images using Vite
+const imageModules = import.meta.glob('../assets/images/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+
+// Sort images into a consistent array (alphabetical by filename)
+const allImages = Object.entries(imageModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, url]) => url);
+
+// Find the logo specifically
+const logoImg = Object.entries(imageModules).find(([path]) => path.toLowerCase().includes('logo'));
+const logoUrl = logoImg ? logoImg[1] : allImages[0];
+
+// Map images to their roles
+// First 50 = products, next 4 = collections, next 3 = testimonials, next 8 = social
+// Then hero, about, luxury, affordable from remaining
+const productImages = allImages.slice(0, 50);
+const collectionImages = allImages.slice(50, 54);
+const testimonialImages = allImages.slice(54, 57);
+const socialImages = allImages.slice(57, 65);
+const heroImage = allImages[65] || allImages[0];
+const aboutImage = allImages[66] || allImages[1];
+const luxuryImage = allImages[67] || allImages[2];
+const affordableImage = allImages[68] || allImages[3];
 
 export const IMAGES = {
-  // Hero & Logo
-  hero: 'https://picsum.photos/seed/lorahhero/1920/1080',
-  logo: 'https://picsum.photos/seed/lorahlogo/56/56',
-  
-  // All your uploaded product images - UPDATE THESE PATHS
-  products: [
-    'https://picsum.photos/seed/bag01/400/400', // Product 1
-    'https://picsum.photos/seed/bag02/400/400', // Product 2
-    'https://picsum.photos/seed/bag03/400/400', // Product 3
-    'https://picsum.photos/seed/bag04/400/400', // Product 4
-    'https://picsum.photos/seed/bag05/400/400', // Product 5
-    'https://picsum.photos/seed/bag06/400/400', // Product 6
-    'https://picsum.photos/seed/bag07/400/400', // Product 7
-    'https://picsum.photos/seed/bag08/400/400', // Product 8
-    'https://picsum.photos/seed/bag09/400/400', // Product 9
-    'https://picsum.photos/seed/bag10/400/400', // Product 10
-    'https://picsum.photos/seed/bag11/400/400', // Product 11
-    'https://picsum.photos/seed/bag12/400/400', // Product 12
-    'https://picsum.photos/seed/bag13/400/400', // Product 13
-    'https://picsum.photos/seed/bag14/400/400', // Product 14
-    'https://picsum.photos/seed/bag15/400/400', // Product 15
-    'https://picsum.photos/seed/bag16/400/400', // Product 16
-    'https://picsum.photos/seed/bag17/400/400', // Product 17
-    'https://picsum.photos/seed/bag18/400/400', // Product 18
-    'https://picsum.photos/seed/bag19/400/400', // Product 19
-    'https://picsum.photos/seed/bag20/400/400', // Product 20
-    'https://picsum.photos/seed/bag21/400/400', // Product 21
-    'https://picsum.photos/seed/bag22/400/400', // Product 22
-    'https://picsum.photos/seed/bag23/400/400', // Product 23
-    'https://picsum.photos/seed/bag24/400/400', // Product 24
-    'https://picsum.photos/seed/bag25/400/400', // Product 25
-    'https://picsum.photos/seed/bag26/400/400', // Product 26
-    'https://picsum.photos/seed/bag27/400/400', // Product 27
-    'https://picsum.photos/seed/bag28/400/400', // Product 28
-    'https://picsum.photos/seed/bag29/400/400', // Product 29
-    'https://picsum.photos/seed/bag30/400/400', // Product 30
-    'https://picsum.photos/seed/bag31/400/400', // Product 31
-    'https://picsum.photos/seed/bag32/400/400', // Product 32
-    'https://picsum.photos/seed/bag33/400/400', // Product 33
-    'https://picsum.photos/seed/bag34/400/400', // Product 34
-    'https://picsum.photos/seed/bag35/400/400', // Product 35
-    'https://picsum.photos/seed/bag36/400/400', // Product 36
-    'https://picsum.photos/seed/bag37/400/400', // Product 37
-    'https://picsum.photos/seed/bag38/400/400', // Product 38
-    'https://picsum.photos/seed/bag39/400/400', // Product 39
-    'https://picsum.photos/seed/bag40/400/400', // Product 40
-    'https://picsum.photos/seed/bag41/400/400', // Product 41
-    'https://picsum.photos/seed/bag42/400/400', // Product 42
-    'https://picsum.photos/seed/bag43/400/400', // Product 43
-    'https://picsum.photos/seed/bag44/400/400', // Product 44
-    'https://picsum.photos/seed/bag45/400/400', // Product 45
-    'https://picsum.photos/seed/bag46/400/400', // Product 46
-    'https://picsum.photos/seed/bag47/400/400', // Product 47
-    'https://picsum.photos/seed/bag48/400/400', // Product 48
-    'https://picsum.photos/seed/bag49/400/400', // Product 49
-    'https://picsum.photos/seed/bag50/400/400', // Product 50
-  ],
-  
-  collections: [
-    'https://picsum.photos/seed/sophia/300/300',
-    'https://picsum.photos/seed/noir/300/300',
-    'https://picsum.photos/seed/rose/300/300',
-    'https://picsum.photos/seed/burgundy/300/300',
-  ],
-  
-  testimonials: [
-    'https://picsum.photos/seed/sarah/300/400',
-    'https://picsum.photos/seed/grace/300/400',
-    'https://picsum.photos/seed/diana/300/400',
-  ],
-  
-  social: [
-    'https://picsum.photos/seed/soc01/400/400',
-    'https://picsum.photos/seed/soc02/400/400',
-    'https://picsum.photos/seed/soc03/400/400',
-    'https://picsum.photos/seed/soc04/400/400',
-    'https://picsum.photos/seed/soc05/400/400',
-    'https://picsum.photos/seed/soc06/400/400',
-    'https://picsum.photos/seed/soc07/400/400',
-    'https://picsum.photos/seed/soc08/400/400',
-  ],
-  
-  about: 'https://picsum.photos/seed/about/600/500',
-  luxury: 'https://picsum.photos/seed/luxury/600/400',
-  affordable: 'https://picsum.photos/seed/affordable/600/400',
+  hero: heroImage,
+  logo: logoUrl,
+  products: productImages,
+  collections: collectionImages,
+  testimonials: testimonialImages,
+  social: socialImages,
+  about: aboutImage,
+  luxury: luxuryImage,
+  affordable: affordableImage,
 };
 
 export const PRODUCTS = [

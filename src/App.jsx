@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { MessageCircle, Phone, Sparkles } from 'lucide-react';
 import { PRODUCTS } from './data/products';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -14,6 +15,7 @@ import WhatsAppWidget from './components/WhatsAppWidget';
 import ProductModal from './components/ProductModal';
 import AdminPanel from './components/AdminPanel';
 import Toast from './components/Toast';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   // UI State
@@ -101,7 +103,7 @@ function App() {
     return () => observer.disconnect();
   }, [visibleProducts, currentCategory]);
 
-  // Navbar Scroll Effect
+  // Navbar Scroll Effect + Parallax + Scroll-to-Top
   useEffect(() => {
     const handleScroll = () => {
       const navbar = document.getElementById('navbar');
@@ -114,10 +116,25 @@ function App() {
           navbar.style.background = 'transparent';
         }
       }
+      // Hero parallax
+      const heroBg = document.getElementById('heroBg');
+      if (heroBg) {
+        heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Body overflow lock for modals
+  useEffect(() => {
+    if (modalOpen || adminOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [modalOpen, adminOpen]);
 
   // Keyboard Navigation
   useEffect(() => {
@@ -203,15 +220,20 @@ function App() {
                 {isLoading ? 'Loading...' : `Load More Bags (${remainingCount} remaining)`}
               </button>
             ) : (
-              <p className="text-matte-600 mt-4 text-sm">✨ You've seen all our beautiful bags! Contact us for custom orders.</p>
+              <p className="text-matte-600 mt-4 text-sm"><Sparkles className="w-4 h-4 inline text-champagne-300 mr-1" /> You've seen all our beautiful bags! Contact us for custom orders.</p>
             )}
           </div>
         </div>
       </section>
 
       <Collections onCollectionClick={(col) => handleOrderClick({ name: col.name, price: col.price, image: col.image })} />
-      
+
+      <div className="section-divider max-w-4xl mx-auto"></div>
+
       <About />
+
+      <div className="section-divider max-w-4xl mx-auto"></div>
+
       <WhyChooseUs />
       <Testimonials />
       
@@ -232,17 +254,19 @@ function App() {
           </p>
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             <button onClick={() => setWaOpen(true)} className="btn-glow inline-flex items-center gap-2 sm:gap-3 bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:shadow-2xl transition-all text-sm sm:text-lg">
-              💬 WhatsApp Us
+              <MessageCircle className="w-5 h-5" /> WhatsApp Us
             </button>
             <a href="tel:+256752103529" className="inline-flex items-center gap-2 sm:gap-3 bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-white/30 transition-all text-sm sm:text-lg border border-white/30">
-              📞 0752 103 529
+              <Phone className="w-5 h-5" /> 0752 103 529
             </a>
             <a href="tel:+256765066209" className="inline-flex items-center gap-2 sm:gap-3 bg-white/20 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-white/30 transition-all text-sm sm:text-lg border border-white/30">
-              📞 0765 066 209
+              <Phone className="w-5 h-5" /> 0765 066 209
             </a>
           </div>
         </div>
       </section>
+
+      <div className="section-divider max-w-4xl mx-auto"></div>
 
       <SocialGallery />
       <FAQ />
@@ -271,6 +295,7 @@ function App() {
       />
       
       <Toast toast={toast} onClose={hideToast} />
+      <ScrollToTop />
     </div>
   );
 }

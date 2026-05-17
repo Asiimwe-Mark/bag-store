@@ -1,15 +1,15 @@
 import React from 'react';
-import { ArrowRight, Truck, ShieldCheck, RefreshCw } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, RefreshCw, MessageCircle } from 'lucide-react';
 import { IMAGES } from '../data/products';
 
 const Hero = ({ heroImage, onShopClick, onChatClick }) => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative min-h-screen min-h-[100svh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <img 
           src={heroImage || IMAGES.hero} 
           alt="Luxury Handbags" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover hero-parallax"
           id="heroBg"
           loading="eager"
         />
@@ -23,7 +23,7 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="space-y-6 sm:space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-50 rounded-full border border-green-200 fade-up">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 glass rounded-full border border-green-200/50 fade-up">
               <span className="w-2 h-2 bg-green-500 rounded-full wa-status-online"></span>
               <span className="text-xs sm:text-sm font-medium text-green-700">Online — Chat With Us</span>
             </div>
@@ -42,17 +42,17 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
             </div>
 
             <div className="flex flex-wrap gap-3 sm:gap-4 fade-up stagger-3">
-              <button 
+              <button
                 onClick={onShopClick}
-                className="btn-glow inline-flex items-center gap-2 bg-matte-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all text-sm sm:text-base"
+                className="btn-premium btn-glow inline-flex items-center gap-2 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-all text-sm sm:text-base"
               >
                 Browse Collection <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
-              <button 
+              <button
                 onClick={onChatClick}
-                className="inline-flex items-center gap-2 bg-green-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-green-600 hover:shadow-xl transition-all text-sm sm:text-base"
+                className="inline-flex items-center gap-2 bg-green-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-green-600 hover:shadow-xl shadow-green-500/20 transition-all text-sm sm:text-base"
               >
-                💬 Chat
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" /> Chat
               </button>
             </div>
 
@@ -81,13 +81,13 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
                 className="relative w-full h-full object-cover float-anim rounded-2xl shadow-2xl"
                 loading="eager"
               />
-              <div className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 float-anim-reverse">
+              <div className="absolute -top-3 -right-3 glass-premium rounded-xl px-3 py-2 float-anim-reverse">
                 <p className="text-xs text-matte-500 font-medium">From</p>
                 <p className="text-base font-bold text-matte-900">UGX 80,000</p>
               </div>
-              <div className="absolute -bottom-3 -left-3 bg-white rounded-xl shadow-lg px-3 py-2 float-anim">
+              <div className="absolute -bottom-3 -left-3 glass-premium rounded-xl px-3 py-2 float-anim">
                 <div className="flex items-center gap-1">
-                  <span className="text-champagne-300">⭐</span>
+                  <span className="text-champagne-300">&#9733;</span>
                   <span className="text-sm font-bold">4.9</span>
                   <span className="text-xs text-matte-500">(500+)</span>
                 </div>
@@ -99,8 +99,8 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
 
       <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 fade-up stagger-5">
         <span className="text-xs font-medium text-matte-500 tracking-widest uppercase">Scroll</span>
-        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-matte-300 rounded-full flex justify-center pt-1.5">
-          <div className="w-1 sm:w-1.5 h-2 sm:h-3 bg-brand-red rounded-full animate-bounce"></div>
+        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-champagne-300/50 rounded-full flex justify-center pt-1.5">
+          <div className="w-1 sm:w-1.5 h-2 sm:h-3 bg-champagne-300 rounded-full animate-bounce"></div>
         </div>
       </div>
     </section>

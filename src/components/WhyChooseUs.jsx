@@ -3,7 +3,7 @@ import { Gem, Truck, Tag, Headphones, Sparkles, Shield } from 'lucide-react';
 import { WHY_CHOOSE_US } from '../data/products';
 
 const WhyChooseUs = () => {
-  const iconMap = { Gem, Truck, Tag, Headphones, Sparkles, Shield };
+  const iconMap = { gem: Gem, truck: Truck, tag: Tag, headphones: Headphones, sparkles: Sparkles, shield: Shield };
 
   return (
     <section className="py-16 sm:py-20 lg:py-32 bg-gradient-to-br from-matte-900 to-matte-800 text-white relative overflow-hidden">
@@ -23,21 +23,24 @@ const WhyChooseUs = () => {
           </p>
         </div>
 
+        <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-champagne-300 to-transparent mx-auto mb-10 sm:mb-16 fade-up"></div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {WHY_CHOOSE_US.map((item, index) => {
             const Icon = iconMap[item.icon];
             return (
-              <div 
+              <div
                 key={index}
-                className="group glass-dark rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-500 fade-up"
+                className="group glass-dark rounded-2xl p-6 sm:p-8 hover:bg-white/10 hover:border-champagne-300/20 transition-all duration-500 fade-up"
                 style={{ transitionDelay: `${index * 0.05}s` }}
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-brand-red to-rose-400 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-brand-red to-rose-400 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
                   <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2 sm:mb-3">
                   {item.title}
                 </h3>
+                <div className="w-8 h-0.5 bg-champagne-300 mt-2 mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <p className="text-white/60 text-sm">
                   {item.desc}
                 </p>

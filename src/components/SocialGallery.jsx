@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Music, Instagram, Heart, Eye, ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SOCIAL_POSTS, SOCIAL_STATS } from '../data/products';
 
@@ -22,7 +22,19 @@ const SocialGallery = () => {
     setCurrentImageIndex(newIndex);
   };
 
-  const iconMap = { Music, Instagram, Heart, Eye };
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e) => {
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [lightboxOpen, currentImageIndex]);
+
+  const iconMap = { music: Music, instagram: Instagram, heart: Heart, eye: Eye };
 
   return (
     <>
@@ -42,8 +54,8 @@ const SocialGallery = () => {
             {SOCIAL_STATS.map((stat, index) => {
               const Icon = iconMap[stat.icon];
               return (
-                <div key={index} className="text-center p-4 sm:p-6 bg-beige-50 rounded-2xl">
-                  <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-matte-900 mx-auto mb-2 sm:mb-3" />
+                <div key={index} className="text-center p-4 sm:p-6 bg-beige-50 rounded-2xl hover:bg-champagne-50 transition-colors group">
+                  <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-matte-900 mx-auto mb-2 sm:mb-3 group-hover:text-champagne-300 transition-colors" />
                   <p className="font-serif text-2xl sm:text-3xl font-bold" data-counter={stat.value}>
                     {stat.value.toLocaleString()}
                   </p>
@@ -67,8 +79,10 @@ const SocialGallery = () => {
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                  <ZoomIn className="w-6 h-6 sm:w-8 sm:h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <ZoomIn className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -107,14 +121,17 @@ const SocialGallery = () => {
               className="w-full rounded-2xl shadow-2xl"
             />
             
-            <div className="flex justify-between mt-3 sm:mt-4">
-              <button 
+            <div className="flex justify-between items-center mt-3 sm:mt-4">
+              <button
                 onClick={() => navigateLightbox(-1)}
                 className="flex items-center gap-1 sm:gap-2 text-white/80 hover:text-white transition-colors text-sm sm:text-base"
               >
                 <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" /> Previous
               </button>
-              <button 
+              <p className="text-white/60 text-sm">
+                {currentImageIndex + 1} / {SOCIAL_POSTS.length}
+              </p>
+              <button
                 onClick={() => navigateLightbox(1)}
                 className="flex items-center gap-1 sm:gap-2 text-white/80 hover:text-white transition-colors text-sm sm:text-base"
               >

@@ -21,15 +21,25 @@ const FAQ = () => {
           </h2>
         </div>
 
+        <div className="flex items-center justify-center gap-3 mb-8 fade-up">
+          <div className="w-12 h-0.5 bg-champagne-300"></div>
+          <div className="w-2 h-2 bg-champagne-300 rounded-full"></div>
+          <div className="w-12 h-0.5 bg-champagne-300"></div>
+        </div>
+
         <div className="space-y-3 sm:space-y-4 fade-up">
           {FAQS.map((faq, index) => (
-            <div 
+            <div
               key={faq.id}
-              className="faq-item bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden"
+              className={`faq-item bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden border-l-4 transition-colors ${
+                openIndex === index ? 'border-champagne-300' : 'border-transparent'
+              }`}
             >
-              <button 
-                className="faq-question w-full flex items-center justify-between p-4 sm:p-6 text-left hover:bg-beige-50 transition-colors"
+              <button
+                className="faq-question w-full flex items-center justify-between p-4 sm:p-6 text-left hover:bg-champagne-50 transition-colors"
                 onClick={() => toggleFaq(index)}
+                aria-expanded={openIndex === index}
+                aria-controls={`faq-answer-${index}`}
               >
                 <span className="font-semibold text-matte-900 pr-4 text-sm sm:text-base">
                   {faq.question}
@@ -40,7 +50,9 @@ const FAQ = () => {
                   }`}
                 />
               </button>
-              <div 
+              <div
+                id={`faq-answer-${index}`}
+                role="region"
                 className={`faq-answer px-4 sm:px-6 pb-4 sm:pb-6 ${
                   openIndex === index ? 'open' : ''
                 }`}

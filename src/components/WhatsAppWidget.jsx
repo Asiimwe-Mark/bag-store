@@ -116,28 +116,28 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
                 <div className="space-y-1.5 sm:space-y-2">
                   <button 
                     onClick={() => handleQuickReply('browse')}
-                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 transition-colors flex items-center justify-between group"
+                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 hover:border-green-300 hover:pl-3.5 transition-all flex items-center justify-between group"
                   >
                     <span>👜 Browse Collection</span>
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                   <button 
                     onClick={() => handleQuickReply('order')}
-                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 transition-colors flex items-center justify-between group"
+                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 hover:border-green-300 hover:pl-3.5 transition-all flex items-center justify-between group"
                   >
                     <span>📦 Place an order</span>
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                   <button 
                     onClick={() => handleQuickReply('inquiry')}
-                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 transition-colors flex items-center justify-between group"
+                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 hover:border-green-300 hover:pl-3.5 transition-all flex items-center justify-between group"
                   >
                     <span>❓ General Inquiry</span>
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                   <button 
                     onClick={() => handleQuickReply('custom')}
-                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 transition-colors flex items-center justify-between group"
+                    className="w-full text-left px-2.5 sm:px-3 py-2 rounded-lg border border-green-200 bg-green-50 text-green-700 text-sm hover:bg-green-100 hover:border-green-300 hover:pl-3.5 transition-all flex items-center justify-between group"
                   >
                     <span>✍️ Custom message</span>
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -214,9 +214,10 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
         </div>
 
         {/* Toggle Button */}
-        <button 
+        <button
           onClick={onToggle}
-          className="relative w-14 h-14 sm:w-16 sm:h-16 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 hover:scale-110 transition-transform wa-pulse"
+          aria-label={isOpen ? 'Close WhatsApp chat' : 'Open WhatsApp chat'}
+          className="relative w-14 h-14 sm:w-16 sm:h-16 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 hover:scale-110 hover:ring-4 hover:ring-green-500/20 transition-all wa-pulse"
         >
           {isOpen ? (
             <X className="w-7 h-7 sm:w-8 sm:h-8 text-white relative z-10" />

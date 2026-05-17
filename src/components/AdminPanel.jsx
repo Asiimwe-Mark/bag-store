@@ -124,12 +124,12 @@ const AdminPanel = ({ isOpen, onClose, showToast }) => {
           <div className="p-3 sm:p-4 border-b border-gray-100">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search subscribers..." 
-                className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-brand-red transition-colors"
+                placeholder="Search subscribers..."
+                className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-champagne-300 focus:ring-2 focus:ring-champagne-300/20 transition-all"
               />
             </div>
           </div>

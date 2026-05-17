@@ -44,6 +44,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
   return (
     <footer className="bg-matte-900 text-white pt-16 sm:pt-20 pb-6 sm:pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-0.5 bg-gradient-to-r from-transparent via-champagne-300/30 to-transparent mb-12 sm:mb-16"></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
@@ -59,13 +60,13 @@ const Footer = ({ showToast, onOpenAdmin }) => {
             </p>
             <p className="motto-font text-lg text-white/80 mb-4 sm:mb-6">"feel the elegance"</p>
             <div className="flex gap-3">
-              <a href="https://tiktok.com/@lorah_exquisite_trends" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-brand-red transition-colors">
+              <a href="https://tiktok.com/@lorah_exquisite_trends" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-brand-red hover:scale-110 transition-all">
                 <Music className="w-5 h-5" />
               </a>
-              <a href="https://instagram.com/lorah_exquisite_trends" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-brand-red transition-colors">
+              <a href="https://instagram.com/lorah_exquisite_trends" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-brand-red hover:scale-110 transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://wa.me/256752103529" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-green-500 transition-colors">
+              <a href="https://wa.me/256752103529" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-green-500 hover:scale-110 transition-all">
                 <MessageCircle className="w-5 h-5" />
               </a>
             </div>
@@ -125,21 +126,23 @@ const Footer = ({ showToast, onOpenAdmin }) => {
             <h4 className="font-serif text-lg font-semibold mb-4 sm:mb-6">Stay Updated</h4>
             <p className="text-white/60 text-sm mb-3 sm:mb-4">Get notified about new arrivals and exclusive offers.</p>
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Your name" 
-                className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-brand-red transition-colors text-sm"
+                placeholder="Your name"
+                aria-label="Your name"
+                className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-champagne-300 focus:ring-2 focus:ring-champagne-300/20 transition-all text-sm"
               />
               <div className="relative">
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address" 
-                  required 
-                  className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-brand-red transition-colors text-sm"
+                  placeholder="Your email address"
+                  aria-label="Your email address"
+                  required
+                  className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-champagne-300 focus:ring-2 focus:ring-champagne-300/20 transition-all text-sm"
                 />
                 <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               </div>
@@ -177,7 +180,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+        <div className="border-t border-champagne-300/10 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <p className="text-white/40 text-xs sm:text-sm text-center sm:text-left">
             © {new Date().getFullYear()} LORAH Exquisite Trends. All rights reserved. "feel the elegance"
           </p>

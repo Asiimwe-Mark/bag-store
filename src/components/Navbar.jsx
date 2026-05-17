@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle, Home, ShoppingBag, BookOpen, Heart, Star, HelpCircle } from 'lucide-react';
 import { IMAGES } from '../data/products';
 
 const Navbar = ({ onMenuToggle, onChatClick }) => {
@@ -68,7 +68,7 @@ const Navbar = ({ onMenuToggle, onChatClick }) => {
             <div className="flex items-center gap-3">
               <button 
                 onClick={onChatClick}
-                className="hidden sm:inline-flex items-center gap-2 btn-glow bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold hover:shadow-lg transition-all flex-shrink-0"
+                className="hidden sm:inline-flex items-center gap-2 btn-glow bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold hover:shadow-lg hover:shadow-green-500/20 transition-all flex-shrink-0"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span className="hidden md:inline">Chat Now</span>
@@ -91,10 +91,10 @@ const Navbar = ({ onMenuToggle, onChatClick }) => {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div 
+      <div
         id="menuOverlay"
-        className={`fixed inset-0 bg-black/50 z-[99] transition-opacity duration-300 ${
-          mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none hidden'
+        className={`fixed inset-0 bg-black/50 z-[99] transition-all duration-300 ${
+          mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={closeMenu}
       />
@@ -121,24 +121,31 @@ const Navbar = ({ onMenuToggle, onChatClick }) => {
           </div>
 
           <nav className="flex flex-col gap-1">
-            {navLinks.map(link => (
-              <a 
-                key={link.name}
-                href={link.href}
-                onClick={closeMenu}
-                className="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl text-matte-800 font-medium hover:bg-champagne-100 transition-colors"
-              >
-                <span className="text-brand-red">
-                  {link.name === 'Home' && <span>🏠</span>}
-                  {link.name === 'Shop' && <span>🛍️</span>}
-                  {link.name === 'Collections' && <span>📚</span>}
-                  {link.name === 'About' && <span>❤️</span>}
-                  {link.name === 'Testimonials' && <span>⭐</span>}
-                  {link.name === 'FAQ' && <span>❓</span>}
-                </span>
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map(link => {
+              const mobileIcons = {
+                'Home': Home,
+                'Shop': ShoppingBag,
+                'Collections': BookOpen,
+                'About': Heart,
+                'Testimonials': Star,
+                'FAQ': HelpCircle,
+              };
+              const Icon = mobileIcons[link.name];
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={closeMenu}
+                  aria-label={`Go to ${link.name}`}
+                  className="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl text-matte-800 font-medium hover:bg-champagne-100 transition-colors"
+                >
+                  <span className="text-brand-red">
+                    {Icon && <Icon className="w-5 h-5" />}
+                  </span>
+                  {link.name}
+                </a>
+              );
+            })}
           </nav>
 
           <div className="mt-6 pt-6 border-t border-beige-200 space-y-3">

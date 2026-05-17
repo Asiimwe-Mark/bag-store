@@ -40,7 +40,7 @@ const Testimonials = () => {
             >
               {TESTIMONIALS.map((testimonial) => (
                 <div key={testimonial.id} className="w-full flex-shrink-0 px-1 sm:px-2">
-                  <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl">
+                  <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl ring-1 ring-beige-100">
                     <div className="flex justify-center">
                       <div className="relative">
                         <div className="w-48 h-56 sm:w-56 sm:h-64 lg:w-64 lg:h-80 rounded-2xl overflow-hidden">
@@ -51,7 +51,7 @@ const Testimonials = () => {
                             loading="lazy"
                           />
                         </div>
-                        <div className="absolute -bottom-3 -right-3 bg-brand-red text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg">
+                        <div className="absolute -bottom-3 -right-3 bg-gradient-to-br from-brand-red to-rose-400 text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg shadow-brand-red/30">
                           <Quote className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
                       </div>
@@ -63,6 +63,7 @@ const Testimonials = () => {
                           <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-champagne-300 fill-current" />
                         ))}
                       </div>
+                      <div className="w-10 h-0.5 bg-champagne-300 mb-3 sm:mb-4"></div>
                       <p className="text-matte-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6 italic">
                         "{testimonial.text}"
                       </p>
@@ -82,9 +83,10 @@ const Testimonials = () => {
           </div>
 
           <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-            <button 
+            <button
               onClick={prevTestimonial}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-beige-200 flex items-center justify-center hover:border-brand-red hover:bg-brand-red hover:text-white transition-all"
+              aria-label="Previous testimonial"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-beige-200 flex items-center justify-center hover:border-champagne-300 hover:bg-champagne-300 hover:text-white transition-all"
             >
               <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
@@ -94,16 +96,18 @@ const Testimonials = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all ${
-                    index === currentIndex ? 'bg-brand-red' : 'bg-beige-200'
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  className={`h-2.5 sm:h-3 rounded-full transition-all ${
+                    index === currentIndex ? 'bg-brand-red w-6 sm:w-8' : 'bg-beige-200 w-2.5 sm:w-3'
                   }`}
                 />
               ))}
             </div>
             
-            <button 
+            <button
               onClick={nextTestimonial}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-beige-200 flex items-center justify-center hover:border-brand-red hover:bg-brand-red hover:text-white transition-all"
+              aria-label="Next testimonial"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-beige-200 flex items-center justify-center hover:border-champagne-300 hover:bg-champagne-300 hover:text-white transition-all"
             >
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>

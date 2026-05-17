@@ -10,11 +10,12 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
   };
 
   return (
-    <div className="product-card bg-white rounded-2xl overflow-hidden shadow-md product-enter">
-      <div className="relative overflow-hidden h-48 sm:h-56 lg:h-64 bg-beige-50">
-        <img 
-          src={product.image} 
-          alt={product.name} 
+    <div className="product-card card-shimmer group bg-white rounded-2xl overflow-hidden shadow-card product-enter">
+      <div className="h-0.5 bg-gradient-to-r from-transparent via-champagne-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div className="relative overflow-hidden aspect-[4/5] bg-beige-50">
+        <img
+          src={product.image}
+          alt={product.name}
           className="product-img w-full h-full object-cover"
           loading="lazy"
           onError={(e) => {
@@ -26,13 +27,14 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
             {product.badge}
           </span>
         </div>
-        <button 
+        <button
           onClick={toggleFavorite}
-          className={`absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm ${
+          aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          className={`absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-all shadow-sm ${
             isFavorited ? 'favorited' : ''
           }`}
         >
-          <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${isFavorited ? 'text-brand-red fill-current' : 'text-matte-400'}`} />
+          <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-all ${isFavorited ? 'text-brand-red fill-current scale-110' : 'text-matte-400'}`} />
         </button>
       </div>
 
@@ -51,17 +53,19 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
         </span>
         
         <div className="flex gap-2 mt-3 sm:mt-4">
-          <button 
+          <button
             onClick={() => onOrderClick(product)}
-            className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-green-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:bg-green-600 transition-colors"
+            aria-label={`Order ${product.name} via WhatsApp`}
+            className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all"
           >
             <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Order
           </button>
-          <button 
+          <button
             onClick={() => onDetailsClick(product)}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-beige-200 text-matte-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:border-brand-red hover:text-brand-red transition-colors"
+            aria-label={`View details for ${product.name}`}
+            className="flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-beige-200 text-matte-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:border-champagne-300 hover:text-champagne-300 transition-colors"
           >
-            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 
+            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">Details</span>
           </button>
         </div>
