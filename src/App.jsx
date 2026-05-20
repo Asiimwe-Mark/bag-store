@@ -241,7 +241,7 @@ function App() {
         </div>
       </section>
 
-      <Collections onCollectionClick={(col) => handleOrderClick({ name: col.name, price: col.price, image: col.image })} />
+      <Collections onCollectionClick={(col) => handleOrderClick({ name: col.name, price: col.price, images: [col.image] })} />
 
       <div className="premium-divider max-w-4xl mx-auto"></div>
 

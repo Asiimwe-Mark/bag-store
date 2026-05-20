@@ -1,3 +1,195 @@
+export { products as PRODUCTS };
+
+export function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+export function getSubscribers() {
+  try { return JSON.parse(localStorage.getItem('lorah_subscribers') || '[]'); }
+  catch { return []; }
+}
+
+export function saveSubscribers(subs) {
+  localStorage.setItem('lorah_subscribers', JSON.stringify(subs));
+}
+
+export function removeSubscriber(email) {
+  const subs = getSubscribers().filter(s => s.email !== email);
+  saveSubscribers(subs);
+  return subs;
+}
+
+export function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function addSubscriber(name, email) {
+  if (!name.trim()) return 'Please enter your name.';
+  if (!validateEmail(email)) return 'Please enter a valid email.';
+  return 'success';
+}
+
+export const IMAGES = {
+  logo: "images/lorah-logo.jpeg",
+  about: "images/IMG-20260511-WA0012.png",
+};
+
+export const TESTIMONIALS = [
+  {
+    id: 1,
+    name: "Olivia K. Loreen ",
+    role: "Fashion Enthusiast",
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    text: "LORAH bags are absolutely stunning! The quality is unmatched at this price point. I get compliments every time I carry my Chrisbella tote.",
+  },
+  {
+    id: 2,
+    name: "Aisha Namugga",
+    role: "Business Owner",
+    image: "https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    text: "I ordered three bags for myself and my sisters — every single one was perfect. Fast delivery and beautiful packaging. My go-to shop!",
+  },
+  {
+    id: 3,
+    name: "Grace Tusiime",
+    role: "Marketing Manager",
+    image: "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    text: "The Coach-style shoulder bag I got looks even better in person. The attention to detail is incredible. LORAH is now my one-stop bag shop.",
+  },
+];
+
+export const SOCIAL_POSTS = [
+  { id: 1, image: "images/IMG-20260511-WA0008.png" },
+  { id: 2, image: "images/IMG-20260511-WA0025.png" },
+  { id: 3, image: "images/IMG-20260511-WA0033.png" },
+  { id: 4, image: "images/IMG-20260511-WA0057.png" },
+  { id: 5, image: "images/IMG-20260511-WA0078.png" },
+  { id: 6, image: "images/IMG-20260511-WA0100.png" },
+  { id: 7, image: "images/IMG-20260511-WA0104.png" },
+  { id: 8, image: "images/IMG-20260511-WA0022.png" },
+];
+
+export const FAQS = [
+  {
+    id: 1,
+    question: "How do I place an order?",
+    answer: "Browse our shop, click on order now to chat with our salesperson. You can also order directly via WhatsApp, Phone-Call or E-mail — just send us a screenshot of what you want or any other product that is not listed",
+  },
+  {
+    id: 2,
+    question: "Do you deliver outside Kampala?",
+    answer: "Yes! We deliver nationwide. Kampala orders arrive same day, while upcountry deliveries take 2–3 business days via reliable courier partners.",
+  },
+  {
+    id: 3,
+    question: "What payment methods do you accept?",
+    answer: "We accept Mobile Money (MTN & Airtel), bank transfer, and cash on delivery for Kampala orders.",
+  },
+  {
+    id: 4,
+    question: "Can I return or exchange a bag?",
+    answer: "Absolutely. We offer a 7-day hassle-free return policy. The bag must be unused and in its original packaging. Contact us via WhatsApp to arrange a return.",
+  },
+  {
+    id: 5,
+    question: "Are your bags original brands?",
+    answer: "We carry a mix of authentic brands (Chrisbella, Coach, Emily Loran) and high-quality designer-inspired styles. Each product description clearly states the brand type.",
+  },
+  {
+    id: 6,
+    question: "How can I track my order?",
+    answer: "Once your order is dispatched, we'll send you a tracking link via WhatsApp or SMS. You can also message us anytime for an update.",
+  },
+];
+
+export const SOCIAL_STATS = [
+  { icon: "instagram", value: 12500, label: "Followers" },
+  { icon: "heart", value: 8400, label: "Likes" },
+  { icon: "eye", value: 25000, label: "Impressions" },
+  { icon: "music", value: 3200, label: "Reels Views" },
+];
+
+export const WHY_CHOOSE_US = [
+  {
+    icon: "gem",
+    title: "Premium Quality",
+    desc: "Handpicked bags crafted from the finest materials for lasting elegance.",
+  },
+  {
+    icon: "truck",
+    title: "Fast Delivery",
+    desc: "Same-day dispatch within Kampala, 2–3 days nationwide.",
+  },
+  {
+    icon: "tag",
+    title: "Affordable Luxury",
+    desc: "Designer-inspired styles without the designer price tag.",
+  },
+  {
+    icon: "headphones",
+    title: "Personal Support",
+    desc: "WhatsApp us anytime — real humans, real style advice.",
+  },
+  {
+    icon: "sparkles",
+    title: "Trend-Forward",
+    desc: "New styles added weekly to keep your look fresh.",
+  },
+  {
+    icon: "shield",
+    title: "Quality Guaranteed",
+    desc: "Every bag inspected before shipping. 7-day hassle-free returns.",
+  },
+];
+
+export const COLLECTIONS = [
+  {
+    id: "col-1",
+    name: "Tote Bags",
+    badge: "Best Sellers",
+    image: "images/IMG-20260511-WA0008.png",
+    price: "From UGX 95,000",
+    category: "Tote Bag",
+  },
+  {
+    id: "col-2",
+    name: "Shoulder Bags",
+    badge: "New In",
+    image: "images/IMG-20260511-WA0025.png",
+    price: "From UGX 100,000",
+    category: "Shoulder Bag",
+  },
+  {
+    id: "col-3",
+    name: "Crossbody Bags",
+    badge: "Trending",
+    image: "images/IMG-20260511-WA0033.png",
+    price: "From UGX 95,000",
+    category: "Crossbody Bag",
+  },
+  {
+    id: "col-4",
+    name: "Handbags",
+    badge: "Premium",
+    image: "images/IMG-20260511-WA0064.png",
+    price: "From UGX 100,000",
+    category: "Handbag",
+  },
+  {
+    id: "col-5",
+    name: "Bucket Bags",
+    badge: "Limited",
+    image: "images/IMG-20260511-WA0018.png",
+    price: "From UGX 95,000",
+    category: "Bucket Bag",
+  },
+];
+
 export const products = [
   // ─────────────────────────────────────────────
   //  CHRISBELLA  –  largest in-store brand
@@ -7,7 +199,7 @@ export const products = [
     name: "Chrisbella Herringbone Tote Set (5 Colours)",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 195000,
+    price: 95000,
     images: [
       "images/IMG-20260511-WA0008.png",
       "images/IMG-20260511-WA0016.png",
@@ -23,7 +215,7 @@ export const products = [
     name: "Chrisbella Lime Green Chain Shoulder Bag",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 98000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0015.png"],
     colors: ["Lime Green"],
     description:
@@ -36,7 +228,7 @@ export const products = [
     name: "Chrisbella Burgundy Tote + Mini Bag Set",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 175000,
+    price: 120000,
     images: ["images/IMG-20260511-WA0020.png"],
     colors: ["Burgundy / Wine"],
     description:
@@ -49,7 +241,7 @@ export const products = [
     name: "Chrisbella Brown & Teal Two-Piece Set",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 185000,
+    price: 120000,
     images: ["images/IMG-20260511-WA0021.png"],
     colors: ["Chocolate Brown / Teal"],
     description:
@@ -62,7 +254,7 @@ export const products = [
     name: "Chrisbella Burgundy & Blush Chain Shoulder + Wallet Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 100000,
     images: [
       "images/IMG-20260511-WA0025.png",
       "images/IMG-20260511-WA0065.png",
@@ -78,7 +270,7 @@ export const products = [
     name: "Chrisbella Mustard Top Handle Satchel",
     brand: "Chrisbella",
     category: "Handbag",
-    price: 135000,
+    price: 100000,
     images: [
       "images/IMG-20260511-WA0026.png",
       "images/IMG-20260511-WA0094.png",
@@ -95,7 +287,7 @@ export const products = [
     name: "Chrisbella Yellow & Dark Green Doctor Bag Set",
     brand: "Chrisbella",
     category: "Handbag",
-    price: 175000,
+    price: 70000,
     images: ["images/IMG-20260511-WA0028.png"],
     colors: ["Yellow / Dark Green"],
     description:
@@ -108,7 +300,7 @@ export const products = [
     name: "Chrisbella Camel & Beige Chain Shoulder + Wallet Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0036.png"],
     colors: ["Camel / Beige"],
     description:
@@ -121,7 +313,7 @@ export const products = [
     name: "Chrisbella Black/White Woven Shoulder Bag",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 118000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0014.png"],
     colors: ["Black / White"],
     description:
@@ -134,7 +326,7 @@ export const products = [
     name: "Chrisbella Tan & Brown Woven Shoulder Bag",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0054.png"],
     colors: ["Tan / Brown"],
     description:
@@ -147,7 +339,7 @@ export const products = [
     name: "Chrisbella Tan Chain Shoulder + Wallet Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0055.png"],
     colors: ["Tan / Brown"],
     description:
@@ -160,7 +352,7 @@ export const products = [
     name: "Chrisbella Navy & Light Blue Chain Shoulder + Wallet Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0058.png"],
     colors: ["Navy / Light Blue"],
     description:
@@ -173,7 +365,7 @@ export const products = [
     name: "Chrisbella Black Chain Shoulder + Wallet Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0053.png"],
     colors: ["Black"],
     description:
@@ -186,7 +378,7 @@ export const products = [
     name: "Chrisbella Black Chain Shoulder Bag",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 98000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0056.png"],
     colors: ["Black", "Brown"],
     description:
@@ -199,7 +391,7 @@ export const products = [
     name: "Chrisbella Khaki / Olive Chain Shoulder Bag",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 98000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0061.png"],
     colors: ["Khaki / Olive"],
     description:
@@ -212,7 +404,7 @@ export const products = [
     name: "Chrisbella Brown & Beige Structured Tote",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 145000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0063.png"],
     colors: ["Brown / Beige"],
     description:
@@ -225,7 +417,7 @@ export const products = [
     name: "Chrisbella Blue & Light Blue Structured Tote + Wallet",
     brand: "Chrisbella",
     category: "Handbag",
-    price: 165000,
+    price: 120000,
     images: ["images/IMG-20260511-WA0074.png"],
     colors: ["Royal Blue / Light Blue"],
     description:
@@ -238,7 +430,7 @@ export const products = [
     name: "Chrisbella Beige / Cream Top Handle + Mini Wallet Set",
     brand: "Chrisbella",
     category: "Handbag",
-    price: 165000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0079.png"],
     colors: ["Beige / Cream"],
     description:
@@ -251,7 +443,7 @@ export const products = [
     name: "Chrisbella Black Structured Tote + Mini Bag Set",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0081.png"],
     colors: ["Black"],
     description:
@@ -264,7 +456,7 @@ export const products = [
     name: "Chrisbella Dark Green Tote + Mini Bag Set",
     brand: "Chrisbella",
     category: "Tote Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0091.png"],
     colors: ["Dark Forest Green"],
     description:
@@ -277,7 +469,7 @@ export const products = [
     name: "Chrisbella Burgundy Top Handle Satchel",
     brand: "Chrisbella",
     category: "Handbag",
-    price: 135000,
+    price: 100000,
     images: [
       "images/IMG-20260511-WA0096.png",
       "images/IMG-20260511-WA0098.png",
@@ -294,7 +486,7 @@ export const products = [
     name: "Chrisbella Lavender Hobo + Mini Crossbody Set",
     brand: "Chrisbella",
     category: "Shoulder Bag",
-    price: 165000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0102.png"],
     colors: ["Lavender / Lilac"],
     description:
@@ -311,7 +503,7 @@ export const products = [
     name: "Emily Loran Navy Stripe Kelly-Style Tote + Pouch",
     brand: "Emily Loran",
     category: "Handbag",
-    price: 210000,
+    price: 120000,
     images: ["images/IMG-20260511-WA0064.png"],
     colors: ["Navy / White"],
     description:
@@ -324,7 +516,7 @@ export const products = [
     name: "Emily Loran Ivory Herringbone Kelly-Style Tote + Pouch",
     brand: "Emily Loran",
     category: "Handbag",
-    price: 210000,
+    price: 120000,
     images: ["images/IMG-20260511-WA0066.png"],
     colors: ["Ivory / Grey"],
     description:
@@ -341,7 +533,7 @@ export const products = [
     name: "Coach Signature Canvas Shoulder Bag with Cherry Charm – Brown/Black",
     brand: "Coach",
     category: "Shoulder Bag",
-    price: 285000,
+    price: 100000,
     images: [
       "images/IMG-20260511-WA0029.png",
       "images/IMG-20260515-WA0006.png",
@@ -357,7 +549,7 @@ export const products = [
     name: "Coach Signature Canvas Shoulder Bag – Khaki/Saddle",
     brand: "Coach",
     category: "Shoulder Bag",
-    price: 285000,
+    price: 100000,
     images: ["images/IMG-20260515-WA0001.png"],
     colors: ["Khaki / Saddle Tan"],
     description:
@@ -370,7 +562,7 @@ export const products = [
     name: "Coach Signature Canvas Shoulder Bag – Chalk/Cream",
     brand: "Coach",
     category: "Shoulder Bag",
-    price: 285000,
+    price: 100000,
     images: ["images/IMG-20260515-WA0002.png"],
     colors: ["Chalk / Cream"],
     description:
@@ -383,7 +575,7 @@ export const products = [
     name: "Coach Tabby Quilted Chain Shoulder Bag – Black",
     brand: "Coach",
     category: "Shoulder Bag",
-    price: 320000,
+    price: 100000,
     images: ["images/IMG-20260515-WA0009.png"],
     colors: ["Black"],
     description:
@@ -396,7 +588,7 @@ export const products = [
     name: "Coach Tabby Quilted Chain Shoulder Bag – Dark Brown",
     brand: "Coach",
     category: "Shoulder Bag",
-    price: 320000,
+    price: 100000,
     images: ["images/IMG-20260515-WA0017.png"],
     colors: ["Dark Chocolate Brown"],
     description:
@@ -413,7 +605,7 @@ export const products = [
     name: "YSL-Inspired Pink Ombré Quilted Chain Flap Bag",
     brand: "YSL Style",
     category: "Crossbody Bag",
-    price: 225000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0033.png"],
     colors: ["Pink Ombré"],
     description:
@@ -426,7 +618,7 @@ export const products = [
     name: "YSL-Inspired Brown Quilted Chain Flap Bag",
     brand: "YSL Style",
     category: "Crossbody Bag",
-    price: 225000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0100.png"],
     colors: ["Cognac Brown"],
     description:
@@ -439,7 +631,7 @@ export const products = [
     name: "YSL-Inspired Orange Coral Quilted Chain Flap Bag",
     brand: "YSL Style",
     category: "Crossbody Bag",
-    price: 225000,
+    price: 35000,
     images: ["images/IMG-20260515-WA0046.png"],
     colors: ["Orange / Coral"],
     description:
@@ -456,7 +648,7 @@ export const products = [
     name: "Victoria Seven Black Ruched Leather Tote",
     brand: "Victoria Seven",
     category: "Handbag",
-    price: 155000,
+    price: 110000,
     images: ["images/IMG-20260511-WA0046.png"],
     colors: ["Black"],
     description:
@@ -469,7 +661,7 @@ export const products = [
     name: "Victoria Seven Silver Metallic Ruched Tote",
     brand: "Victoria Seven",
     category: "Handbag",
-    price: 165000,
+    price: 110000,
     images: ["images/IMG-20260511-WA0057.png"],
     colors: ["Silver / Metallic"],
     description:
@@ -486,7 +678,7 @@ export const products = [
     name: "Bagco Tan Rope-Handle Flap Shoulder Bag",
     brand: "Bagco",
     category: "Shoulder Bag",
-    price: 145000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0012.png"],
     colors: ["Tan / Caramel"],
     description:
@@ -503,7 +695,7 @@ export const products = [
     name: "David Jones Camel Croc-Embossed Chain Shoulder Bag",
     brand: "David Jones",
     category: "Shoulder Bag",
-    price: 125000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0013.png"],
     colors: ["Camel"],
     description:
@@ -520,7 +712,7 @@ export const products = [
     name: "Miu Miu-Inspired Taupe Monogram Top Handle Bag",
     brand: "Miu Miu Style",
     category: "Handbag",
-    price: 185000,
+    price: 35000,
     images: [
       "images/IMG-20260511-WA0035.png",
       "images/IMG-20260515-WA0048.png",
@@ -540,7 +732,7 @@ export const products = [
     name: "GD Monogram Sage Green Chain Shoulder Bag",
     brand: "GD Style",
     category: "Crossbody Bag",
-    price: 145000,
+    price: 35000,
     images: [
       "images/IMG-20260511-WA0045.png",
       "images/IMG-20260515-WA0043.png",
@@ -556,7 +748,7 @@ export const products = [
     name: "GD Monogram Khaki Tote + Wallet + Strap Set",
     brand: "GD Style",
     category: "Tote Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0051.png"],
     colors: ["Khaki / Warm Taupe"],
     description:
@@ -573,7 +765,7 @@ export const products = [
     name: "Guess Dark Brown Chain Hobo Bag",
     brand: "Guess",
     category: "Shoulder Bag",
-    price: 165000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0048.png"],
     colors: ["Dark Brown"],
     description:
@@ -586,7 +778,7 @@ export const products = [
     name: "Guess Black Velvet Chain Hobo Bag",
     brand: "Guess",
     category: "Shoulder Bag",
-    price: 155000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0086(1).png"],
     colors: ["Black"],
     description:
@@ -603,7 +795,7 @@ export const products = [
     name: "Forever Barsiti White & Pink Mini Satchel",
     brand: "Forever Barsiti",
     category: "Mini Bag",
-    price: 75000,
+    price: 35000,
     images: [
       "images/IMG-20260511-WA0037.png",
       "images/IMG-20260515-WA0035.png",
@@ -623,7 +815,7 @@ export const products = [
     name: "ZAYZ Ring Handle Hobo Bag – White",
     brand: "ZAYZ",
     category: "Shoulder Bag",
-    price: 125000,
+    price: 130000,
     images: ["images/IMG-20260511-WA0078.png"],
     colors: ["White"],
     description:
@@ -636,7 +828,7 @@ export const products = [
     name: "ZAYZ Ring Handle Hobo Bag – Black",
     brand: "ZAYZ",
     category: "Shoulder Bag",
-    price: 125000,
+    price: 130000,
     images: ["images/IMG-20260511-WA0110(1).png"],
     colors: ["Black"],
     description:
@@ -653,7 +845,7 @@ export const products = [
     name: "Vogue & Classic Black Croc Chain Tote + Pouch",
     brand: "Vogue & Classic",
     category: "Tote Bag",
-    price: 145000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0070.png"],
     colors: ["Black"],
     description:
@@ -666,7 +858,7 @@ export const products = [
     name: "Vogue & Classic Brown Croc Chain Shoulder Bag",
     brand: "Vogue & Classic",
     category: "Shoulder Bag",
-    price: 135000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0080.png"],
     colors: ["Cognac Brown"],
     description:
@@ -683,7 +875,7 @@ export const products = [
     name: "Givenchy-Inspired Plum 4G Quilted Chain Flap Bag",
     brand: "Givenchy Style",
     category: "Crossbody Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0073.png"],
     colors: ["Plum / Burgundy"],
     description:
@@ -696,7 +888,7 @@ export const products = [
     name: "Givenchy-Inspired Navy 4G Quilted Chain Flap Bag",
     brand: "Givenchy Style",
     category: "Crossbody Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0076.png"],
     colors: ["Navy Blue"],
     description:
@@ -713,7 +905,7 @@ export const products = [
     name: "BB-Logo Dark Brown Patent Clutch Bag",
     brand: "BB Style",
     category: "Clutch",
-    price: 125000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0087.png"],
     colors: ["Dark Burgundy Brown / Patent"],
     description:
@@ -726,7 +918,7 @@ export const products = [
     name: "BB Quilted Chocolate Top Handle Satchel",
     brand: "BB Style",
     category: "Handbag",
-    price: 185000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0104.png"],
     colors: ["Chocolate Brown"],
     description:
@@ -743,7 +935,7 @@ export const products = [
     name: "H-Lock Quilted Chocolate Crossbody Bag",
     brand: "H Style",
     category: "Crossbody Bag",
-    price: 148000,
+    price: 95000,
     images: [
       "images/IMG-20260511-WA0072(1).png",
       "images/IMG-20260511-WA0088.png",
@@ -759,7 +951,7 @@ export const products = [
     name: "H-Lock Lemon Yellow Mini Top Handle Bag",
     brand: "H Style",
     category: "Mini Bag",
-    price: 98000,
+    price: 50000,
     images: [
       "images/IMG-20260511-WA0039.png",
       "images/IMG-20260515-WA0041.png",
@@ -779,7 +971,7 @@ export const products = [
     name: "FF-Buckle Baguette Shoulder Bag – Tan/Nude",
     brand: "Fendi Style",
     category: "Shoulder Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0043.png"],
     colors: ["Tan / Nude"],
     description:
@@ -792,7 +984,7 @@ export const products = [
     name: "FF-Buckle Baguette Shoulder Bag – Black",
     brand: "Fendi Style",
     category: "Shoulder Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0071.png"],
     colors: ["Black"],
     description:
@@ -809,7 +1001,7 @@ export const products = [
     name: "Celine-Inspired Triomphe Burgundy Chain Shoulder Bag",
     brand: "Celine Style",
     category: "Shoulder Bag",
-    price: 168000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0022.png"],
     colors: ["Deep Burgundy"],
     description:
@@ -826,7 +1018,7 @@ export const products = [
     name: "BV-Style Olive Woven Bucket Bag",
     brand: "BV Style",
     category: "Bucket Bag",
-    price: 185000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0018.png"],
     colors: ["Olive / Army Green"],
     description:
@@ -839,7 +1031,7 @@ export const products = [
     name: "BV-Style Black Woven Bucket Bag",
     brand: "BV Style",
     category: "Bucket Bag",
-    price: 185000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0062.png"],
     colors: ["Black"],
     description:
@@ -852,7 +1044,7 @@ export const products = [
     name: "BV-Style Dark Brown Woven Flap Shoulder Bag",
     brand: "BV Style",
     category: "Shoulder Bag",
-    price: 175000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0069.png"],
     colors: ["Dark Brown"],
     description:
@@ -869,7 +1061,7 @@ export const products = [
     name: "Classic Burgundy Top Handle Satchel",
     brand: "Classic",
     category: "Handbag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0040.png"],
     colors: ["Burgundy / Wine"],
     description:
@@ -882,7 +1074,7 @@ export const products = [
     name: "Classic Sage Green Top Handle Satchel",
     brand: "Classic",
     category: "Handbag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0077.png"],
     colors: ["Sage Green"],
     description:
@@ -895,7 +1087,7 @@ export const products = [
     name: "Classic Black Top Handle Satchel",
     brand: "Classic",
     category: "Handbag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0060.png"],
     colors: ["Black"],
     description:
@@ -912,7 +1104,7 @@ export const products = [
     name: "Christina & Glk Burgundy Structured Shoulder Tote",
     brand: "Christina & Glk",
     category: "Tote Bag",
-    price: 135000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0095.png"],
     colors: ["Burgundy"],
     description:
@@ -925,7 +1117,7 @@ export const products = [
     name: "Christina & Glk Cream & Brown Structured Tote",
     brand: "Christina & Glk",
     category: "Tote Bag",
-    price: 135000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0099.png"],
     colors: ["Cream / Brown"],
     description:
@@ -942,7 +1134,7 @@ export const products = [
     name: "Penny C Camel Suede Shoulder Hobo",
     brand: "Penny C",
     category: "Shoulder Bag",
-    price: 108000,
+    price: 95000,
     images: ["images/IMG-20260515-WA0090(1).png"],
     colors: ["Camel"],
     description:
@@ -976,7 +1168,7 @@ export const products = [
     name: "LV-Inspired Grey Quilted Chain Flap Bag",
     brand: "LV Style",
     category: "Crossbody Bag",
-    price: 195000,
+    price: 35000,
     images: ["images/IMG-20260515-WA0019.png"],
     colors: ["Pearl Grey"],
     description:
@@ -993,7 +1185,7 @@ export const products = [
     name: "EG Brown Top Handle Flap Shoulder Bag",
     brand: "EG",
     category: "Shoulder Bag",
-    price: 128000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0023(1).png"],
     colors: ["Cognac Brown"],
     description:
@@ -1006,7 +1198,7 @@ export const products = [
     name: "EG Crimson Red Structured Tote with Scarf",
     brand: "EG",
     category: "Handbag",
-    price: 155000,
+    price: 100000,
     images: ["images/IMG-20260511-WA0084(1).png"],
     colors: ["Crimson Red"],
     description:
@@ -1023,7 +1215,7 @@ export const products = [
     name: "MM-Inspired Ivory Patent Chain Clutch",
     brand: "MM Style",
     category: "Clutch",
-    price: 115000,
+    price: 55000,
     images: ["images/IMG-20260515-WA0014.png"],
     colors: ["Ivory / Off-White"],
     description:
@@ -1040,7 +1232,7 @@ export const products = [
     name: "Boyy-Inspired Tan Acrylic Buckle Top Handle Bag",
     brand: "Boyy Style",
     category: "Handbag",
-    price: 135000,
+    price: 50000,
     images: ["images/IMG-20260515-WA0031.png"],
     colors: ["Tan / Nude"],
     description:
@@ -1057,7 +1249,7 @@ export const products = [
     name: "OO-Lock Quilted Chain Flap Bag – Plum",
     brand: "Fashion",
     category: "Crossbody Bag",
-    price: 128000,
+    price: 95000,
     images: [
       "images/IMG-20260511-WA0089(1).png",
       "images/IMG-20260511-WA0092.png",
@@ -1077,7 +1269,7 @@ export const products = [
     name: "Brown Suede Knotted Mini Shoulder Bag",
     brand: "Fashion",
     category: "Mini Bag",
-    price: 72000,
+    price: 35000,
     images: [
       "images/IMG-20260511-WA0024.png",
       "images/IMG-20260511-WA0075.png",
@@ -1093,7 +1285,7 @@ export const products = [
     name: "Cream & Navy Tweed Top Handle Satchel",
     brand: "Fashion",
     category: "Handbag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0038.png"],
     colors: ["Cream / Navy Tweed"],
     description:
@@ -1106,7 +1298,7 @@ export const products = [
     name: "Pearl-Strap Taupe Chain Crossbody Bag",
     brand: "Fashion",
     category: "Crossbody Bag",
-    price: 108000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0041.png"],
     colors: ["Taupe / Nude"],
     description:
@@ -1119,7 +1311,7 @@ export const products = [
     name: "Distressed Burgundy Chain Clutch / Shoulder",
     brand: "Fashion",
     category: "Clutch",
-    price: 85000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0017.png"],
     colors: ["Burgundy / Distressed"],
     description:
@@ -1132,7 +1324,7 @@ export const products = [
     name: "Pewter Metallic Distressed Chain Clutch",
     brand: "Fashion",
     category: "Clutch",
-    price: 88000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0068.png"],
     colors: ["Pewter / Gunmetal"],
     description:
@@ -1145,7 +1337,7 @@ export const products = [
     name: "Black Glossy Fold-Over Clutch",
     brand: "Fashion",
     category: "Clutch",
-    price: 82000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0067.png"],
     colors: ["Black / Glossy"],
     description:
@@ -1158,7 +1350,7 @@ export const products = [
     name: "Beige/Natural Straw Woven Mini Top Handle",
     brand: "Fashion",
     category: "Mini Bag",
-    price: 88000,
+    price: 35000,
     images: [
       "images/IMG-20260511-WA0044.png",
       "images/IMG-20260515-WA0016.png",
@@ -1174,7 +1366,7 @@ export const products = [
     name: "Navy & White Stripe Tweed Top Handle Satchel",
     brand: "Fashion",
     category: "Handbag",
-    price: 115000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0052.png"],
     colors: ["Navy / White Stripe"],
     description:
@@ -1187,7 +1379,7 @@ export const products = [
     name: "Tan / Beige Tweed Chain Crossbody",
     brand: "Fashion",
     category: "Crossbody Bag",
-    price: 108000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0083.png"],
     colors: ["Tan / Beige Tweed"],
     description:
@@ -1200,7 +1392,7 @@ export const products = [
     name: "Bear-Lock Beige Chain Crossbody Bag",
     brand: "Fashion",
     category: "Crossbody Bag",
-    price: 108000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0085.png"],
     colors: ["Beige / Tan"],
     description:
@@ -1213,7 +1405,7 @@ export const products = [
     name: "Navy & White Stripe Chain Shoulder Bag",
     brand: "Fashion",
     category: "Shoulder Bag",
-    price: 108000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0093.png"],
     colors: ["Navy / White Stripe"],
     description:
@@ -1226,7 +1418,7 @@ export const products = [
     name: "Black Structured Tweed-Strap Flap Satchel",
     brand: "Fashion",
     category: "Handbag",
-    price: 115000,
+    price: 55000,
     images: ["images/IMG-20260515-WA0012.png"],
     colors: ["Black / Grey Tweed"],
     description:
@@ -1239,7 +1431,7 @@ export const products = [
     name: "Lavender & Blue Tweed Mini Top Handle",
     brand: "Fashion",
     category: "Handbag",
-    price: 115000,
+    price: 50000,
     images: ["images/IMG-20260515-WA0028.png"],
     colors: ["Lavender / Blue Tweed"],
     description:
@@ -1252,7 +1444,7 @@ export const products = [
     name: "Purple Structured Top Handle with Scarf",
     brand: "Fashion",
     category: "Handbag",
-    price: 108000,
+    price: 50000,
     images: ["images/IMG-20260515-WA0007.png"],
     colors: ["Purple / Violet"],
     description:
@@ -1265,7 +1457,7 @@ export const products = [
     name: "Olive Canvas Micro Top Handle Satchel",
     brand: "Fashion",
     category: "Mini Bag",
-    price: 75000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0103.png"],
     colors: ["Olive / Sage"],
     description:
@@ -1278,7 +1470,7 @@ export const products = [
     name: "GG Monogram Beige/Brown Shoulder Tote",
     brand: "GG Style",
     category: "Tote Bag",
-    price: 165000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0105.png"],
     colors: ["Beige / Brown"],
     description:
@@ -1291,7 +1483,7 @@ export const products = [
     name: "Black Chain Shoulder Bag with Scarf Accent",
     brand: "Fashion",
     category: "Shoulder Bag",
-    price: 118000,
+    price: 95000,
     images: ["images/IMG-20260511-WA0082.png"],
     colors: ["Black"],
     description:
@@ -1308,7 +1500,7 @@ export const products = [
     name: "HelloKeke Embroidered Beige Canvas Tote",
     brand: "HelloKeke",
     category: "Canvas Tote",
-    price: 45000,
+    price: 30000,
     images: ["images/IMG-20260515-WA0004.png"],
     colors: ["Beige / Natural"],
     description:
@@ -1321,7 +1513,7 @@ export const products = [
     name: "Cotso 'Tickle Me Pink' Graphic Canvas Tote",
     brand: "Cotso",
     category: "Canvas Tote",
-    price: 45000,
+    price: 30000,
     images: ["images/IMG-20260515-WA0026.png"],
     colors: ["Beige / Natural"],
     description:
@@ -1366,258 +1558,7 @@ export const searchProducts = (query) => {
   );
 };
 
-// ─────────────────────────────────────────────
-//  FORMATTED PRODUCTS  –  shape expected by UI
-// ─────────────────────────────────────────────
-
-const badgeFor = (p) => {
-  if (p.featured) return 'Featured';
-  if (p.price <= 80000) return 'Best Value';
-  if (p.category === 'Mini Bag') return 'New';
-  return 'Popular';
-};
-
-export const PRODUCTS = products.map((p) => ({
-  ...p,
-  image: p.images[0],
-  desc: p.description,
-  price: `UGX ${p.price.toLocaleString()}`,
-  badge: badgeFor(p),
-}));
-
-// ─────────────────────────────────────────────
-//  IMAGES  –  static site image paths
-// ─────────────────────────────────────────────
-
-export const IMAGES = {
-  logo: 'images/lorah-logo.jpeg',
-  hero: 'images/IMG-20260511-WA0008.png',
-  about: 'images/IMG-20260511-WA0065.png',
-  luxury: 'images/IMG-20260511-WA0029.png',
-  affordable: 'images/IMG-20260511-WA0037.png',
-};
-
-// ─────────────────────────────────────────────
-//  COLLECTIONS
-// ─────────────────────────────────────────────
-
-export const COLLECTIONS = [
-  {
-    id: 'col-1',
-    name: 'New Arrival Tote Set',
-    image: 'images/IMG-20260511-WA0008.png',
-    price: 'From UGX 155,000',
-    badge: 'New In',
-  },
-  {
-    id: 'col-2',
-    name: 'Chain Shoulder Bags',
-    image: 'images/IMG-20260511-WA0055.png',
-    price: 'From UGX 98,000',
-    badge: 'Trending',
-  },
-  {
-    id: 'col-3',
-    name: 'Quilted Crossbody',
-    image: 'images/IMG-20260511-WA0033.png',
-    price: 'From UGX 128,000',
-    badge: 'Best Seller',
-  },
-  {
-    id: 'col-4',
-    name: 'Designer-Inspired',
-    image: 'images/IMG-20260515-WA0009.png',
-    price: 'From UGX 145,000',
-    badge: 'Premium',
-  },
-];
-
-// ─────────────────────────────────────────────
-//  FAQS
-// ─────────────────────────────────────────────
-
-export const FAQS = [
-  {
-    id: 'faq-1',
-    question: 'Do you deliver outside Kampala?',
-    answer: 'Yes! We deliver across Uganda and to select East African cities. Delivery fees vary by location. Contact us on WhatsApp for a quote.',
-  },
-  {
-    id: 'faq-2',
-    question: 'Are the bags authentic?',
-    answer: 'We carry a mix of authentic brand bags and premium inspired designs. Each product description clearly states the brand and style. Quality is always guaranteed.',
-  },
-  {
-    id: 'faq-3',
-    question: 'What payment methods do you accept?',
-    answer: 'We accept Mobile Money (MTN & Airtel), bank transfers, and cash on delivery for Kampala orders. WhatsApp us for payment details.',
-  },
-  {
-    id: 'faq-4',
-    question: 'Can I return or exchange a bag?',
-    answer: 'We offer exchanges within 7 days for unused items in original packaging. Returns are handled on a case-by-case basis. Contact us immediately if there is an issue.',
-  },
-  {
-    id: 'faq-5',
-    question: 'How long does delivery take?',
-    answer: 'Kampala deliveries are same-day or next-day. Upcountry deliveries take 1-3 business days. We will send you tracking info via WhatsApp.',
-  },
-  {
-    id: 'faq-6',
-    question: 'Do you offer wholesale or bulk pricing?',
-    answer: 'Yes! We offer competitive wholesale pricing for bulk orders. Contact us on WhatsApp or call 0752 103 529 for a custom quote.',
-  },
-];
-
-// ─────────────────────────────────────────────
-//  TESTIMONIALS
-// ─────────────────────────────────────────────
-
-export const TESTIMONIALS = [
-  {
-    id: 'test-1',
-    name: 'Sarah K.',
-    role: 'Fashion Blogger, Kampala',
-    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=face',
-    rating: 5,
-    text: 'Absolutely love my Chrisbella tote set! The quality is incredible for the price. LORAH is my go-to for handbags now.',
-  },
-  {
-    id: 'test-2',
-    name: 'Grace M.',
-    role: 'Business Owner',
-    image: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=200&h=200&fit=crop&crop=face',
-    rating: 5,
-    text: 'The Coach shoulder bag is stunning. Fast delivery and beautiful packaging. I have already ordered three more bags!',
-  },
-  {
-    id: 'test-3',
-    name: 'Diana N.',
-    role: 'University Student',
-    image: 'https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=200&h=200&fit=crop&crop=face',
-    rating: 5,
-    text: 'Best affordable bags in Uganda. The Forever Barsiti mini satchel is so cute and the price was unbeatable.',
-  },
-  {
-    id: 'test-4',
-    name: 'Patricia O.',
-    role: 'Entrepreneur',
-    image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=face',
-    rating: 5,
-    text: 'LORAH never disappoints. My Victoria Seven tote gets compliments everywhere I go. Premium quality at fair prices.',
-  },
-];
-
-// ─────────────────────────────────────────────
-//  WHY CHOOSE US
-// ─────────────────────────────────────────────
-
-export const WHY_CHOOSE_US = [
-  {
-    icon: 'gem',
-    title: 'Premium Quality',
-    desc: 'Every bag is handpicked and inspected to ensure the finest materials and craftsmanship.',
-  },
-  {
-    icon: 'truck',
-    title: 'Fast Delivery',
-    desc: 'Same-day delivery in Kampala. 1-3 days nationwide. We keep you updated every step of the way.',
-  },
-  {
-    icon: 'tag',
-    title: 'Affordable Luxury',
-    desc: 'Designer-inspired bags at prices that respect your budget. Starting from just UGX 45,000.',
-  },
-  {
-    icon: 'headphones',
-    title: '24/7 Support',
-    desc: 'Reach us anytime on WhatsApp. We respond within minutes, not hours.',
-  },
-  {
-    icon: 'sparkles',
-    title: 'New Arrivals Weekly',
-    desc: 'Fresh styles every week. Follow us on TikTok and Instagram to see the latest drops.',
-  },
-  {
-    icon: 'shield',
-    title: 'Quality Guarantee',
-    desc: 'Not satisfied? We offer hassle-free exchanges within 7 days. Your happiness is our priority.',
-  },
-];
-
-// ─────────────────────────────────────────────
-//  SOCIAL GALLERY
-// ─────────────────────────────────────────────
-
-export const SOCIAL_POSTS = [
-  { id: 'sp-1', image: 'images/IMG-20260511-WA0008.png' },
-  { id: 'sp-2', image: 'images/IMG-20260511-WA0029.png' },
-  { id: 'sp-3', image: 'images/IMG-20260511-WA0033.png' },
-  { id: 'sp-4', image: 'images/IMG-20260511-WA0046.png' },
-  { id: 'sp-5', image: 'images/IMG-20260511-WA0055.png' },
-  { id: 'sp-6', image: 'images/IMG-20260511-WA0066.png' },
-  { id: 'sp-7', image: 'images/IMG-20260515-WA0009.png' },
-  { id: 'sp-8', image: 'images/IMG-20260511-WA0078.png' },
-];
-
-export const SOCIAL_STATS = [
-  { icon: 'music', value: 12500, label: 'TikTok Followers' },
-  { icon: 'instagram', value: 8200, label: 'Instagram Followers' },
-  { icon: 'heart', value: 45000, label: 'Total Likes' },
-  { icon: 'eye', value: 120000, label: 'Monthly Views' },
-];
-
-// ─────────────────────────────────────────────
-//  NEWSLETTER SUBSCRIBERS  –  localStorage
-// ─────────────────────────────────────────────
-
-const SUB_KEY = 'lorah_subscribers';
-
-export const getSubscribers = () => {
-  try {
-    return JSON.parse(localStorage.getItem(SUB_KEY)) || [];
-  } catch {
-    return [];
-  }
-};
-
-export const saveSubscribers = (subs) => {
-  localStorage.setItem(SUB_KEY, JSON.stringify(subs));
-};
-
-export const removeSubscriber = (id) => {
-  const subs = getSubscribers().filter((s) => s.id !== id);
-  saveSubscribers(subs);
-};
-
-export const validateEmail = (email) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-export const addSubscriber = (name, email) => {
-  try {
-    const subs = getSubscribers();
-    if (subs.some((s) => s.email.toLowerCase() === email.toLowerCase())) {
-      return 'duplicate';
-    }
-    subs.push({
-      id: Date.now().toString(),
-      name: name || 'Subscriber',
-      email,
-      subscribedAt: new Date().toISOString(),
-    });
-    saveSubscribers(subs);
-    return 'success';
-  } catch {
-    return 'error';
-  }
-};
-
-export const escapeHtml = (str) =>
-  String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+export const formatPrice = (price) =>
+  typeof price === 'string' ? price : `UGX ${Number(price).toLocaleString('en-UG')}`;
 
 export default products;

@@ -86,7 +86,7 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
               </div>
               <div className="absolute -top-3 -right-3 glass-premium rounded-xl px-3 py-2 float-anim-reverse gold-border-anim">
                 <p className="text-xs text-matte-500 font-medium">Price</p>
-                <p className="text-base font-bold text-matte-900">UGX 285,000</p>
+                <p className="text-base font-bold text-matte-900">UGX 95,000</p>
               </div>
               <div className="absolute -bottom-3 -left-3 glass-premium rounded-xl px-3 py-2 float-anim gold-border-anim">
                 <div className="flex items-center gap-1">

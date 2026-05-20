@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MessageCircle, X, Send, Phone, Shield, ArrowRight } from 'lucide-react';
+import { formatPrice } from '../data/products';
 
 const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
   const [showQuickReplies, setShowQuickReplies] = useState(false);
@@ -71,9 +72,10 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
   const sendProductMessage = (type) => {
     if (!product) return;
     const namePrefix = userName ? `My name is ${userName}. ` : '';
+    const priceStr = formatPrice(product.price);
     const msg = type === 'order'
-      ? `Hi LORAH! \ud83d\udce6 ${namePrefix}I'd like to order:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${product.price}\n\nPlease confirm availability and delivery details.`
-      : `Hi LORAH! \u2753 ${namePrefix}I have a question about:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${product.price}\n\nCould you provide more details?`;
+      ? `Hi LORAH! \ud83d\udce6 ${namePrefix}I'd like to order:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}\n\nPlease confirm availability and delivery details.`
+      : `Hi LORAH! \u2753 ${namePrefix}I have a question about:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}\n\nCould you provide more details?`;
     sendToWhatsApp(msg);
   };
 
@@ -178,10 +180,10 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
               <div className="bg-white rounded-2xl p-3 shadow-sm">
                 <p className="text-xs text-gray-500 mb-2">Product Selected:</p>
                 <div className="flex gap-3">
-                  <img src={product.image} alt={product.name} className="w-16 h-16 rounded-lg object-cover" />
+                  <img src={Array.isArray(product.images) ? product.images[0] : product.image} alt={product.name} className="w-16 h-16 rounded-lg object-cover" />
                   <div>
                     <p className="text-sm font-semibold text-gray-800">{product.name}</p>
-                    <p className="text-xs text-green-600 font-bold mt-1">{product.price}</p>
+                    <p className="text-xs text-green-600 font-bold mt-1">{formatPrice(product.price)}</p>
                   </div>
                 </div>
               </div>

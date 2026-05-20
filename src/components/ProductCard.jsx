@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, MessageCircle, Eye } from 'lucide-react';
+import { formatPrice } from '../data/products';
 
 const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
   const [isFavorited, setIsFavorited] = React.useState(false);
@@ -19,7 +20,7 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
       <div className="h-0.5 bg-gradient-to-r from-transparent via-champagne-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div className="relative overflow-hidden aspect-[4/5] bg-beige-50 img-zoom-container">
         <img
-          src={product.image}
+          src={Array.isArray(product.images) ? product.images[0] : product.image}
           alt={product.name}
           className="product-img w-full h-full object-cover"
           loading="lazy"
@@ -50,8 +51,8 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
       <div className="p-3 sm:p-4 space-y-1.5 sm:space-y-2">
         <p className="text-[10px] sm:text-xs font-medium text-champagne-300 tracking-widest uppercase">{product.brand}</p>
         <h3 className="font-serif font-bold text-matte-900 text-xs sm:text-sm leading-tight line-clamp-2">{product.name}</h3>
-        <p className="text-matte-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2">{product.desc}</p>
-        <p className="font-bold text-brand-red text-sm sm:text-base">{product.price}</p>
+        <p className="text-matte-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2">{product.description}</p>
+        <p className="font-bold text-brand-red text-sm sm:text-base">{formatPrice(product.price)}</p>
         <div className="flex gap-2 pt-1">
           <button
             onClick={() => onOrderClick(product)}

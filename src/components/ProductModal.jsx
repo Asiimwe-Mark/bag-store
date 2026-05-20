@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X, MessageCircle, Phone, Star, Truck, ShieldCheck } from 'lucide-react';
+import { formatPrice } from '../data/products';
 
 const ProductModal = ({ product, isOpen, onClose, onOrderClick }) => {
   const closeRef = useRef(null);
@@ -32,8 +33,8 @@ const ProductModal = ({ product, isOpen, onClose, onOrderClick }) => {
 
         <div className="grid md:grid-cols-2">
           <div className="h-56 sm:h-64 md:h-auto">
-            <img 
-              src={product.image} 
+            <img
+              src={Array.isArray(product.images) ? product.images[0] : product.image}
               alt={product.name}
               className="w-full h-full object-cover rounded-t-2xl sm:rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none"
             />
@@ -47,11 +48,11 @@ const ProductModal = ({ product, isOpen, onClose, onOrderClick }) => {
               {product.name}
             </h3>
             <p className="text-xl sm:text-2xl font-bold text-matte-900 mb-2">
-              {product.price}
+              {formatPrice(product.price)}
             </p>
             <div className="w-12 h-0.5 bg-gradient-to-r from-champagne-300 to-transparent mb-3 sm:mb-4"></div>
             <p className="text-matte-600 text-sm leading-relaxed mb-4 sm:mb-6">
-              {product.desc}
+              {product.description}
             </p>
             
             <div className="flex items-center gap-2 mb-4 sm:mb-6">
