@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Sparkles } from 'lucide-react';
-import { PRODUCTS } from './data/products';
+import { fetchProducts } from './data/products';
+import { supabase, isConfigured } from './lib/supabase';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductGrid from './components/ProductGrid';
@@ -18,17 +19,42 @@ import AdminPage from './components/AdminPage';
 import Toast from './components/Toast';
 import ScrollToTop from './components/ScrollToTop';
 
-// Build category list from product data with counts
-const categoryMap = {};
-PRODUCTS.forEach(p => {
-  const cat = p.category;
-  categoryMap[cat] = (categoryMap[cat] || 0) + 1;
-});
-const CATEGORIES = Object.entries(categoryMap)
-  .sort((a, b) => b[1] - a[1])
-  .map(([name, count]) => ({ name, count }));
-
 function App() {
+  // Product State (from Supabase)
+  const [PRODUCTS, setPRODUCTS] = useState([]);
+  const [productsLoaded, setProductsLoaded] = useState(false);
+
+  const loadProducts = useCallback(async () => {
+    const data = await fetchProducts();
+    setPRODUCTS(data);
+    setProductsLoaded(true);
+  }, []);
+
+  // Initial fetch + real-time subscription
+  useEffect(() => {
+    loadProducts();
+
+    if (!isConfigured()) return;
+
+    const channel = supabase
+      .channel('products-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+        loadProducts();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [loadProducts]);
+
+  const categoryMap = {};
+  PRODUCTS.forEach(p => {
+    const cat = p.category;
+    categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+  });
+  const CATEGORIES = Object.entries(categoryMap)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count]) => ({ name, count }));
+
   // UI State
   const [waOpen, setWaOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -37,12 +63,16 @@ function App() {
   const [adminPageOpen, setAdminPageOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Toast State
-  const [toast, setToast] = useState({ show: false, type: 'success', title: '', message: '' });
+  // Toast State (stacking)
+  const [toasts, setToasts] = useState([]);
+  const toastIdRef = useRef(0);
   const showToast = useCallback((type, title, message) => {
-    setToast({ show: true, type, title, message });
+    const id = ++toastIdRef.current;
+    setToasts(prev => [...prev, { id, type, title, message }]);
   }, []);
-  const hideToast = useCallback(() => setToast(prev => ({ ...prev, show: false })), []);
+  const removeToast = useCallback((id) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  }, []);
 
   // Shop State
   const [currentCategory, setCurrentCategory] = useState('all');
@@ -222,6 +252,7 @@ function App() {
             products={visibleProducts}
             onOrderClick={handleOrderClick}
             onDetailsClick={openProductModal}
+            isLoading={!productsLoaded}
           />
 
           {/* Load More */}
@@ -284,10 +315,12 @@ function App() {
         <AdminPage
           onClose={() => setAdminPageOpen(false)}
           showToast={showToast}
+          products={PRODUCTS}
+          onProductUpdate={loadProducts}
         />
       )}
 
-      <Toast toast={toast} onClose={hideToast} />
+      <Toast toasts={toasts} removeToast={removeToast} />
       <ScrollToTop />
     </div>
   );

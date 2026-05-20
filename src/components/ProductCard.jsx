@@ -22,12 +22,17 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
         <img
           src={Array.isArray(product.images) ? product.images[0] : product.image}
           alt={product.name}
-          className="product-img w-full h-full object-cover"
+          className={`product-img w-full h-full object-cover ${product.inStock === false ? 'grayscale-[30%]' : ''}`}
           loading="lazy"
           onError={(e) => {
             e.target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23F5EDE0' width='400' height='400'/%3E%3Ctext x='50%25' y='45%25' text-anchor='middle' font-family='serif' font-size='16' fill='%23D4AF37'%3E${encodeURIComponent(product.name)}%3C/text%3E%3Ctext x='50%25' y='60%25' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23999'%3ELORAH%3C/text%3E%3C/svg%3E`;
           }}
         />
+        {product.inStock === false && (
+          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <span className="bg-matte-900/90 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Out of Stock</span>
+          </div>
+        )}
         <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
           <span className="bg-brand-red text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full badge-pulse">
             {product.badge}
@@ -56,9 +61,10 @@ const ProductCard = ({ product, onOrderClick, onDetailsClick }) => {
         <div className="flex gap-2 pt-1">
           <button
             onClick={() => onOrderClick(product)}
-            className="magnetic-btn flex-1 flex items-center justify-center gap-1.5 bg-brand-red text-white py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:bg-red-700 transition-colors"
+            disabled={product.inStock === false}
+            className="magnetic-btn flex-1 flex items-center justify-center gap-1.5 bg-brand-red text-white py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-brand-red"
           >
-            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Order
+            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {product.inStock === false ? 'Unavailable' : 'Order'}
           </button>
           <button
             onClick={() => onDetailsClick(product)}

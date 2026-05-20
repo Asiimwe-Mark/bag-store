@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Download, FileText, Trash2, Search, Copy, Check } from 'lucide-react';
-import { getSubscribers, removeSubscriber, saveSubscribers, escapeHtml } from '../data/products';
+import { fetchSubscribers, removeSubscriber, clearSubscribers, escapeHtml } from '../data/products';
 
 const AdminPanel = ({ isOpen, onClose, showToast }) => {
   const [subscribers, setSubscribers] = useState([]);
@@ -10,7 +10,7 @@ const AdminPanel = ({ isOpen, onClose, showToast }) => {
 
   useEffect(() => {
     if (isOpen) {
-      setSubscribers(getSubscribers());
+      fetchSubscribers().then(setSubscribers);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -30,9 +30,10 @@ const AdminPanel = ({ isOpen, onClose, showToast }) => {
   const todayCount = subscribers.filter(s => new Date(s.subscribedAt).toDateString() === today).length;
   const weekCount = subscribers.filter(s => new Date(s.subscribedAt) >= weekAgo).length;
 
-  const handleRemove = (id) => {
-    removeSubscriber(id);
-    setSubscribers(getSubscribers());
+  const handleRemove = async (id) => {
+    await removeSubscriber(id);
+    const updated = await fetchSubscribers();
+    setSubscribers(updated);
     showToast('success', 'Removed', 'Subscriber removed successfully.');
   };
 
@@ -57,8 +58,8 @@ const AdminPanel = ({ isOpen, onClose, showToast }) => {
     showToast('success', 'Copied', `${subscribers.length} emails copied to clipboard.`);
   };
 
-  const handleClearAll = () => {
-    saveSubscribers([]);
+  const handleClearAll = async () => {
+    await clearSubscribers();
     setSubscribers([]);
     setShowClearConfirm(false);
     showToast('success', 'Cleared', 'All subscribers removed.');

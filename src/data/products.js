@@ -6,29 +6,49 @@ export function escapeHtml(str) {
   return div.innerHTML;
 }
 
-export function getSubscribers() {
-  try { return JSON.parse(localStorage.getItem('lorah_subscribers') || '[]'); }
-  catch { return []; }
-}
-
-export function saveSubscribers(subs) {
-  localStorage.setItem('lorah_subscribers', JSON.stringify(subs));
-}
-
-export function removeSubscriber(email) {
-  const subs = getSubscribers().filter(s => s.email !== email);
-  saveSubscribers(subs);
-  return subs;
-}
-
 export function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export function addSubscriber(name, email) {
-  if (!name.trim()) return 'Please enter your name.';
-  if (!validateEmail(email)) return 'Please enter a valid email.';
-  return 'success';
+// ─────────────────────────────────────────────
+//  SUBSCRIBERS  –  Supabase-backed
+// ─────────────────────────────────────────────
+
+function mapSubscriber(row) {
+  return { id: row.id, name: row.name, email: row.email, subscribedAt: row.subscribed_at };
+}
+
+export async function fetchSubscribers() {
+  const { supabase, isConfigured } = await import('../lib/supabase');
+  if (!isConfigured()) return [];
+  const { data, error } = await supabase.from('subscribers').select('*').order('subscribed_at', { ascending: false });
+  if (error) { console.error('Failed to fetch subscribers:', error); return []; }
+  return data.map(mapSubscriber);
+}
+
+export async function addSubscriber(name, email) {
+  if (!name.trim()) return { ok: false, message: 'Please enter your name.' };
+  if (!validateEmail(email)) return { ok: false, message: 'Please enter a valid email.' };
+  const { supabase, isConfigured } = await import('../lib/supabase');
+  if (!isConfigured()) return { ok: false, message: 'Database not configured.' };
+  const { error } = await supabase.from('subscribers').insert({ name: name.trim(), email: email.trim().toLowerCase() });
+  if (error) {
+    if (error.code === '23505') return { ok: false, message: 'You are already subscribed!' };
+    return { ok: false, message: error.message || 'Could not subscribe.' };
+  }
+  return { ok: true, message: 'success' };
+}
+
+export async function removeSubscriber(id) {
+  const { supabase, isConfigured } = await import('../lib/supabase');
+  if (!isConfigured()) return;
+  await supabase.from('subscribers').delete().eq('id', id);
+}
+
+export async function clearSubscribers() {
+  const { supabase, isConfigured } = await import('../lib/supabase');
+  if (!isConfigured()) return;
+  await supabase.from('subscribers').delete().neq('id', 0);
 }
 
 export const IMAGES = {
@@ -1560,5 +1580,144 @@ export const searchProducts = (query) => {
 
 export const formatPrice = (price) =>
   typeof price === 'string' ? price : `UGX ${Number(price).toLocaleString('en-UG')}`;
+
+// ─────────────────────────────────────────────
+//  SUPABASE  –  product CRUD & image storage
+// ─────────────────────────────────────────────
+
+import { supabase, isConfigured } from '../lib/supabase';
+
+// Map a Supabase row (snake_case) to our app's product shape (camelCase)
+function rowToProduct(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    brand: row.brand,
+    category: row.category,
+    price: Number(row.price),
+    images: row.images || [],
+    colors: row.colors || [],
+    description: row.description || '',
+    inStock: row.in_stock,
+    featured: row.featured,
+  };
+}
+
+// Map our app's product shape to a Supabase row (snake_case)
+function productToRow(p) {
+  return {
+    id: p.id,
+    name: p.name,
+    brand: p.brand || '',
+    category: p.category,
+    price: p.price,
+    images: p.images || [],
+    colors: p.colors || [],
+    description: p.description || '',
+    in_stock: p.inStock ?? true,
+    featured: p.featured ?? false,
+  };
+}
+
+// Fetch all products from Supabase
+export async function fetchProducts() {
+  if (!isConfigured()) return products; // fallback to static
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: true });
+  if (error) {
+    console.error('Failed to fetch products:', error);
+    return products; // fallback to static
+  }
+  return data.length > 0 ? data.map(rowToProduct) : products;
+}
+
+// Insert a new product
+export async function addProduct(product) {
+  const row = productToRow(product);
+  const { data, error } = await supabase
+    .from('products')
+    .insert(row)
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToProduct(data);
+}
+
+// Update an existing product
+export async function updateProduct(id, updates) {
+  // Convert camelCase updates to snake_case
+  const row = {};
+  if (updates.name !== undefined) row.name = updates.name;
+  if (updates.brand !== undefined) row.brand = updates.brand;
+  if (updates.category !== undefined) row.category = updates.category;
+  if (updates.price !== undefined) row.price = updates.price;
+  if (updates.images !== undefined) row.images = updates.images;
+  if (updates.colors !== undefined) row.colors = updates.colors;
+  if (updates.description !== undefined) row.description = updates.description;
+  if (updates.inStock !== undefined) row.in_stock = updates.inStock;
+  if (updates.featured !== undefined) row.featured = updates.featured;
+
+  const { data, error } = await supabase
+    .from('products')
+    .update(row)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToProduct(data);
+}
+
+// Delete a product
+export async function deleteProduct(id) {
+  const { error } = await supabase
+    .from('products')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
+
+// Upload an image to Supabase Storage and return its public URL
+export async function uploadProductImage(productId, file) {
+  const ext = file.name.split('.').pop();
+  const fileName = `${productId}/${Date.now()}.${ext}`;
+  const { error } = await supabase.storage
+    .from('product-images')
+    .upload(fileName, file, { upsert: false });
+  if (error) throw error;
+  const { data } = supabase.storage
+    .from('product-images')
+    .getPublicUrl(fileName);
+  return data.publicUrl;
+}
+
+// Delete an image from Supabase Storage
+export async function deleteProductImage(imageUrl) {
+  // Extract the path after the bucket name from the URL
+  const marker = '/product-images/';
+  const idx = imageUrl.indexOf(marker);
+  if (idx === -1) return;
+  const path = imageUrl.substring(idx + marker.length);
+  const { error } = await supabase.storage
+    .from('product-images')
+    .remove([path]);
+  if (error) console.error('Failed to delete image:', error);
+}
+
+// Seed the database with the static products (run once)
+export async function seedProducts() {
+  const rows = products.map(productToRow);
+  const { error } = await supabase
+    .from('products')
+    .upsert(rows, { onConflict: 'id', ignoreDuplicates: true });
+  if (error) throw error;
+  return rows.length;
+}
+
+// Returns the static product list (used as fallback)
+export function getLiveProducts() {
+  return products;
+}
 
 export default products;

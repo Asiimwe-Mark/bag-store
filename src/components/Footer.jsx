@@ -8,7 +8,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) {
       showToast('error', 'Missing Field', 'Please enter your email.');
@@ -20,25 +20,23 @@ const Footer = ({ showToast, onOpenAdmin }) => {
     }
 
     setLoading(true);
-    setTimeout(() => {
-      const result = addSubscriber(name, email);
-      setLoading(false);
+    const result = await addSubscriber(name, email);
+    setLoading(false);
 
-      if (result === 'success') {
-        setStatus('success');
-        setName('');
-        setEmail('');
-        showToast('success', 'Subscribed!', 'Welcome to the LORAH family.');
-      } else if (result === 'duplicate') {
-        setStatus('duplicate');
-        showToast('warning', 'Already Subscribed', 'This email is already on our list.');
-      } else {
-        setStatus('error');
-        showToast('error', 'Failed', 'Something went wrong. Please try again.');
-      }
+    if (result.ok) {
+      setStatus('success');
+      setName('');
+      setEmail('');
+      showToast('success', 'Subscribed!', 'Welcome to the LORAH family.');
+    } else if (result.message.includes('already')) {
+      setStatus('duplicate');
+      showToast('warning', 'Already Subscribed', result.message);
+    } else {
+      setStatus('error');
+      showToast('error', 'Failed', result.message);
+    }
 
-      setTimeout(() => setStatus(null), 4000);
-    }, 600);
+    setTimeout(() => setStatus(null), 4000);
   };
 
   return (
