@@ -9,7 +9,7 @@ import {
   formatPrice, categories as CATEGORIES_LIST,
   updateProduct, deleteProduct, uploadProductImage, deleteProductImage, addProduct,
   seedProducts,
-  fetchVideos, addVideo, updateVideo, deleteVideo, uploadVideoFile, deleteVideoFile, extractVideoId
+  fetchVideos, addVideo, updateVideo, deleteVideo, uploadVideoFile, deleteVideoFile
 } from '../data/products';
 import { isConfigured } from '../lib/supabase';
 
