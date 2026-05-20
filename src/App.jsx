@@ -10,6 +10,7 @@ import About from './components/About';
 import WhyChooseUs from './components/WhyChooseUs';
 import Testimonials from './components/Testimonials';
 import SocialGallery from './components/SocialGallery';
+import VideosSection from './components/VideosSection';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -286,6 +287,7 @@ function App() {
       <div className="premium-divider max-w-4xl mx-auto"></div>
 
       <SocialGallery />
+      <VideosSection />
       <FAQ />
 
       <Footer showToast={showToast} onOpenAdmin={() => setAdminPageOpen(true)} />
