@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   X, Mail, Lock, LogOut, Users, Download, Copy, Trash2, Search,
   Shield, CheckCircle, AlertCircle, BarChart3, ShoppingBag, TrendingUp,
-  Edit3, Save, ImagePlus, RotateCcw, Plus, Loader2, ChevronDown, Eye
+  Edit3, Save, ImagePlus, RotateCcw, Plus, Loader2, ChevronDown, Eye, Video, Film, Play
 } from 'lucide-react';
 import {
   fetchSubscribers, removeSubscriber, clearSubscribers, escapeHtml,
   formatPrice, categories as CATEGORIES_LIST,
   updateProduct, deleteProduct, uploadProductImage, deleteProductImage, addProduct,
-  seedProducts
+  seedProducts,
+  fetchVideos, addVideo, updateVideo, deleteVideo, uploadVideoFile, deleteVideoFile, extractVideoId
 } from '../data/products';
 import { isConfigured } from '../lib/supabase';
 
@@ -375,6 +376,106 @@ const AddProductForm = ({ onSave, onCancel, showToast }) => {
 };
 
 // ─────────────────────────────────────────────
+//  Add Video Form
+// ─────────────────────────────────────────────
+const AddVideoForm = ({ onSave, onCancel, saving }) => {
+  const [videoType, setVideoType] = useState('upload');
+  const [title, setTitle] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
+  const [file, setFile] = useState(null);
+  const [sortOrder, setSortOrder] = useState(0);
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleFile = (f) => {
+    if (!f) return;
+    if (f.size > 50 * 1024 * 1024) {
+      alert('File must be under 50MB.');
+      return;
+    }
+    setFile(f);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!title.trim()) { alert('Please enter a title.'); return; }
+    if (videoType === 'upload' && !file) { alert('Please select a video file.'); return; }
+    if (videoType === 'embed' && !videoUrl.trim()) { alert('Please paste a video URL.'); return; }
+    onSave({ title: title.trim(), videoType, videoUrl: videoUrl.trim(), file, sortOrder });
+  };
+
+  return (
+    <div className="p-4 sm:p-6 border-b border-beige-100 bg-beige-50/50">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-center gap-2 mb-2">
+          <button type="button" onClick={() => setVideoType('upload')} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${videoType === 'upload' ? 'bg-brand-red text-white' : 'bg-white border border-beige-200 text-matte-600 hover:border-brand-red'}`}>
+            Upload File
+          </button>
+          <button type="button" onClick={() => setVideoType('embed')} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${videoType === 'embed' ? 'bg-brand-red text-white' : 'bg-white border border-beige-200 text-matte-600 hover:border-brand-red'}`}>
+            Paste Link
+          </button>
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-matte-600 mb-1">Title *</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Video title" className="w-full px-3 py-2.5 rounded-lg border border-beige-200 bg-white text-sm focus:outline-none focus:border-brand-red" required />
+        </div>
+
+        {videoType === 'upload' ? (
+          <div>
+            <label className="block text-xs font-medium text-matte-600 mb-1">Video File *</label>
+            <div
+              className={`relative border-2 border-dashed rounded-xl p-6 text-center transition-colors ${dragActive ? 'border-brand-red bg-brand-red/5' : 'border-beige-200 bg-white hover:border-brand-red/50'}`}
+              onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+              onDragLeave={() => setDragActive(false)}
+              onDrop={(e) => { e.preventDefault(); setDragActive(false); handleFile(e.dataTransfer.files[0]); }}
+            >
+              {file ? (
+                <div className="flex items-center justify-center gap-3">
+                  <Film className="w-8 h-8 text-brand-red" />
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-matte-900 truncate max-w-[200px]">{file.name}</p>
+                    <p className="text-xs text-matte-500">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
+                  </div>
+                  <button type="button" onClick={() => setFile(null)} className="p-1 rounded-lg hover:bg-red-50 text-red-400">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <Film className="w-8 h-8 text-matte-400 mx-auto mb-2" />
+                  <p className="text-sm text-matte-600">Drag & drop or <button type="button" onClick={() => fileInputRef.current?.click()} className="text-brand-red font-medium hover:underline">browse</button></p>
+                  <p className="text-xs text-matte-400 mt-1">MP4, WebM — Max 50MB</p>
+                </div>
+              )}
+              <input ref={fileInputRef} type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => handleFile(e.target.files[0])} />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <label className="block text-xs font-medium text-matte-600 mb-1">Video URL *</label>
+            <input type="url" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..." className="w-full px-3 py-2.5 rounded-lg border border-beige-200 bg-white text-sm focus:outline-none focus:border-brand-red" />
+            <p className="text-xs text-matte-400 mt-1">YouTube or Vimeo URLs supported</p>
+          </div>
+        )}
+
+        <div>
+          <label className="block text-xs font-medium text-matte-600 mb-1">Sort Order</label>
+          <input type="number" value={sortOrder} onChange={(e) => setSortOrder(Number(e.target.value))} placeholder="0" className="w-full px-3 py-2.5 rounded-lg border border-beige-200 bg-white text-sm focus:outline-none focus:border-brand-red" />
+        </div>
+
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-beige-100">
+          <button type="button" onClick={onCancel} className="px-5 py-2.5 rounded-xl text-sm font-medium text-matte-600 hover:bg-beige-50 transition-colors">Cancel</button>
+          <button type="submit" disabled={saving} className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-brand-red text-white hover:bg-red-700 transition-colors disabled:opacity-60">
+            {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Save className="w-4 h-4" /> Add Video</>}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────
 //  Main Component
 // ─────────────────────────────────────────────
 const AdminPage = ({ onClose, showToast, products, onProductUpdate }) => {
@@ -392,8 +493,17 @@ const AdminPage = ({ onClose, showToast, products, onProductUpdate }) => {
   const [subscriberSearch, setSubscriberSearch] = useState('');
   const [selectedSubscribers, setSelectedSubscribers] = useState(new Set());
 
+  const [videos, setVideos] = useState([]);
+  const [videoSearch, setVideoSearch] = useState('');
+  const [showAddVideoForm, setShowAddVideoForm] = useState(false);
+  const [videoLoading, setVideoLoading] = useState(false);
+
   useEffect(() => {
     if (session) fetchSubscribers().then(setSubscribers);
+  }, [session]);
+
+  useEffect(() => {
+    if (session) fetchVideos().then(setVideos);
   }, [session]);
 
   // ─── Product Management ───
@@ -564,6 +674,79 @@ const AdminPage = ({ onClose, showToast, products, onProductUpdate }) => {
     showToast('success', 'Copied', `${subscribers.length} email(s) copied to clipboard.`);
   };
 
+  // ─── Video Management ───
+
+  const filteredVideos = videos.filter(v => {
+    if (!videoSearch) return true;
+    return v.title?.toLowerCase().includes(videoSearch.toLowerCase());
+  });
+
+  const handleAddVideo = async (formData) => {
+    setVideoLoading(true);
+    try {
+      let videoUrl = formData.videoUrl;
+      let thumbnailUrl = formData.thumbnailUrl || null;
+
+      if (formData.videoType === 'upload' && formData.file) {
+        const result = await uploadVideoFile(formData.file);
+        videoUrl = result.url;
+      }
+
+      if (formData.videoType === 'embed') {
+        const { getVideoThumbnail } = await import('../data/products');
+        thumbnailUrl = getVideoThumbnail(formData.videoUrl) || null;
+      }
+
+      await addVideo({
+        title: formData.title,
+        videoUrl,
+        videoType: formData.videoType,
+        thumbnailUrl,
+        sortOrder: formData.sortOrder || 0,
+      });
+
+      const updated = await fetchVideos();
+      setVideos(updated);
+      setShowAddVideoForm(false);
+      showToast('success', 'Video Added', `"${formData.title}" has been added.`);
+    } catch (err) {
+      showToast('error', 'Failed', err.message || 'Could not add video.');
+    } finally {
+      setVideoLoading(false);
+    }
+  };
+
+  const handleDeleteVideo = async (video) => {
+    if (!window.confirm(`Delete "${video.title}"? This cannot be undone.`)) return;
+    try {
+      if (video.videoType === 'upload' && video.videoUrl?.includes('supabase')) {
+        const marker = '/videos/';
+        const idx = video.videoUrl.indexOf(marker);
+        if (idx !== -1) {
+          const path = video.videoUrl.substring(idx + marker.length);
+          await deleteVideoFile(path);
+        }
+      }
+      await deleteVideo(video.id);
+      const updated = await fetchVideos();
+      setVideos(updated);
+      showToast('success', 'Deleted', 'Video deleted.');
+    } catch (err) {
+      showToast('error', 'Failed', err.message || 'Could not delete video.');
+    }
+  };
+
+  const handleUpdateVideoTitle = async (videoId, newTitle) => {
+    try {
+      await updateVideo(videoId, { title: newTitle });
+      const updated = await fetchVideos();
+      setVideos(updated);
+      showToast('success', 'Updated', 'Video title updated.');
+    } catch (err) {
+      showToast('error', 'Failed', err.message || 'Could not update video.');
+    }
+  };
+
   // Stats
   const categoryStats = {};
   (products || []).forEach(p => { categoryStats[p.category] = (categoryStats[p.category] || 0) + 1; });
@@ -683,7 +866,7 @@ const AdminPage = ({ onClose, showToast, products, onProductUpdate }) => {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-4 sm:mb-6 bg-white rounded-xl p-1 shadow-sm border border-beige-100 w-fit overflow-x-auto">
-          {[['products', ShoppingBag], ['subscribers', Users], ['categories', BarChart3]].map(([tab, Icon]) => (
+          {[['products', ShoppingBag], ['videos', Video], ['subscribers', Users], ['categories', BarChart3]].map(([tab, Icon]) => (
             <button key={tab} onClick={() => setActiveTab(tab)} className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${activeTab === tab ? 'bg-brand-red text-white' : 'text-matte-600 hover:bg-beige-50'}`}>
               <Icon className="w-4 h-4" />
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -806,6 +989,85 @@ const AdminPage = ({ onClose, showToast, products, onProductUpdate }) => {
 
             {totalProducts > 0 && filteredProducts.length === 0 && (
               <div className="hidden md:block p-8 text-center text-matte-500 text-sm">No products match your search.</div>
+            )}
+          </div>
+        )}
+
+        {/* ─── VIDEOS TAB ─── */}
+        {activeTab === 'videos' && (
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-beige-100 overflow-hidden">
+            <div className="p-4 sm:p-6 border-b border-beige-100">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h3 className="font-serif font-bold text-matte-900 text-sm sm:text-base flex items-center gap-2">
+                  <Video className="w-5 h-5 text-champagne-300" /> Video Management
+                </h3>
+                <button onClick={() => setShowAddVideoForm(true)} className="flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg text-[10px] sm:text-xs font-semibold bg-brand-red text-white hover:bg-red-700 transition-colors">
+                  <Plus className="w-4 h-4" /> <span className="hidden sm:inline">Add Video</span><span className="sm:hidden">Add</span>
+                </button>
+              </div>
+              {!showAddVideoForm && (
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-matte-400" />
+                  <input type="text" placeholder="Search videos..." value={videoSearch} onChange={(e) => setVideoSearch(e.target.value)} className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-beige-200 bg-beige-50 focus:outline-none focus:border-brand-red text-sm" />
+                </div>
+              )}
+            </div>
+
+            {/* Add Video Form */}
+            {showAddVideoForm && (
+              <AddVideoForm
+                onSave={handleAddVideo}
+                onCancel={() => setShowAddVideoForm(false)}
+                saving={videoLoading}
+              />
+            )}
+
+            {/* Video List */}
+            {!showAddVideoForm && (
+              <div className="divide-y divide-beige-100">
+                {filteredVideos.length === 0 ? (
+                  <div className="p-8 text-center text-matte-500 text-sm">
+                    {videos.length === 0 ? 'No videos yet. Add your first video!' : 'No videos match your search.'}
+                  </div>
+                ) : (
+                  filteredVideos.map(video => (
+                    <div key={video.id} className="p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-beige-50/50 transition-colors">
+                      <div className="w-20 h-12 sm:w-24 sm:h-14 rounded-lg overflow-hidden bg-matte-900 flex-shrink-0 relative group/thumb">
+                        {video.thumbnailUrl ? (
+                          <img src={video.thumbnailUrl} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Film className="w-5 h-5 text-matte-600" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <Play className="w-4 h-4 text-white" fill="white" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <EditableField
+                          value={video.title}
+                          onSave={(val) => handleUpdateVideoTitle(video.id, val)}
+                          className="text-sm font-medium text-matte-900"
+                        />
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${video.videoType === 'upload' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>
+                            {video.videoType === 'upload' ? 'File' : 'Embed'}
+                          </span>
+                          <span className="text-[10px] text-matte-400 truncate">{video.videoUrl}</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteVideo(video)}
+                        className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 hover:text-red-600 transition-colors flex-shrink-0"
+                        title="Delete video"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
             )}
           </div>
         )}
