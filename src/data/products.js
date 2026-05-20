@@ -1715,6 +1715,122 @@ export async function seedProducts() {
   return rows.length;
 }
 
+// ─────────────────────────────────────────────
+//  VIDEOS  –  Supabase-backed
+// ─────────────────────────────────────────────
+
+function rowToVideo(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    videoUrl: row.video_url,
+    videoType: row.video_type,
+    thumbnailUrl: row.thumbnail_url,
+    sortOrder: row.sort_order,
+    createdAt: row.created_at,
+  };
+}
+
+function videoToRow(v) {
+  return {
+    title: v.title,
+    video_url: v.videoUrl,
+    video_type: v.videoType,
+    thumbnail_url: v.thumbnailUrl || null,
+    sort_order: v.sortOrder ?? 0,
+  };
+}
+
+export async function fetchVideos() {
+  if (!isConfigured()) return [];
+  const { data, error } = await supabase
+    .from('videos')
+    .select('*')
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.error('Failed to fetch videos:', error);
+    return [];
+  }
+  return data.map(rowToVideo);
+}
+
+export async function addVideo(video) {
+  const row = videoToRow(video);
+  const { data, error } = await supabase
+    .from('videos')
+    .insert(row)
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToVideo(data);
+}
+
+export async function updateVideo(id, updates) {
+  const row = {};
+  if (updates.title !== undefined) row.title = updates.title;
+  if (updates.videoUrl !== undefined) row.video_url = updates.videoUrl;
+  if (updates.videoType !== undefined) row.video_type = updates.videoType;
+  if (updates.thumbnailUrl !== undefined) row.thumbnail_url = updates.thumbnailUrl;
+  if (updates.sortOrder !== undefined) row.sort_order = updates.sortOrder;
+
+  const { data, error } = await supabase
+    .from('videos')
+    .update(row)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToVideo(data);
+}
+
+export async function deleteVideo(id) {
+  const { error } = await supabase
+    .from('videos')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
+
+export async function uploadVideoFile(file) {
+  const ext = file.name.split('.').pop();
+  const fileName = `${Date.now()}.${ext}`;
+  const { error } = await supabase.storage
+    .from('videos')
+    .upload(fileName, file, { upsert: false });
+  if (error) throw error;
+  const { data } = supabase.storage
+    .from('videos')
+    .getPublicUrl(fileName);
+  return { url: data.publicUrl, path: fileName };
+}
+
+export async function deleteVideoFile(path) {
+  const { error } = await supabase.storage
+    .from('videos')
+    .remove([path]);
+  if (error) console.error('Failed to delete video file:', error);
+}
+
+export function extractVideoId(url) {
+  // YouTube
+  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) return { platform: 'youtube', id: ytMatch[1] };
+  // Vimeo
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) return { platform: 'vimeo', id: vimeoMatch[1] };
+  return null;
+}
+
+export function getVideoThumbnail(url) {
+  const info = extractVideoId(url);
+  if (!info) return null;
+  if (info.platform === 'youtube') {
+    return `https://img.youtube.com/vi/${info.id}/mqdefault.jpg`;
+  }
+  return null;
+}
+
 // Returns the static product list (used as fallback)
 export function getLiveProducts() {
   return products;
