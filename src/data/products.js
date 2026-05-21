@@ -1732,13 +1732,15 @@ function rowToVideo(row) {
 }
 
 function videoToRow(v) {
-  return {
+  const row = {
     title: v.title,
     video_url: v.videoUrl,
     video_type: v.videoType,
     thumbnail_url: v.thumbnailUrl || null,
     sort_order: v.sortOrder ?? 0,
   };
+  if (v.id) row.id = v.id;
+  return row;
 }
 
 export async function fetchVideos() {
@@ -1756,6 +1758,7 @@ export async function fetchVideos() {
 }
 
 export async function addVideo(video) {
+  if (!isConfigured()) throw new Error('Database not configured.');
   const row = videoToRow(video);
   const { data, error } = await supabase
     .from('videos')
@@ -1767,6 +1770,7 @@ export async function addVideo(video) {
 }
 
 export async function updateVideo(id, updates) {
+  if (!isConfigured()) throw new Error('Database not configured.');
   const row = {};
   if (updates.title !== undefined) row.title = updates.title;
   if (updates.videoUrl !== undefined) row.video_url = updates.videoUrl;
@@ -1785,6 +1789,7 @@ export async function updateVideo(id, updates) {
 }
 
 export async function deleteVideo(id) {
+  if (!isConfigured()) throw new Error('Database not configured.');
   const { error } = await supabase
     .from('videos')
     .delete()
@@ -1793,6 +1798,8 @@ export async function deleteVideo(id) {
 }
 
 export async function uploadVideoFile(file) {
+  if (!isConfigured()) throw new Error('Database not configured.');
+  if (file.size > 50 * 1024 * 1024) throw new Error('File must be under 50MB.');
   const ext = file.name.split('.').pop();
   const fileName = `${Date.now()}.${ext}`;
   const { error } = await supabase.storage
@@ -1806,6 +1813,7 @@ export async function uploadVideoFile(file) {
 }
 
 export async function deleteVideoFile(path) {
+  if (!isConfigured()) return;
   const { error } = await supabase.storage
     .from('videos')
     .remove([path]);

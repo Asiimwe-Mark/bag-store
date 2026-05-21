@@ -191,7 +191,7 @@ const VideosSection = () => {
       {modalVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={modalVideo.title || 'Video player'}>
           <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={closeModal} />
-          <div className="relative w-full max-w-4xl z-10">
+          <div className="relative w-full max-w-4xl z-10 video-modal-enter">
             <button
               onClick={closeModal}
               className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors z-20"
