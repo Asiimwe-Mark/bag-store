@@ -134,9 +134,10 @@ const SocialGallery = () => {
                   <video
                     src={post.image}
                     className="w-full h-full object-cover"
+                    autoPlay
                     muted
+                    loop
                     playsInline
-                    preload="metadata"
                   />
                 ) : (
                   <img
@@ -145,13 +146,6 @@ const SocialGallery = () => {
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
-                )}
-                {isVideoUrl(post.image) && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                      <Play className="w-5 h-5 text-matte-900 ml-0.5" fill="currentColor" />
-                    </div>
-                  </div>
                 )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">

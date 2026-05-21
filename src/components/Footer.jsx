@@ -112,7 +112,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
                 </a>
               </li>
               <li>
-                <a href="mailto:info@lorah.com" className="flex items-center gap-3 text-white/50 hover:text-champagne-300 text-xs sm:text-sm transition-colors">
+                <a href="mailto:Florencenabakiibi613@gmail.com" className="flex items-center gap-3 text-white/50 hover:text-champagne-300 text-xs sm:text-sm transition-colors">
                   <Mail className="w-4 h-4" /> info@lorah.com
                 </a>
               </li>
