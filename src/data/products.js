@@ -1827,6 +1827,11 @@ export function extractVideoId(url) {
   // Vimeo
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return { platform: 'vimeo', id: vimeoMatch[1] };
+  // TikTok
+  const tiktokMatch = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
+  if (tiktokMatch) return { platform: 'tiktok', id: tiktokMatch[1] };
+  const tiktokShortMatch = url.match(/vm\.tiktok\.com\/([a-zA-Z0-9]+)/);
+  if (tiktokShortMatch) return { platform: 'tiktok', id: tiktokShortMatch[1] };
   return null;
 }
 

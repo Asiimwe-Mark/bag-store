@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Music, Instagram, Heart, Eye, ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Music, Instagram, Heart, Eye, ZoomIn, X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { SOCIAL_POSTS, SOCIAL_STATS } from '../data/products';
+
+const isVideoUrl = (url) => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
 
 const AnimatedCounter = ({ target, suffix = '' }) => {
   const [count, setCount] = useState(0);
@@ -128,16 +130,37 @@ const SocialGallery = () => {
                 style={{ transitionDelay: `${index * 0.06}s` }}
                 onClick={() => openLightbox(index)}
               >
-                <img
-                  src={post.image}
-                  alt={`Social post ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+                {isVideoUrl(post.image) ? (
+                  <video
+                    src={post.image}
+                    className="w-full h-full object-cover"
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
+                ) : (
+                  <img
+                    src={post.image}
+                    alt={`Social post ${index + 1}`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                )}
+                {isVideoUrl(post.image) && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                      <Play className="w-5 h-5 text-matte-900 ml-0.5" fill="currentColor" />
+                    </div>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 flex items-center justify-center">
-                      <ZoomIn className="w-5 h-5 text-matte-900" />
+                      {isVideoUrl(post.image) ? (
+                        <Play className="w-5 h-5 text-matte-900 ml-0.5" fill="currentColor" />
+                      ) : (
+                        <ZoomIn className="w-5 h-5 text-matte-900" />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -166,11 +189,21 @@ const SocialGallery = () => {
               <X className="w-5 h-5 text-white" />
             </button>
 
-            <img
-              src={SOCIAL_POSTS[currentImageIndex].image}
-              alt={`Social post ${currentImageIndex + 1}`}
-              className="w-full h-auto max-h-[80vh] object-contain rounded-xl sm:rounded-2xl"
-            />
+            {isVideoUrl(SOCIAL_POSTS[currentImageIndex].image) ? (
+              <video
+                src={SOCIAL_POSTS[currentImageIndex].image}
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-auto max-h-[80vh] object-contain rounded-xl sm:rounded-2xl"
+              />
+            ) : (
+              <img
+                src={SOCIAL_POSTS[currentImageIndex].image}
+                alt={`Social post ${currentImageIndex + 1}`}
+                className="w-full h-auto max-h-[80vh] object-contain rounded-xl sm:rounded-2xl"
+              />
+            )}
 
             <button
               onClick={() => navigateLightbox(-1)}

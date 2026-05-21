@@ -73,9 +73,22 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
     if (!product) return;
     const namePrefix = userName ? `My name is ${userName}. ` : '';
     const priceStr = formatPrice(product.price);
+
+    // Get product image URL for WhatsApp preview
+    const imgSrc = Array.isArray(product.images) ? product.images[0] : product.image;
+    let imageUrl = '';
+    if (imgSrc) {
+      if (imgSrc.startsWith('http')) {
+        imageUrl = imgSrc;
+      } else {
+        imageUrl = `${window.location.origin}/${imgSrc.replace(/^\//, '')}`;
+      }
+    }
+
+    const imageLine = imageUrl ? `\n${imageUrl}` : '';
     const msg = type === 'order'
-      ? `Hi LORAH! \ud83d\udce6 ${namePrefix}I'd like to order:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}\n\nPlease confirm availability and delivery details.`
-      : `Hi LORAH! \u2753 ${namePrefix}I have a question about:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}\n\nCould you provide more details?`;
+      ? `Hi LORAH! \ud83d\udce6 ${namePrefix}I'd like to order:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}${imageLine}\n\nPlease confirm availability and delivery details.`
+      : `Hi LORAH! \u2753 ${namePrefix}I have a question about:\n\n\ud83d\udccc *${product.name}*\n\ud83d\udcb0 Price: ${priceStr}${imageLine}\n\nCould you provide more details?`;
     sendToWhatsApp(msg);
   };
 

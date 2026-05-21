@@ -7,6 +7,12 @@ export function extractEmbedUrl(url) {
   // Vimeo
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
+  // TikTok
+  const tiktokMatch = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
+  if (tiktokMatch) return `https://www.tiktok.com/embed/v2/${tiktokMatch[1]}`;
+  // TikTok short URL (vm.tiktok.com)
+  const tiktokShortMatch = url.match(/vm\.tiktok\.com\/([a-zA-Z0-9]+)/);
+  if (tiktokShortMatch) return `https://www.tiktok.com/embed/v2/${tiktokShortMatch[1]}`;
   return url;
 }
 

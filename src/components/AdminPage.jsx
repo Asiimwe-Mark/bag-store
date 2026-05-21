@@ -454,8 +454,8 @@ const AddVideoForm = ({ onSave, onCancel, saving }) => {
         ) : (
           <div>
             <label className="block text-xs font-medium text-matte-600 mb-1">Video URL *</label>
-            <input type="url" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..." className="w-full px-3 py-2.5 rounded-lg border border-beige-200 bg-white text-sm focus:outline-none focus:border-brand-red" />
-            <p className="text-xs text-matte-400 mt-1">YouTube or Vimeo URLs supported</p>
+            <input type="url" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://youtube.com/watch?v=... or https://tiktok.com/..." className="w-full px-3 py-2.5 rounded-lg border border-beige-200 bg-white text-sm focus:outline-none focus:border-brand-red" />
+            <p className="text-xs text-matte-400 mt-1">YouTube, Vimeo, or TikTok URLs supported</p>
           </div>
         )}
 
