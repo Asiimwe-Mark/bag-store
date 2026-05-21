@@ -6,6 +6,10 @@ import VideoPlayer, { isTikTokUrl } from './VideoPlayer';
 const INITIAL_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
+// Cache videos for the session to avoid refetching
+let cachedVideos = null;
+let fetchPromise = null;
+
 const VideoCard = ({ video, index, onClick }) => {
   const thumbnail = video.thumbnailUrl || getVideoThumbnail(video.videoUrl);
 
@@ -57,8 +61,8 @@ const VideoSkeleton = () => (
 );
 
 const VideosSection = () => {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [videos, setVideos] = useState(cachedVideos || []);
+  const [loading, setLoading] = useState(!cachedVideos);
   const [isVisible, setIsVisible] = useState(false);
   const [modalVideo, setModalVideo] = useState(null);
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
@@ -84,7 +88,18 @@ const VideosSection = () => {
 
   useEffect(() => {
     if (!isVisible) return;
-    fetchVideos().then(data => {
+    // Return cached data immediately if available
+    if (cachedVideos) {
+      setVideos(cachedVideos);
+      setLoading(false);
+      return;
+    }
+    // Reuse in-flight fetch if component remounts
+    if (!fetchPromise) {
+      fetchPromise = fetchVideos().finally(() => { fetchPromise = null; });
+    }
+    fetchPromise.then(data => {
+      cachedVideos = data;
       setVideos(data);
       setLoading(false);
     });
@@ -266,7 +281,7 @@ const VideosSection = () => {
           </div>
         );
       })()}
-      )}
+
     </>
   );
 };
