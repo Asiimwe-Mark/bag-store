@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, ChevronLeft, ChevronRight, X, Video } from 'lucide-react';
 import { fetchVideos, getVideoThumbnail } from '../data/products';
-import VideoPlayer from './VideoPlayer';
+import VideoPlayer, { isTikTokUrl } from './VideoPlayer';
+
+const INITIAL_COUNT = 6;
+const LOAD_MORE_COUNT = 6;
 
 const VideoCard = ({ video, index, onClick }) => {
   const thumbnail = video.thumbnailUrl || getVideoThumbnail(video.videoUrl);
 
   return (
     <div
-      className="fade-up min-w-[280px] sm:min-w-[320px] lg:min-w-[350px] snap-center flex-shrink-0 cursor-pointer group"
+      className="fade-up cursor-pointer group"
       style={{ transitionDelay: `${index * 0.08}s` }}
       onClick={() => onClick(video)}
     >
@@ -28,8 +31,8 @@ const VideoCard = ({ video, index, onClick }) => {
 
         {/* Play button overlay */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-red play-btn-pulse">
-            <Play className="w-6 h-6 sm:w-7 sm:h-7 text-matte-900 group-hover:text-white ml-0.5" fill="currentColor" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-red play-btn-pulse">
+            <Play className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-matte-900 group-hover:text-white ml-0.5" fill="currentColor" />
           </div>
         </div>
 
@@ -47,7 +50,7 @@ const VideoCard = ({ video, index, onClick }) => {
 };
 
 const VideoSkeleton = () => (
-  <div className="min-w-[280px] sm:min-w-[320px] lg:min-w-[350px] flex-shrink-0">
+  <div>
     <div className="aspect-video rounded-xl sm:rounded-2xl bg-beige-100 animate-pulse" />
     <div className="mt-3 h-4 w-3/4 bg-beige-100 rounded animate-pulse" />
   </div>
@@ -58,6 +61,7 @@ const VideosSection = () => {
   const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [modalVideo, setModalVideo] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const sectionRef = useRef(null);
@@ -86,7 +90,7 @@ const VideosSection = () => {
     });
   }, [isVisible]);
 
-  // Check scroll position for arrow visibility
+  // Check scroll position for arrow visibility (mobile carousel)
   const checkScroll = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -104,12 +108,12 @@ const VideosSection = () => {
       el.removeEventListener('scroll', checkScroll);
       window.removeEventListener('resize', checkScroll);
     };
-  }, [checkScroll, videos]);
+  }, [checkScroll, videos, visibleCount]);
 
   const scroll = (direction) => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = el.querySelector(':first-child')?.offsetWidth || 320;
+    const cardWidth = el.querySelector(':first-child')?.offsetWidth || 280;
     el.scrollBy({ left: direction * (cardWidth + 16), behavior: 'smooth' });
   };
 
@@ -132,8 +136,15 @@ const VideosSection = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, [modalVideo]);
 
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + LOAD_MORE_COUNT);
+  };
+
   // Don't render anything if no videos and not loading
   if (!loading && videos.length === 0) return null;
+
+  const hasMore = videos.length > visibleCount;
+  const gridVideos = videos.slice(0, visibleCount);
 
   return (
     <>
@@ -148,70 +159,113 @@ const VideosSection = () => {
             </h2>
           </div>
 
-          <div className="relative">
-            {/* Left arrow */}
+          {/* Mobile Carousel (< sm) */}
+          <div className="sm:hidden relative">
             {canScrollLeft && (
               <button
                 onClick={() => scroll(-1)}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-beige-50 transition-colors -ml-2 sm:-ml-5"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-beige-50 transition-colors -ml-1"
                 aria-label="Scroll left"
               >
-                <ChevronLeft className="w-5 h-5 text-matte-900" />
+                <ChevronLeft className="w-4 h-4 text-matte-900" />
               </button>
             )}
-
-            {/* Right arrow */}
             {canScrollRight && (
               <button
                 onClick={() => scroll(1)}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-beige-50 transition-colors -mr-2 sm:-mr-5"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-beige-50 transition-colors -mr-1"
                 aria-label="Scroll right"
               >
-                <ChevronRight className="w-5 h-5 text-matte-900" />
+                <ChevronRight className="w-4 h-4 text-matte-900" />
               </button>
             )}
-
-            {/* Carousel */}
             <div
               ref={scrollRef}
-              className="video-carousel flex gap-4 sm:gap-6 overflow-x-auto pb-4 px-1"
+              className="video-carousel flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory"
             >
               {loading
-                ? Array.from({ length: 4 }).map((_, i) => <VideoSkeleton key={i} />)
+                ? Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="min-w-[85vw] flex-shrink-0 snap-center">
+                      <VideoSkeleton />
+                    </div>
+                  ))
                 : videos.map((video, i) => (
-                    <VideoCard key={video.id} video={video} index={i} onClick={openModal} />
+                    <div key={video.id} className="min-w-[85vw] flex-shrink-0 snap-center">
+                      <VideoCard video={video} index={i} onClick={openModal} />
+                    </div>
                   ))
               }
             </div>
+          </div>
+
+          {/* Desktop Grid (>= sm) */}
+          <div className="hidden sm:block">
+            {loading ? (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <VideoSkeleton key={i} />
+                ))}
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {gridVideos.map((video, i) => (
+                    <VideoCard key={video.id} video={video} index={i} onClick={openModal} />
+                  ))}
+                </div>
+                {hasMore && (
+                  <div className="text-center mt-10">
+                    <button
+                      onClick={handleLoadMore}
+                      className="px-8 py-3 rounded-full border-2 border-matte-900 text-matte-900 font-semibold text-sm hover:bg-matte-900 hover:text-white transition-all duration-300"
+                    >
+                      Load More Videos
+                    </button>
+                    <p className="text-xs text-matte-400 mt-2">
+                      Showing {gridVideos.length} of {videos.length}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </section>
 
       {/* Video Modal */}
-      {modalVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={modalVideo.title || 'Video player'}>
-          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={closeModal} />
-          <div className="relative w-full max-w-4xl z-10 video-modal-enter">
-            <button
-              onClick={closeModal}
-              className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors z-20"
-              aria-label="Close video"
-            >
-              <X className="w-5 h-5 text-white" />
-            </button>
-            <VideoPlayer
-              videoUrl={modalVideo.videoUrl}
-              videoType={modalVideo.videoType}
-              title={modalVideo.title}
-              poster={modalVideo.thumbnailUrl || getVideoThumbnail(modalVideo.videoUrl)}
-            />
-            {modalVideo.title && (
-              <p className="text-white text-center mt-4 text-sm sm:text-base font-medium">
-                {modalVideo.title}
-              </p>
-            )}
+      {modalVideo && (() => {
+        const isTikTok = isTikTokUrl(modalVideo.videoUrl);
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label={modalVideo.title || 'Video player'}>
+            <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={closeModal} />
+            <div className={`relative z-10 video-modal-enter flex flex-col items-center ${isTikTok ? 'w-full max-w-sm sm:max-w-md h-[90vh] sm:h-[85vh]' : 'w-full max-w-4xl'}`}>
+              <div className="flex items-center justify-between w-full mb-3">
+                <button onClick={closeModal} className="text-white/80 hover:text-white transition-colors text-sm">← Back to videos</button>
+                <button
+                  onClick={closeModal}
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                  aria-label="Close video"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              <div className={`w-full flex-1 min-h-0 ${isTikTok ? 'flex items-start justify-center overflow-y-auto' : ''}`}>
+                <VideoPlayer
+                  videoUrl={modalVideo.videoUrl}
+                  videoType={modalVideo.videoType}
+                  title={modalVideo.title}
+                  poster={modalVideo.thumbnailUrl || getVideoThumbnail(modalVideo.videoUrl)}
+                />
+              </div>
+              {modalVideo.title && (
+                <p className="text-white text-center mt-3 text-sm sm:text-base font-medium">
+                  {modalVideo.title}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        );
+      })()}
       )}
     </>
   );
