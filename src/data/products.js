@@ -1600,6 +1600,7 @@ function rowToProduct(row) {
     description: row.description || '',
     inStock: row.in_stock,
     featured: row.featured,
+    created_at: row.created_at,
   };
 }
 
@@ -1625,7 +1626,7 @@ export async function fetchProducts() {
   const { data, error } = await supabase
     .from('products')
     .select('*')
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false });
   if (error) {
     console.error('Failed to fetch products:', error);
     return products; // fallback to static
