@@ -1,3 +1,5 @@
+import logoImage from '../assets/images/lorah-logo.png';
+
 export { products as PRODUCTS };
 
 export function escapeHtml(str) {
@@ -52,7 +54,7 @@ export async function clearSubscribers() {
 }
 
 export const IMAGES = {
-  logo: "images/lorah-logo.png",
+  logo: logoImage,
   about: "images/IMG-20260511-WA0012.png",
 };
 
