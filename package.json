@@ -1,7 +1,7 @@
 {
-  "name": "lorah-exquisite-trends",
+  "name": "Lorah-Bence-Trends",
   "version": "1.0.0",
-  "description": "Premium Luxury Handbags for Elegant Women in Uganda - LORAH Exquisite Trends",
+  "description": "Premium Luxury Handbags for Elegant Women in Uganda - LORAH Bence Trends",
   "author": "LORAH Team",
   "license": "MIT",
   "private": true,
@@ -60,12 +60,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/lorah-exquisite-trends.git"
+    "url": "https://github.com/yourusername/Lorah-Bence-Trends.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/lorah-exquisite-trends/issues"
+    "url": "https://github.com/yourusername/Lorah-Bence-Trends/issues"
   },
-  "homepage": "https://lorah-exquisite-trends.vercel.app",
+  "homepage": "https://Lorah-Bence-Trends.vercel.app",
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",

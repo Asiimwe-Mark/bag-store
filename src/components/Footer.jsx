@@ -55,17 +55,17 @@ const Footer = ({ showToast, onOpenAdmin }) => {
               />
               <div>
                 <span className="font-serif text-xl sm:text-2xl font-bold tracking-wide">LORAH</span>
-                <p className="text-[10px] sm:text-xs text-champagne-300 tracking-widest">Exquisite Trends</p>
+                <p className="text-[10px] sm:text-xs text-champagne-300 tracking-widest"> Bence Trends</p>
               </div>
             </div>
             <p className="text-white/50 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
               Uganda's premier destination for luxury handbags. Affordable elegance for the modern woman.
             </p>
             <div className="flex gap-3">
-              <a href="https://www.tiktok.com/@lorah.exquisitetrends" target="_blank" rel="noopener noreferrer" className="social-icon-hover w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-red transition-all">
+              <a href="https://www.tiktok.com/@lorah.Bencetrends" target="_blank" rel="noopener noreferrer" className="social-icon-hover w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-red transition-all">
                 <Music className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
-              <a href="https://www.instagram.com/lorah.exquisitetrends" target="_blank" rel="noopener noreferrer" className="social-icon-hover w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-red transition-all">
+              <a href="https://www.instagram.com/lorah.Bencetrends" target="_blank" rel="noopener noreferrer" className="social-icon-hover w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-red transition-all">
                 <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             </div>
@@ -161,7 +161,7 @@ const Footer = ({ showToast, onOpenAdmin }) => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-white/30 pr-20 sm:pr-24">
           <div className="flex items-center gap-2">
             <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-champagne-300" />
-            <span>&copy; 2026 LORAH Exquisite Trends. All rights reserved.</span>
+            <span>&copy; 2026 LORAH Bence Trends. All rights reserved.</span>
           </div>
           <button
             onClick={onOpenAdmin}

@@ -39,7 +39,7 @@ const Hero = ({ heroImage, onShopClick, onChatClick }) => {
 
             <div className="hero-reveal hero-reveal-3 border-l-4 border-brand-red pl-4 sm:pl-6">
               <p className="hero-motto text-2xl sm:text-3xl text-matte-800/80">"feel the elegance"</p>
-              <p className="text-xs sm:text-sm text-matte-500 mt-2 tracking-widest uppercase">— LORAH Exquisite Trends</p>
+              <p className="text-xs sm:text-sm text-matte-500 mt-2 tracking-widest uppercase">— LORAH Bence Trends</p>
             </div>
 
             <div className="flex flex-wrap gap-3 sm:gap-4 hero-reveal hero-reveal-4">

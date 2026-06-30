@@ -47,7 +47,7 @@ const About = () => {
               About LORAH
             </h2>
             <p className="text-matte-700 leading-relaxed mb-4 text-sm sm:text-base">
-              LORAH Exquisite Trends is Uganda's premier destination for luxury handbags. We curate the finest
+              LORAH Bence Trends is Uganda's premier destination for luxury handbags. We curate the finest
               collection of designer-inspired and authentic brand bags, bringing affordable elegance to the
               modern East African woman.
             </p>

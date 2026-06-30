@@ -45,7 +45,7 @@ const Navbar = ({ onMenuToggle, onChatClick }) => {
               />
               <div className="leading-tight hidden sm:block">
                 <span className="font-serif text-xl sm:text-2xl font-bold text-matte-900 tracking-wide">LORAH</span>
-                <p className="text-[9px] sm:text-[10px] text-champagne-300 tracking-[0.2em] font-medium -mt-0.5">Exquisite Trends</p>
+                <p className="text-[9px] sm:text-[10px] text-champagne-300 tracking-[0.2em] font-medium -mt-0.5">Bence Trends</p>
               </div>
             </a>
 

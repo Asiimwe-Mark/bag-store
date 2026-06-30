@@ -52,7 +52,7 @@ export async function clearSubscribers() {
 }
 
 export const IMAGES = {
-  logo: "images/lorah-logo.jpeg",
+  logo: "images/lorah-logo.png",
   about: "images/IMG-20260511-WA0012.png",
 };
 

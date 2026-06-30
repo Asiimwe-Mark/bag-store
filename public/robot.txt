@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://lorah-exquisite-trends.vercel.app/sitemap.xml
+Sitemap: https://Lorah-Bence-Trends.vercel.app/sitemap.xml

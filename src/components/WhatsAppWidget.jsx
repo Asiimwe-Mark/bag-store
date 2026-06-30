@@ -40,7 +40,7 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
     const namePrefix = userName ? `My name is ${userName}. ` : '';
     let message = '';
 
-    switch(type) {
+    switch (type) {
       case 'browse':
         message = `Hi LORAH! \ud83d\udc4b ${namePrefix}I'd like to browse your latest handbag collection.`;
         break;
@@ -97,9 +97,8 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
       {/* Floating Button */}
       <button
         onClick={onToggle}
-        className={`wa-float-btn fixed bottom-6 right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-green-500 text-white flex items-center justify-center shadow-xl hover:bg-green-600 hover:shadow-2xl hover:scale-110 transition-all ${
-          isOpen ? 'scale-0 opacity-0' : 'wa-bounce-in'
-        }`}
+        className={`wa-float-btn fixed bottom-6 right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-green-500 text-white flex items-center justify-center shadow-xl hover:bg-green-600 hover:shadow-2xl hover:scale-110 transition-all ${isOpen ? 'scale-0 opacity-0' : 'wa-bounce-in'
+          }`}
         aria-label="Open WhatsApp chat"
       >
         <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -132,7 +131,7 @@ const WhatsAppWidget = ({ isOpen, onClose, onToggle, product }) => {
           {/* Welcome Message */}
           <div className="wa-bubble-in flex justify-start mb-3">
             <div className="bg-white rounded-2xl rounded-tl-sm p-3 max-w-[85%] shadow-sm">
-              <p className="text-sm text-gray-800">{userName ? `Hi ${userName}! \ud83d\udc4b` : 'Hi there! \ud83d\udc4b'} Welcome to LORAH Exquisite Trends. How can I help you today?</p>
+              <p className="text-sm text-gray-800">{userName ? `Hi ${userName}! \ud83d\udc4b` : 'Hi there! \ud83d\udc4b'} Welcome to LORAH Bence Trends. How can I help you today?</p>
               <p className="text-[10px] text-gray-400 mt-1 text-right">{timestamp}</p>
             </div>
           </div>
